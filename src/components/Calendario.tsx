@@ -16,11 +16,11 @@ const Calendario = () => {
   });
 
   return (
-    <div className="flex flex-wrap justify-center gap-1 mb-5 my-8 ">
+    <div className="flex flex-wrap justify-center gap-1 mb-5 my-7 ">
       {diasSemana.map((item, index) => (
         <div
           key={index}
-          className=" mx-[1px] flex flex-col items-center p-2 w-15 h-15 bg-gradient-to-r from-[#a8f748] to-[#05fa29]  rounded-lg text-center text-black"
+          className="  flex flex-col items-center p-1 w-15 h-15 bg-gradient-to-r from-[#a8f748] to-[#05fa29] rounded-lg text-center text-black"
         >
           <div className="text-lg sm:text-2xl font-bold">{item.inicial}</div>
           <div className="text-xs sm:text-base">{item.dia}</div>

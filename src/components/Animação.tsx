@@ -2,7 +2,7 @@ import lottie, { AnimationItem } from "lottie-web";
 import { useEffect, useRef } from "react";
 
 interface AnimacaoProps {
-  animationData: object; // ou um tipo mais específico se você souber a estrutura do JSON
+  animationData: object;
 }
 
 const Animação: React.FC<AnimacaoProps> = ({ animationData }) => {
