@@ -1,4 +1,3 @@
-// AuthContext.tsx
 import React, {
   createContext,
   useState,
@@ -10,10 +9,8 @@ import axios from "axios";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  login: (token: string, user: any) => void;
+  user: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  login: (token: string, user: any) => void; // eslint-disable-line @typescript-eslint/no-explicit-any
   logout: () => void;
 }
 
@@ -25,23 +22,29 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       setIsAuthenticated(true);
+
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
-        setUser(JSON.parse(storedUser));
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+        } catch (error) {
+          console.error("Failed to parse user JSON:", error);
+          localStorage.removeItem("user");
+        }
       }
     }
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const login = (token: string, user: any) => {
+    // eslint-disable-line @typescript-eslint/no-explicit-any
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
