@@ -43,12 +43,7 @@ export default function TelaInicial() {
                 },
               ],
             },
-            {
-              data: tempoativoJson,
-              title: "Tempo Ativo",
-              inputValue: tempoAtivo,
-              onInputChange: setTempoAtivo,
-            },
+
             {
               data: aguaJson,
               title: "Água",
@@ -82,6 +77,12 @@ export default function TelaInicial() {
               title: "Batimentos Cardíacos",
               inputValue: batimentos,
               onInputChange: setBatimentos,
+            },
+            {
+              data: tempoativoJson,
+              title: "Tempo Ativo",
+              inputValue: tempoAtivo,
+              onInputChange: setTempoAtivo,
             },
           ].map((item, index) => (
             <div
