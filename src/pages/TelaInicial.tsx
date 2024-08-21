@@ -16,6 +16,20 @@ export default function TelaInicial() {
   const [batimentos, setBatimentos] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+
+
+    const aguinha = [
+      {
+        id:'renan@gmail.com',
+        quantidade:300
+
+      }
+    ] 
+
+
+
+
+
   return (
     <div className="flex flex-col min-h-screen bg-custom-bg px-6">
       <header className="flex flex-col flex-grow items-center">
@@ -64,6 +78,7 @@ export default function TelaInicial() {
                   altText: "Button Icon 6",
                   onClick: () => setShowModal(true),
                 },
+                
               ],
             },
             {
@@ -110,6 +125,25 @@ export default function TelaInicial() {
               )}
             </div>
           ))}
+        {/* trabalhando no projeto agua*/}
+          <div className="flex items-center justify-center bg-gradient-to-r from-[#97faf7] to-[#9dc3a2] p-4 rounded-lg  flex-col ">
+                <h1 className=" flex ">Água</h1>
+
+                <div>
+                <input type="number" className=" rounded-md" />
+                <button type="button" className="border-solid bg-teal-700  rounded-md  p-1"   >+</button>
+                </div>
+                
+                {aguinha.map((aguinha) =>(
+
+                    <div key={aguinha.id}>
+
+                  <div> total: {aguinha.quantidade} ml</div>
+
+                  </div>  
+                 ))}
+
+          </div>
         </div>
       </header>
       <footer>
