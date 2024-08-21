@@ -155,11 +155,8 @@ export default function TelaInicial() {
                 </div>
                 
                 {aguinha.map((aguinha) =>(
-
-                    <div key={aguinha.id}>
-
-                  <div> total: {aguinha.quantidade} ml</div>
-
+                  <div key={aguinha.id}>
+                    <div> total: {aguinha.quantidade} ml</div>
                   </div>  
                  ))}
 
