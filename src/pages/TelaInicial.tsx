@@ -125,6 +125,12 @@ export default function TelaInicial() {
               )}
             </div>
           ))}
+
+
+
+
+
+
         {/* trabalhando no projeto agua*/}
           <div className="flex items-center justify-center bg-gradient-to-r from-[#97faf7] to-[#9dc3a2] p-4 rounded-lg  flex-col ">
                 <h1 className=" flex ">Água</h1>
@@ -144,6 +150,13 @@ export default function TelaInicial() {
                  ))}
 
           </div>
+
+
+
+
+
+
+
         </div>
       </header>
       <footer>
