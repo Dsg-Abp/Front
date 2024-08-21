@@ -32,9 +32,18 @@ export default function TelaInicial() {
 
   return (
     <div className="flex flex-col min-h-screen bg-custom-bg px-6">
+      
+      
       <header className="flex flex-col flex-grow items-center">
         <Calendario />
+       
+       
         <div className="grid grid-cols-2 gap-4 lg:gap-x-32">
+          
+          
+          
+          
+          
           {[
             {
               data: caloriasJson,
@@ -99,6 +108,10 @@ export default function TelaInicial() {
               inputValue: tempoAtivo,
               onInputChange: setTempoAtivo,
             },
+
+
+
+
           ].map((item, index) => (
             <div
               key={index}
@@ -133,11 +146,12 @@ export default function TelaInicial() {
 
         {/* trabalhando no projeto agua*/}
           <div className="flex items-center justify-center bg-gradient-to-r from-[#97faf7] to-[#9dc3a2] p-4 rounded-lg  flex-col ">
-                <h1 className=" flex ">Água</h1>
+                
+                <h1>Água</h1>
 
-                <div>
-                <input type="number" className=" rounded-md" />
-                <button type="button" className="border-solid bg-teal-700  rounded-md  p-1"   >+</button>
+                <div>  
+                   <input type="number" className=" rounded-md" />
+                   <button type="button" className="border-solid bg-teal-700  rounded-md  p-1"   >+</button>
                 </div>
                 
                 {aguinha.map((aguinha) =>(
