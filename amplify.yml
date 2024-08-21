@@ -12,3 +12,8 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
+  customHeaders:
+    - pattern: "**/*.svg"
+      headers:
+        - key: "Content-Type"
+          value: "image/svg+xml"
