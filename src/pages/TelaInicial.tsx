@@ -28,17 +28,17 @@ export default function TelaInicial() {
               buttons: [
                 {
                   id: "calorias-menos",
-                  iconSrc: "/src/assets/imagens/menos.svg",
+                  iconSrc: "/public/imagens/menos.svg",
                   altText: "Button Icon 1",
                 },
                 {
                   id: "calorias-mais",
-                  iconSrc: "/src/assets/imagens/mais.svg",
+                  iconSrc: "/public/imagens/mais.svg",
                   altText: "Button Icon 2",
                 },
                 {
                   id: "calorias-escolha",
-                  iconSrc: "/src/assets/imagens/escolha.svg",
+                  iconSrc: "/public/imagens/escolha.svg",
                   altText: "Button Icon 3",
                 },
               ],
@@ -50,17 +50,17 @@ export default function TelaInicial() {
               buttons: [
                 {
                   id: "agua-menos",
-                  iconSrc: "/src/assets/imagens/menos.svg",
+                  iconSrc: "/public/imagens/menos.svg",
                   altText: "Button Icon 4",
                 },
                 {
                   id: "agua-mais",
-                  iconSrc: "/src/assets/imagens/mais.svg",
+                  iconSrc: "/public/imagens/mais.svg",
                   altText: "Button Icon 5",
                 },
                 {
                   id: "agua-escolha",
-                  iconSrc: "/src/assets/imagens/escolha.svg",
+                  iconSrc: "/public/imagens//escolha.svg",
                   altText: "Button Icon 6",
                   onClick: () => setShowModal(true),
                 },
