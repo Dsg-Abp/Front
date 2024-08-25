@@ -55,7 +55,7 @@ export default function TelaInicial() {
                 },
                 {
                   id: "agua-mais",
-                  iconSrc: "/src/assets/imagens/mais.png",
+                  iconSrc: "/src/assets/imagens/mais.svg",
                   altText: "Button Icon 5",
                 },
                 {
