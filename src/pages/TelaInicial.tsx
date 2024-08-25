@@ -55,7 +55,7 @@ export default function TelaInicial() {
                 },
                 {
                   id: "agua-mais",
-                  iconSrc: "/src/assets/imagens/mais.svg",
+                  iconSrc: "/src/assets/imagens/mais.png",
                   altText: "Button Icon 5",
                 },
                 {
@@ -87,9 +87,9 @@ export default function TelaInicial() {
           ].map((item, index) => (
             <div
               key={index}
-              className="p-4 rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex flex-col items-center w-full sm:w-40 md:w-48 lg:w-36 xl:w-40"
+              className="p-4 rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex flex-col items-center w-full sm:w-30 md:w-48 lg:w-36 xl:w-40"
             >
-              <div className="relative flex flex-col items-center justify-center w-20 h-20">
+              <div className="relative flex flex-col items-center justify-center w-[60px] h-[60px]">
                 <div className="absolute w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                   <Animação animationData={item.data} />
                 </div>
