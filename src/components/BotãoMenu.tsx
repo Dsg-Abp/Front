@@ -9,14 +9,14 @@ const NavigationButtons = () => {
         onClick={() => navigate("/home")}
         className="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-700 transition-colors"
       >
-        <img src="/public/imagens//home.svg" alt="Home" className="w-8 h-8" />
+        <img src="/public/imagens/home.svg" alt="Home" className="w-8 h-8" />
       </button>
       <button
         onClick={() => navigate("/configuracoes")}
         className="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-green-500 hover:to-green-700 transition-colors"
       >
         <img
-          src="/public/imagens//ajustes.svg"
+          src="/public/imagens/ajustes.svg"
           alt="Configurações"
           className="w-8 h-8"
         />
@@ -26,7 +26,7 @@ const NavigationButtons = () => {
         className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-yellow-600  rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-700 transition-colors"
       >
         <img
-          src="/public/imagens//graphic.svg"
+          src="/public/imagens/graphic.svg"
           alt="Gráficos"
           className="w-8 h-8"
         />
