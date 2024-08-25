@@ -17,10 +17,10 @@ export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen bg-custom-bg px-4 sm:px-6">
+    <div className="flex flex-col min-h-screen bg-custom-bg px-6">
       <header className="flex flex-col flex-grow items-center">
         <Calendario />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 gap-4 lg:gap-x-32">
           {[
             {
               data: caloriasJson,
@@ -43,6 +43,7 @@ export default function TelaInicial() {
                 },
               ],
             },
+
             {
               data: aguaJson,
               title: "Água",
@@ -54,7 +55,7 @@ export default function TelaInicial() {
                 },
                 {
                   id: "agua-mais",
-                  iconSrc: "/src/assets/imagens/mais.svg",
+                  iconSrc: "/src/assets/imagens/mais.png",
                   altText: "Button Icon 5",
                 },
                 {
@@ -86,9 +87,9 @@ export default function TelaInicial() {
           ].map((item, index) => (
             <div
               key={index}
-              className="p-4 rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex flex-col items-center w-full"
+              className="p-4 rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex flex-col items-center w-full sm:w-30 md:w-48 lg:w-36 xl:w-40"
             >
-              <div className="relative flex flex-col items-center justify-center w-[50px] h-[50px] sm:w-[60px] sm:h-[60px]">
+              <div className="relative flex flex-col items-center justify-center w-[60px] h-[60px]">
                 <div className="absolute w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                   <Animação animationData={item.data} />
                 </div>
@@ -98,7 +99,7 @@ export default function TelaInicial() {
               </h2>
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
               {item.inputValue !== undefined && (
-                <div className="mt-4 p-2 w-[80%] sm:w-[60%] rounded-lg bg-white flex flex-col items-center">
+                <div className="mt-4 p-2 w-[60%] rounded-lg bg-white flex flex-col items-center">
                   <input
                     type="text"
                     value={item.inputValue}
@@ -111,7 +112,7 @@ export default function TelaInicial() {
           ))}
         </div>
       </header>
-      <footer className="w-full">
+      <footer>
         <NavigationButtons />
       </footer>
       {showModal && <ModalEscolha onClose={() => setShowModal(false)} />}
