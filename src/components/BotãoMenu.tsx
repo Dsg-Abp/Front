@@ -6,7 +6,7 @@ const NavigationButtons = () => {
   return (
     <div className="flex gap-4 p-4 justify-center">
       <button
-        onClick={() => navigate("/home")}
+        onClick={() => navigate("/TelaInicial")}
         className="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-700 transition-colors"
       >
         <img src="/public/imagens/home.svg" alt="Home" className="w-8 h-8" />
