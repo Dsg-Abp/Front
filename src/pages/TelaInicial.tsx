@@ -60,7 +60,7 @@ export default function TelaInicial() {
                 },
                 {
                   id: "agua-escolha",
-                  iconSrc: "/imagens//escolha.svg",
+                  iconSrc: "/imagens/escolha.svg",
                   altText: "Button Icon 6",
                   onClick: () => setShowModal(true),
                 },

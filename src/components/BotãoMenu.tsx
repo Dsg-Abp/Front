@@ -31,7 +31,7 @@ const NavigationButtons = () => {
         onClick={() => navigate("/")}
         className="w-16 h-16 bg-gradient-to-r from-red-400 to-red-600  rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-red-500 hover:to-red-700 transition-colors"
       >
-        <img src="/imagens//sair.svg" alt="Sair" className="w-8 h-8" />
+        <img src="/imagens/sair.svg" alt="Sair" className="w-8 h-8" />
       </button>
     </div>
   );
