@@ -33,12 +33,12 @@ export default function TelaInicial() {
                 },
                 {
                   id: "calorias-mais",
-                  iconSrc: "/public/imagens/mais.svg",
+                  iconSrc: "/imagens/mais.svg",
                   altText: "Button Icon 2",
                 },
                 {
                   id: "calorias-escolha",
-                  iconSrc: "/public/imagens/escolha.svg",
+                  iconSrc: "/imagens/escolha.svg",
                   altText: "Button Icon 3",
                 },
               ],
@@ -50,17 +50,17 @@ export default function TelaInicial() {
               buttons: [
                 {
                   id: "agua-menos",
-                  iconSrc: "/public/imagens/menos.svg",
+                  iconSrc: "/imagens/menos.svg",
                   altText: "Button Icon 4",
                 },
                 {
                   id: "agua-mais",
-                  iconSrc: "/public/imagens/mais.svg",
+                  iconSrc: "/imagens/mais.svg",
                   altText: "Button Icon 5",
                 },
                 {
                   id: "agua-escolha",
-                  iconSrc: "/public/imagens//escolha.svg",
+                  iconSrc: "/imagens//escolha.svg",
                   altText: "Button Icon 6",
                   onClick: () => setShowModal(true),
                 },
