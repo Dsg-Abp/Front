@@ -28,7 +28,7 @@ export default function TelaInicial() {
               buttons: [
                 {
                   id: "calorias-menos",
-                  iconSrc: "/public/imagens/menos.svg",
+                  iconSrc: "/imagens/menos.svg",
                   altText: "Button Icon 1",
                 },
                 {
