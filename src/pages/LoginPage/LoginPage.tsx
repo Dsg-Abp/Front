@@ -26,9 +26,9 @@ const Login: React.FC = () => {
       try {
         localStorage.setItem("token", token);
 
-        const user = {};
+        const userId = {};
 
-        login(token, user);
+        login(token, userId);
         navigate("/TelaInicial");
       } catch (error) {
         console.error("Erro ao processar o login com o Google:", error);
@@ -62,13 +62,13 @@ const Login: React.FC = () => {
       const response = await api.post("/login", { email, senha });
 
       if (response.status === 200) {
-        const { token, user } = response.data;
+        const { token, userId } = response.data;
 
         if (!token) {
           throw new Error("Token não recebido do servidor");
         }
 
-        login(token, user);
+        login(token, userId);
         setEmail("");
         setSenha("");
         navigate("/TelaInicial");
