@@ -14,7 +14,16 @@ export default function TelaInicial() {
   const [tempoAtivo, setTempoAtivo] = useState("");
   const [passos, setPassos] = useState("");
   const [batimentos, setBatimentos] = useState("");
+  const [quantidadeAgua, setQuantidadeAgua] = useState(0); // Estado para quantidade de copos de água
   const [showModal, setShowModal] = useState(false);
+
+  const handleAguaClick = (action:any) => {
+    setQuantidadeAgua(prev => {
+      if (action === 'mais') return prev + 1;
+      if (action === 'menos' && prev > 0) return prev - 1;
+      return prev;
+    });
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-custom-bg px-6">
@@ -52,11 +61,13 @@ export default function TelaInicial() {
                   id: "agua-menos",
                   iconSrc: "/imagens/menos.svg",
                   altText: "Button Icon 4",
+                  onClick: () => handleAguaClick('menos'),
                 },
                 {
                   id: "agua-mais",
                   iconSrc: "/imagens/mais.svg",
                   altText: "Button Icon 5",
+                  onClick: () => handleAguaClick('mais'),
                 },
                 {
                   id: "agua-escolha",
@@ -65,6 +76,11 @@ export default function TelaInicial() {
                   onClick: () => setShowModal(true),
                 },
               ],
+              quantityDisplay: (
+                <div className="mt-4 p-2 w-[60%] rounded-lg bg-white flex flex-col items-center">
+                  <p className="text-xl font-bold">Quantidade de Copos: {quantidadeAgua}</p>
+                </div>
+              ),
             },
             {
               data: passoJson,
@@ -98,6 +114,7 @@ export default function TelaInicial() {
                 {item.title}
               </h2>
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
+              {item.quantityDisplay}
               {item.inputValue !== undefined && (
                 <div className="mt-4 p-2 w-[60%] rounded-lg bg-white flex flex-col items-center">
                   <input
