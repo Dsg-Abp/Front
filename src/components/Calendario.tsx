@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { format, startOfWeek, addDays } from "date-fns";
+import ModalDetalhesDia from "./ModalFuncionalidades/ModalCalendario";
 
 interface DiaDaSemana {
   inicial: string;
@@ -53,20 +54,10 @@ const Calendario: React.FC = () => {
       </div>
 
       {modalAberto && diaSelecionado && (
-        <div className=" flex items-center justify-center py-2">
-          <div className="bg-gradient-to-r from-[#a8f748] to-[#05fa29] p-6 rounded-lg shadow-lg text-center">
-            <h2 className="text-xl font-bold mb-4 text-black">
-              {diaSelecionado.inicial} - {diaSelecionado.dia}
-            </h2>
-            <p>dados aqui.</p>
-            <button
-              onClick={fecharModal}
-              className="mt-6 bg-gradient-to-r from-[#979996] to-[#000000] hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors text-white p-2 rounded"
-            >
-              Fechar
-            </button>
-          </div>
-        </div>
+        <ModalDetalhesDia
+          diaSelecionado={diaSelecionado}
+          fecharModal={fecharModal}
+        />
       )}
     </>
   );
