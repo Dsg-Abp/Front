@@ -2,7 +2,6 @@ import Animação from "../components/Animação";
 import aguaJson from "../assets/animacoes/agua.json";
 import passoJson from "../assets/animacoes/passo.json";
 import caloriasJson from "../assets/animacoes/calorias.json";
-
 import NavigationButtons from "../components/BotãoMenu";
 import Calendario from "../components/Calendario";
 import ModalEscolha from "../components/ModalFuncionalidades/ModalAgua";
@@ -11,11 +10,10 @@ import { useState } from "react";
 
 export default function TelaInicial() {
   const [passos, setPassos] = useState("");
-
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen bg-custom-bg px-6">
+    <div className="flex flex-col min-h-screen bg-custom-bg px-6 ">
       <header className="flex flex-col flex-grow items-center">
         <Calendario />
         <div className="grid grid-cols-1 gap-2 lg:gap-x-32">
@@ -41,7 +39,6 @@ export default function TelaInicial() {
                 },
               ],
             },
-
             {
               data: aguaJson,
               title: "Água",
@@ -73,10 +70,10 @@ export default function TelaInicial() {
           ].map((item, index) => (
             <div
               key={index}
-              className="p-4 rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex items-center w-full sm:w-30 md:w-48 lg:w-36 xl:w-40 justify-between"
+              className="rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex items-center w-full justify-between p-6"
             >
               <div className="relative flex flex-col items-center justify-center w-[70px] h-[70px]">
-                <div className="absolute w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
+                <div className=" w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                   <Animação animationData={item.data} />
                 </div>
               </div>
@@ -101,7 +98,11 @@ export default function TelaInicial() {
       <footer>
         <NavigationButtons />
       </footer>
-      {showModal && <ModalEscolha onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <ModalEscolha onClose={() => setShowModal(false)} />
+        </div>
+      )}
     </div>
   );
 }
