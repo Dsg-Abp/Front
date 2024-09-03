@@ -7,13 +7,19 @@ import Calendario from "../components/Calendario";
 import ModalEscolha from "../components/ModalFuncionalidades/ModalAgua";
 import ButtonGroup from "../components/ButtonAjuste";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function TelaInicial() {
   const [passos, setPassos] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate("/sua-rota");
+  };
 
   return (
-    <div className="flex flex-col min-h-screen bg-custom-bg px-6 ">
+    <div className="flex flex-col min-h-screen bg-custom-bg px-6">
       <header className="flex flex-col flex-grow items-center">
         <Calendario />
         <div className="grid grid-cols-1 gap-2 lg:gap-x-32">
@@ -23,19 +29,10 @@ export default function TelaInicial() {
               title: "Calorias",
               buttons: [
                 {
-                  id: "calorias-menos",
-                  iconSrc: "/imagens/menos.svg",
-                  altText: "Button Icon 1",
-                },
-                {
-                  id: "calorias-mais",
-                  iconSrc: "/imagens/mais.svg",
-                  altText: "Button Icon 2",
-                },
-                {
                   id: "calorias-escolha",
                   iconSrc: "/imagens/escolha.svg",
                   altText: "Button Icon 3",
+                  onClick: handleButtonClick,
                 },
               ],
             },
@@ -73,7 +70,7 @@ export default function TelaInicial() {
               className="rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex items-center w-full justify-between p-6"
             >
               <div className="relative flex flex-col items-center justify-center w-[70px] h-[70px]">
-                <div className=" w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
+                <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                   <Animação animationData={item.data} />
                 </div>
               </div>
