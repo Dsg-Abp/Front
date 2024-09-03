@@ -2,8 +2,7 @@ import Animação from "../components/Animação";
 import aguaJson from "../assets/animacoes/agua.json";
 import passoJson from "../assets/animacoes/passo.json";
 import caloriasJson from "../assets/animacoes/calorias.json";
-import tempoativoJson from "../assets/animacoes/tempoativo.json";
-import batimentosJson from "../assets/animacoes/batimentos.json";
+
 import NavigationButtons from "../components/BotãoMenu";
 import Calendario from "../components/Calendario";
 import ModalEscolha from "../components/ModalFuncionalidades/ModalAgua";
@@ -11,16 +10,15 @@ import ButtonGroup from "../components/ButtonAjuste";
 import { useState } from "react";
 
 export default function TelaInicial() {
-  const [tempoAtivo, setTempoAtivo] = useState("");
   const [passos, setPassos] = useState("");
-  const [batimentos, setBatimentos] = useState("");
+
   const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="flex flex-col min-h-screen bg-custom-bg px-6">
       <header className="flex flex-col flex-grow items-center">
         <Calendario />
-        <div className="grid grid-cols-2 gap-4 lg:gap-x-32">
+        <div className="grid grid-cols-1 gap-2 lg:gap-x-32">
           {[
             {
               data: caloriasJson,
@@ -72,24 +70,12 @@ export default function TelaInicial() {
               inputValue: passos,
               onInputChange: setPassos,
             },
-            {
-              data: batimentosJson,
-              title: "Batimentos Cardíacos",
-              inputValue: batimentos,
-              onInputChange: setBatimentos,
-            },
-            {
-              data: tempoativoJson,
-              title: "Tempo Ativo",
-              inputValue: tempoAtivo,
-              onInputChange: setTempoAtivo,
-            },
           ].map((item, index) => (
             <div
               key={index}
-              className="p-4 rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex flex-col items-center w-full sm:w-30 md:w-48 lg:w-36 xl:w-40"
+              className="p-4 rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex items-center w-full sm:w-30 md:w-48 lg:w-36 xl:w-40 justify-between"
             >
-              <div className="relative flex flex-col items-center justify-center w-[60px] h-[60px]">
+              <div className="relative flex flex-col items-center justify-center w-[70px] h-[70px]">
                 <div className="absolute w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                   <Animação animationData={item.data} />
                 </div>
@@ -99,7 +85,7 @@ export default function TelaInicial() {
               </h2>
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
               {item.inputValue !== undefined && (
-                <div className="mt-4 p-2 w-[60%] rounded-lg bg-white flex flex-col items-center">
+                <div className="mt-4 p-2 w-[30%] rounded-lg bg-white flex flex-col items-center">
                   <input
                     type="text"
                     value={item.inputValue}
