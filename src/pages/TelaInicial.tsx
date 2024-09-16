@@ -15,7 +15,7 @@ export default function TelaInicial() {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate("/sua-rota");
+    navigate("/Alimento");
   };
 
   return (
