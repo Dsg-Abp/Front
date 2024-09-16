@@ -90,10 +90,10 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 
 | Função            | Nome              | LinkedIn                                                     | GitHub                                                      |
 |-------------------|-------------------|--------------------------------------------------------------|-------------------------------------------------------------|
-| SCRUM MASTER      | Fillipe Pereira Bueno de Almeida  | [![LinkedIn](https://img.icons8.com/ios-filled/50/000000/linkedin.png)](https://www.linkedin.com/in/nome) | [![GitHub](https://img.icons8.com/ios-filled/50/000000/github.png)](https://github.com/nome) |
+| SCRUM MASTER      | Fillipe Pereira Bueno de Almeida  | [![LinkedIn](https://img.icons8.com/ios-filled/50/000000/linkedin.png)](https://www.linkedin.com/in/fillipe-almeida-46017025b) | [![GitHub](https://img.icons8.com/ios-filled/50/000000/github.png)](https://github.com/FPbueno) |
 | PRODUCT OWNER     | Isaac Souza Santos  | [![LinkedIn](https://img.icons8.com/ios-filled/50/000000/linkedin.png)](https://www.linkedin.com/in/nome) | [![GitHub](https://img.icons8.com/ios-filled/50/000000/github.png)](https://github.com/nome) |
-| DEV TEAM          | Tiago Santini Da Silva  | [![LinkedIn](https://img.icons8.com/ios-filled/50/000000/linkedin.png)](https://www.linkedin.com/in/nome) | [![GitHub](https://img.icons8.com/ios-filled/50/000000/github.png)](https://github.com/nome) |
-| DEV TEAM          | Renan Ming Han  | [![LinkedIn](https://img.icons8.com/ios-filled/50/000000/linkedin.png)](https://www.linkedin.com/in/nome) | [![GitHub](https://img.icons8.com/ios-filled/50/000000/github.png)](https://github.com/nome) |
+| DEV TEAM          | Tiago Santini Da Silva  | [![LinkedIn](https://img.icons8.com/ios-filled/50/000000/linkedin.png)](https://www.linkedin.com/in/tiago-santini-da-silva-b545752a6) | [![GitHub](https://img.icons8.com/ios-filled/50/000000/github.png)](https://github.com/TiagoSan23) |
+| DEV TEAM          | Renan Ming Han  | [![LinkedIn](https://img.icons8.com/ios-filled/50/000000/linkedin.png)](https://www.linkedin.com/in/renan-ming-) | [![GitHub](https://img.icons8.com/ios-filled/50/000000/github.png)](https://github.com/MingRenan) |
 
 
 
