@@ -9,13 +9,18 @@ import Calendario from "../components/Calendario";
 import ModalEscolha from "../components/ModalFuncionalidades/ModalAgua";
 import ButtonGroup from "../components/ButtonAjuste";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function TelaInicial() {
   const [tempoAtivo, setTempoAtivo] = useState("");
   const [passos, setPassos] = useState("");
   const [batimentos, setBatimentos] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
+  const handleBack = () => {
+    navigate('/Alimento');
+  };
   return (
     <div className="flex flex-col min-h-screen bg-custom-bg px-6">
       <header className="flex flex-col flex-grow items-center">
@@ -40,6 +45,7 @@ export default function TelaInicial() {
                   id: "calorias-escolha",
                   iconSrc: "/imagens/escolha.svg",
                   altText: "Button Icon 3",
+                  onClick: () => handleBack(),
                 },
               ],
             },
