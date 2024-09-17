@@ -58,6 +58,7 @@ const Login: React.FC = () => {
   };
 
   const handleLogin = async () => {
+    console.log('funcionou')
     try {
       const response = await api.post("/login", { email, senha });
 
@@ -132,6 +133,7 @@ const Login: React.FC = () => {
             placeholder="Entre com o seu email"
             value={email}
             onChange={handleUserChange}
+            ref={email}
           />
 
           <input
