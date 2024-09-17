@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context.tsx/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import api from "../../services/api";
 import RegisterModal from "./ModalRegistroUsuario";
 import ForgotPasswordModal from "./ModalRecuperarUsuario";
