@@ -133,7 +133,7 @@ const Login: React.FC = () => {
             placeholder="Entre com o seu email"
             value={email}
             onChange={handleUserChange}
-            ref={email}
+            
           />
 
           <input
