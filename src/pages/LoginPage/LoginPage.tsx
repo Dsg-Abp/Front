@@ -5,7 +5,7 @@ import api from "../../services/api";
 import RegisterModal from "./ModalRegistroUsuario";
 import ForgotPasswordModal from "./ModalRecuperarUsuario";
 import ResetPasswordModal from "./ModalDeNovaSenha";
-//testando
+
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
