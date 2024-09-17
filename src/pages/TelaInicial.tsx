@@ -18,9 +18,10 @@ export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
-  const handleButtonClick = () => {
-    navigate("/sua-rota");
+  const handleBack = () => {
+    navigate("/Alimento");
   };
+
 
   const handleAguaClick = (action:any) => {
     setQuantidadeAgua(prev => {
@@ -29,6 +30,7 @@ export default function TelaInicial() {
       return prev;
     });
   };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-custom-bg px-6">
@@ -56,7 +58,7 @@ export default function TelaInicial() {
                   id: "calorias-escolha",
                   iconSrc: "/imagens/escolha.svg",
                   altText: "Button Icon 3",
-                  onClick: handleButtonClick,
+                  onClick: () => handleBack(),
                 },
               ],
             },
