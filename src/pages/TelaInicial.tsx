@@ -66,14 +66,14 @@ export default function TelaInicial() {
           ].map((item, index) => (
             <div
               key={index}
-              className="rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex items-center w-full justify-between p-6"
+              className="rounded-lg bg-gradient-to-r from-[#212270] to-[#6efbe8] flex items-center w-full justify-between p-6"
             >
               <div className="relative flex flex-col items-center justify-center w-[70px] h-[70px]">
                 <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                   <Animação animationData={item.data} />
                 </div>
               </div>
-              <h2 className="font-bold text-black mt-2 text-center">
+              <h2 className="font-bold text-white mt-2 text-center">
                 {item.title}
               </h2>
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
