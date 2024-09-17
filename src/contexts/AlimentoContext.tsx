@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import axios from 'axios';
 import { AlimentoDataType } from '../types/alimentos';
 import api from '../services/api';
 
