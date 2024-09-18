@@ -1,6 +1,8 @@
+// ProtectedRoute.tsx
 import React, { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import LoadingSpinner from "../components/loading";
 
 const ProtectedRoute: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -9,8 +11,7 @@ const ProtectedRoute: React.FC = () => {
   useEffect(() => {
     const checkAuth = async () => {
       setIsLoading(true);
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsLoading(false);
     };
 
@@ -18,7 +19,7 @@ const ProtectedRoute: React.FC = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
