@@ -101,7 +101,7 @@ const Login: React.FC = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${api.defaults.baseURL}/auth/google`;
+    window.location.href = `${api.defaults.baseURL}auth/google`;
   };
 
   const openRegisterModal = () => setIsRegisterModalOpen(true);
