@@ -7,6 +7,7 @@ const AlimentoSearchPage = () => {
   const { alimentos, searchAlimentos } = useAlimentoContext();
   const [descricao, setDescricao] = useState("");
   const [selectedAlimentos, setSelectedAlimentos] = useState<AlimentoDataType[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado para o modal
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
@@ -89,11 +90,16 @@ const AlimentoSearchPage = () => {
     };
   };
 
+  const handleRemoveAlimento = (alimentoToRemove: AlimentoDataType) => {
+    setSelectedAlimentos((prevSelected) => {
+      return prevSelected.filter((alimento) => alimento !== alimentoToRemove);
+    });
+  };
+
   const somaNutrientes = calcularSomaNutrientes();
 
   return (
     <div className="h-screen flex flex-col justify-center items-center bg-custom-bg">
-      <h1 className="text-white text-xl mb-6">Buscar Alimentos</h1>
       <div className="flex">
         <input
           className="border-2 rounded-lg border-black p-1"
@@ -112,7 +118,7 @@ const AlimentoSearchPage = () => {
       </div>
       <div className="flex mt-2 text-black">
         <div className="flex flex-col">
-          <ul className="text-black bg-gray-300 p-2 rounded-lg max-h-96 overflow-y-auto">
+          <ul className="text-white border-2 border-white bg-black p-2 rounded-lg max-h-96 overflow-y-auto">
             {alimentos.map((alimento: AlimentoDataType) => (
               <li key={alimento._id}>
                 <strong>{alimento["Descrição do Alimento"]}</strong>
@@ -133,56 +139,71 @@ const AlimentoSearchPage = () => {
       >
         Voltar
       </button>
-      {/* Lista de alimentos selecionados no canto superior direito */}
-      {selectedAlimentos.length > 0 && (
-        <div
-          className="fixed top-4 right-4 text-black bg-rose-100 rounded-lg p-2 max-w-sm"
-        >
-          <h2>Alimentos Selecionados:</h2>
-          <ul>
-            {selectedAlimentos.map((alimento) => (
-              <li key={alimento._id}>
-                {alimento["Descrição do Alimento"]}
-                <button
-                  className="ml-2 text-red-500"
-                  onClick={() => handleCheckboxChange(alimento)}
-                >
-                  Remover
-                </button>
-              </li>
-            ))}
-          </ul>
-          <h3 className="mt-4">Soma dos Nutrientes:</h3>
-          <p>
-            <strong>Calorias (kcal): {somaNutrientes.calorias}</strong>
-          </p>
-          <p>
-            <strong>Proteínas (g): {somaNutrientes.proteina}</strong>
-          </p>
-          <p>
-            <strong>Colesterol (mg): {somaNutrientes.colesterol}</strong>
-          </p>
-          <p>
-            <strong>Carboidratos (g): {somaNutrientes.carboidrato}</strong>
-          </p>
-          <p>
-            <strong>Magnésio (mg): {somaNutrientes.magnesio}</strong>
-          </p>
-          <p>
-            <strong>Ferro (mg): {somaNutrientes.ferro}</strong>
-          </p>
-          <p>
-            <strong>Sódio (mg): {somaNutrientes.sodio}</strong>
-          </p>
-          <p>
-            <strong>Potássio (mg): {somaNutrientes.potassio}</strong>
-          </p>
-          <p>
-            <strong>Zinco (mg): {somaNutrientes.zinco}</strong>
-          </p>
-          <p>
-            <strong>Vitamina C (mg): {somaNutrientes.vitaminaC}</strong>
-          </p>
+      {/* Botão para abrir o modal */}
+      <button
+        className="fixed top-4 right-4 text-white bg-blue-600 rounded-full p-2"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Mostrar Alimentos
+      </button>
+      {/* Modal com a tabela de soma dos nutrientes */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
+          <div className="bg-black border-2 border-white text-white rounded-lg p-4 max-w-sm mx-auto relative">
+            <button
+              className="absolute top-2 right-2 text-white"
+              onClick={() => setIsModalOpen(false)}
+            >
+              X
+            </button>
+            <div className="p-2">
+              <h3 className="text-lg mb-2 ">Alimentos Selecionados:</h3>
+              <ul className="mb-4">
+                {selectedAlimentos.map((alimento) => (
+                  <li key={alimento._id} className="mb-1 flex justify-between items-center">
+                    <span>{alimento["Descrição do Alimento"]}</span>
+                    <button
+                      className="text-red-500 ml-5"
+                      onClick={() => handleRemoveAlimento(alimento)}
+                    >
+                      Remover
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <h3 className="text-lg mb-2 border-t-2 border-white">Soma dos Nutrientes:</h3>
+              <p>
+                <strong>Calorias (kcal): {somaNutrientes.calorias}</strong>
+              </p>
+              <p>
+                <strong>Proteínas (g): {somaNutrientes.proteina}</strong>
+              </p>
+              <p>
+                <strong>Colesterol (mg): {somaNutrientes.colesterol}</strong>
+              </p>
+              <p>
+                <strong>Carboidratos (g): {somaNutrientes.carboidrato}</strong>
+              </p>
+              <p>
+                <strong>Magnésio (mg): {somaNutrientes.magnesio}</strong>
+              </p>
+              <p>
+                <strong>Ferro (mg): {somaNutrientes.ferro}</strong>
+              </p>
+              <p>
+                <strong>Sódio (mg): {somaNutrientes.sodio}</strong>
+              </p>
+              <p>
+                <strong>Potássio (mg): {somaNutrientes.potassio}</strong>
+              </p>
+              <p>
+                <strong>Zinco (mg): {somaNutrientes.zinco}</strong>
+              </p>
+              <p>
+                <strong>Vitamina C (mg): {somaNutrientes.vitaminaC}</strong>
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>
