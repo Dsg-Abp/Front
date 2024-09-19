@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../../services/api";
- // Certifique-se de ajustar o caminho para o arquivo correto
+import api from "../../services/api"; // Certifique-se de ajustar o caminho para o arquivo correto
 
 interface ModalDetalhesDiaProps {
   diaSelecionado: { inicial: string; dia: string } | null;
@@ -40,7 +39,20 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
           {diaSelecionado.inicial} - {diaSelecionado.dia}
         </h2>
 
-        <p className="mb-6">dados aqui.</p>
+        <div className="mb-6">
+          <h3 className="text-lg font-semibold">Dados do backend:</h3>
+          {dados.length > 0 ? (
+            <ul>
+              {dados.map((item, index) => (
+                <li key={index} className="mb-2">
+                  {JSON.stringify(item)}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Nenhum dado encontrado.</p>
+          )}
+        </div>
 
         <button
           onClick={fecharModal}
