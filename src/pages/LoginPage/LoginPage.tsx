@@ -103,7 +103,7 @@ const Login: React.FC = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${api.defaults.baseURL}/auth/google`;
+    window.location.href = `${api.defaults.baseURL}auth/google`;
   };
 
   const openRegisterModal = () => setIsRegisterModalOpen(true);
@@ -124,8 +124,11 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="relative select-none flex flex-col h-screen bg-cover bg-center bg-custom-bg">
-      <div className="absolute inset-0 flex justify-center items-center">
+    <div className="relative select-none flex flex-col h-screen bg-cover bg-center bg-white">
+      <div className="flex-col absolute inset-0 flex justify-center items-center">
+        <div className=" w-[200px] ">
+          <img src="/public/imagens/OIG2.jpeg" alt="" />
+        </div>
         <div className="rounded-lg bg-white bg-opacity-20 w-96 h-96 flex flex-col items-center justify-center p-10 mb-2">
           <input
             className="mb-1 mt-3 roboto rounded-lg p-2 w-full border-[#9e9e9e] border hover:border hover:w-full transition-all text-center"
@@ -152,7 +155,7 @@ const Login: React.FC = () => {
             <div className="text-[#4CAF50] font-bold mt-2">{error}</div>
           )}
           <button
-            className="w-full bg-gradient-to-r from-teal-400 to-cyan-600 hover:from-teal-500 hover:to-cyan-700 text-white font-bold py-2 px-2 rounded-lg mb-2"
+            className="w-full bg-gradient-to-r from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white font-bold py-2 px-2 rounded-lg mb-2"
             onClick={handleLogin}
           >
             Login
@@ -171,13 +174,13 @@ const Login: React.FC = () => {
 
           <div className="flex justify-between w-full mt-4">
             <button
-              className="rounded-lg px-2 bg-gradient-to-r from-teal-400 to-cyan-600 hover:from-teal-500 hover:to-cyan-700 text-white"
+              className="rounded-lg px-2 bg-gradient-to-r font-bold  from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
               onClick={openRegisterModal}
             >
               Criar conta
             </button>
             <button
-              className="rounded-lg px-2 bg-gradient-to-r from-teal-400 to-cyan-600 hover:from-teal-500 hover:to-cyan-700 text-white"
+              className="rounded-lg p-2 bg-gradient-to-r font-bold from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
               onClick={openForgotPasswordModal}
             >
               Esqueci minha senha

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import axios from 'axios';
 import { AlimentoDataType } from '../types/alimentos';
+import api from '../services/api';
 
 // Interface do contexto
 interface AlimentoContextType {
@@ -19,7 +19,7 @@ export const AlimentoProvider = ({ children }: { children: ReactNode }) => {
   // Função para buscar alimentos pela descrição usando Axios
   const searchAlimentos = async (descricao: string) => {
     try {
-      const response = await axios.post('http://localhost:3202/buscar-alimento', { descricao });
+      const response = await api.post('/buscar-alimento', { descricao });
       setAlimentos(response.data);
     } catch (error) {
       console.error('Erro ao buscar alimentos:', error);

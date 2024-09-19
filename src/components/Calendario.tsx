@@ -44,7 +44,7 @@ const Calendario: React.FC = () => {
         {diasSemana.map((item, index) => (
           <button
             key={index}
-            className="flex flex-col items-center p-2 w-15 h-15 bg-gradient-to-r from-[#a8f748] to-[#05fa29] rounded-lg text-center text-black"
+            className="flex flex-col items-center p-2 w-15 h-15 bg-[#212270] rounded-lg text-center text-white"
             onClick={() => abrirModal(item)}
           >
             <div className="text-lg sm:text-2xl font-bold">{item.inicial}</div>

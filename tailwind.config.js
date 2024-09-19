@@ -9,6 +9,25 @@ export default {
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
       },
+      animation: {
+        "loading-bar": "loading-bar 4s infinite",
+      },
+      keyframes: {
+        "loading-bar": {
+          "0%": {
+            width: "0%",
+            transform: "translateX(-100%)",
+          },
+          "50%": {
+            width: "100%",
+            transform: "translateX(0)",
+          },
+          "100%": {
+            width: "0%",
+            transform: "translateX(100%)",
+          },
+        },
+      },
     },
     fontFamily: {
       sans: ["Roboto", "sans-serif"], // Define Roboto como padrão
