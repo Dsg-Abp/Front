@@ -46,7 +46,7 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="relative bg-white opacity-90  rounded-full w-full max-w-md p-20 mx-4 overflow-y-auto max-h-[90%] outline-none"
+      className="relative bg-white opacity-100  rounded-full w-full max-w-md p-20 mx-4 overflow-y-auto max-h-[90%] outline-none"
       overlayClassName="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50"
     >
       <div className="flex flex-col items-center">
