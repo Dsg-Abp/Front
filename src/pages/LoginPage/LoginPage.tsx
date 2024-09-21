@@ -5,6 +5,7 @@ import api from "../../services/api";
 import RegisterModal from "./ModalRegistroUsuario";
 import ForgotPasswordModal from "./ModalRecuperarUsuario";
 import ResetPasswordModal from "./ModalDeNovaSenha";
+import { ApiError } from "../../types/types";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -26,7 +27,11 @@ const Login: React.FC = () => {
       try {
         localStorage.setItem("token", token);
 
-        const userId = {};
+        const userId = {
+          id: "",
+          name: "",
+          email: "",
+        };
 
         login(token, userId);
         navigate("/TelaInicial");
@@ -75,13 +80,14 @@ const Login: React.FC = () => {
       } else {
         console.log("Erro ao Logar:", response.data);
       }
-    } catch (error: any) {
-      console.error("Erro de login:", error);
+    } catch (error) {
+      const apiError = error as ApiError;
+      console.error("Erro de login:", apiError);
 
-      if (error.response) {
-        if (error.response.status === 401) {
+      if (apiError.response) {
+        if (apiError.response.status === 401) {
           setError("Credenciais inválidas. Por favor, tente novamente.");
-        } else if (error.response.status === 500) {
+        } else if (apiError.response.status === 500) {
           setError(
             "O servidor encontrou um erro. Por favor, tente novamente mais tarde."
           );
@@ -106,7 +112,6 @@ const Login: React.FC = () => {
 
   const openRegisterModal = () => setIsRegisterModalOpen(true);
   const closeRegisterModal = () => setIsRegisterModalOpen(false);
-
   const openForgotPasswordModal = () => setIsForgotPasswordModalOpen(true);
   const closeForgotPasswordModal = () => setIsForgotPasswordModalOpen(false);
 
@@ -124,7 +129,7 @@ const Login: React.FC = () => {
   return (
     <div className="relative select-none flex flex-col h-screen bg-cover bg-center bg-white">
       <div className="flex-col absolute inset-0 flex justify-center items-center">
-        <div className=" w-[200px] ">
+        <div className="w-[200px]">
           <img src="/public/imagens/OIG2.jpeg" alt="" />
         </div>
         <div className="rounded-lg bg-white bg-opacity-20 w-96 h-96 flex flex-col items-center justify-center p-10 mb-2">
@@ -171,7 +176,7 @@ const Login: React.FC = () => {
 
           <div className="flex justify-between w-full mt-4">
             <button
-              className="rounded-lg px-2 bg-gradient-to-r font-bold  from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
+              className="rounded-lg px-2 bg-gradient-to-r font-bold from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
               onClick={openRegisterModal}
             >
               Criar conta
