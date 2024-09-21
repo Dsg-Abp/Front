@@ -1,6 +1,5 @@
 import Animação from "../components/Animação";
 import aguaJson from "../assets/animacoes/agua.json";
-import passoJson from "../assets/animacoes/passo.json";
 import caloriasJson from "../assets/animacoes/calorias.json";
 import NavigationButtons from "../components/BotãoMenu";
 import Calendario from "../components/Calendario";
@@ -10,7 +9,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function TelaInicial() {
-  const [passos, setPassos] = useState("");
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -57,36 +55,20 @@ export default function TelaInicial() {
                 },
               ],
             },
-            {
-              data: passoJson,
-              title: "Passos",
-              inputValue: passos,
-              onInputChange: setPassos,
-            },
           ].map((item, index) => (
             <div
               key={index}
-              className="rounded-lg bg-gradient-to-r from-[#212270] to-[#6efbe8] flex items-center w-full justify-between p-6"
+              className="rounded-lg bg-gradient-to-r from-[#212270] to-[#6efbe8] flex items-center w-full h-auto justify-between p-6"
             >
               <div className="relative flex flex-col items-center justify-center w-[70px] h-[70px]">
                 <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                   <Animação animationData={item.data} />
                 </div>
               </div>
-              <h2 className="font-bold text-white mt-2 text-center">
+              <h2 className="font-bold mx-2 text-white mt-2 text-center">
                 {item.title}
               </h2>
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
-              {item.inputValue !== undefined && (
-                <div className="mt-4 p-2 w-[30%] rounded-lg bg-white flex flex-col items-center">
-                  <input
-                    type="text"
-                    value={item.inputValue}
-                    onChange={(e) => item.onInputChange?.(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-lg w-full"
-                  />
-                </div>
-              )}
             </div>
           ))}
         </div>

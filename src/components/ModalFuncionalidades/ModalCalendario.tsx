@@ -13,10 +13,8 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Filtro de fundo */}
       <div className="fixed inset-0 bg-black opacity-70"></div>
 
-      {/* Bloco centralizado */}
       <div className="flex flex-col items-center w-[400px] mx-2 bg-blue-900 p-6 rounded-lg shadow-lg text-center relative text-white">
         <h2 className="text-xl font-bold mb-4 text-white">
           {diaSelecionado.inicial} - {diaSelecionado.dia}

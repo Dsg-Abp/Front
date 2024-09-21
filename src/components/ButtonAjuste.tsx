@@ -13,7 +13,7 @@ interface ButtonGroupProps {
 
 const ButtonGroup: React.FC<ButtonGroupProps> = ({ buttons }) => {
   return (
-    <div className="mt-4 flex flex-wrap justify-center gap-2 sm:gap-3">
+    <div className="mt-4 flex mx-4 flex-wrap justify-center gap-2 sm:gap-3">
       {buttons.map((button) => (
         <button
           key={button.id}
