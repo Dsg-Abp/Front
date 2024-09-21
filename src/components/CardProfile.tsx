@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
+import ResponseModal from "./ModalFuncionalidades/ModalResponse";
 
 const ProfileModalContent: React.FC = () => {
   const [nome, setNome] = useState<string>("");
@@ -8,6 +9,10 @@ const ProfileModalContent: React.FC = () => {
   const [genero, setGenero] = useState<string>("X");
   const [altura, setAltura] = useState<number | "">("");
   const [imc, setImc] = useState<number | "">("");
+
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
+  const [modalType, setModalType] = useState<"success" | "error">("success");
 
   const handlePesoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
@@ -41,9 +46,19 @@ const ProfileModalContent: React.FC = () => {
     try {
       const response = await api.post("profile", profileData);
       console.log("Dados salvos:", response.data);
+      setModalMessage("Perfil salvo com sucesso!");
+      setModalType("success");
     } catch (error) {
       console.error("Erro ao salvar os dados:", error);
+      setModalMessage("Erro ao salvar perfil. Tente novamente.");
+      setModalType("error");
+    } finally {
+      setModalIsOpen(true);
     }
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   return (
@@ -112,6 +127,12 @@ const ProfileModalContent: React.FC = () => {
       >
         Salvar
       </button>
+      <ResponseModal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        message={modalMessage}
+        type={modalType}
+      />
     </div>
   );
 };
