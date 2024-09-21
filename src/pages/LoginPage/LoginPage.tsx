@@ -27,14 +27,13 @@ const Login: React.FC = () => {
       try {
         localStorage.setItem("token", token);
 
-        login(token, userId);
         navigate("/TelaInicial");
       } catch (error) {
         console.error("Erro ao processar o login com o Google:", error);
         setError("Erro ao processar o login com o Google.");
       }
     },
-    [login, navigate]
+    [navigate]
   );
 
   useEffect(() => {
@@ -61,13 +60,16 @@ const Login: React.FC = () => {
       const response = await api.post("/login", { email, senha });
 
       if (response.status === 200) {
-        const { token, userId } = response.data;
+        const { token, user } = response.data;
 
         if (!token) {
           throw new Error("Token não recebido do servidor");
         }
 
-        login(token, userId);
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        login(token, user);
         setEmail("");
         setSenha("");
         navigate("/TelaInicial");
@@ -124,7 +126,7 @@ const Login: React.FC = () => {
   return (
     <div className="relative select-none flex flex-col h-screen bg-cover bg-center bg-white">
       <div className="flex-col absolute inset-0 flex justify-center items-center">
-        <div className=" w-[200px] ">
+        <div className="w-[200px]">
           <img src="/public/imagens/OIG2.jpeg" alt="" />
         </div>
         <div className="rounded-lg bg-white bg-opacity-20 w-96 h-96 flex flex-col items-center justify-center p-10 mb-2">
@@ -171,7 +173,7 @@ const Login: React.FC = () => {
 
           <div className="flex justify-between w-full mt-4">
             <button
-              className="rounded-lg px-2 bg-gradient-to-r font-bold  from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
+              className="rounded-lg px-2 bg-gradient-to-r font-bold from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
               onClick={openRegisterModal}
             >
               Criar conta
