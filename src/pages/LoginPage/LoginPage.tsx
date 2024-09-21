@@ -5,6 +5,7 @@ import api from "../../services/api";
 import RegisterModal from "./ModalRegistroUsuario";
 import ForgotPasswordModal from "./ModalRecuperarUsuario";
 import ResetPasswordModal from "./ModalDeNovaSenha";
+import { ApiError } from "../../types/types";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -25,8 +26,6 @@ const Login: React.FC = () => {
     (token: string) => {
       try {
         localStorage.setItem("token", token);
-
-        const userId = {};
 
         login(token, userId);
         navigate("/TelaInicial");
@@ -75,13 +74,14 @@ const Login: React.FC = () => {
       } else {
         console.log("Erro ao Logar:", response.data);
       }
-    } catch (error: any) {
-      console.error("Erro de login:", error);
+    } catch (error) {
+      const apiError = error as ApiError;
+      console.error("Erro de login:", apiError);
 
-      if (error.response) {
-        if (error.response.status === 401) {
+      if (apiError.response) {
+        if (apiError.response.status === 401) {
           setError("Credenciais inválidas. Por favor, tente novamente.");
-        } else if (error.response.status === 500) {
+        } else if (apiError.response.status === 500) {
           setError(
             "O servidor encontrou um erro. Por favor, tente novamente mais tarde."
           );
