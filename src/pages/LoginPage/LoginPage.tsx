@@ -25,7 +25,13 @@ const Login: React.FC = () => {
   const handleGoogleToken = useCallback(
     (token: string) => {
       try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get("userId");
+
         localStorage.setItem("token", token);
+        if (userId) {
+          localStorage.setItem("userId", userId);
+        }
 
         navigate("/TelaInicial");
       } catch (error) {
@@ -60,16 +66,19 @@ const Login: React.FC = () => {
       const response = await api.post("/login", { email, senha });
 
       if (response.status === 200) {
-        const { token, user } = response.data;
+        const { token, userId } = response.data;
 
         if (!token) {
           throw new Error("Token não recebido do servidor");
         }
 
         localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("userId", userId);
+
+        const user = userId;
 
         login(token, user);
+
         setEmail("");
         setSenha("");
         navigate("/TelaInicial");
