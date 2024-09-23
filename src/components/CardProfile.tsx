@@ -10,6 +10,13 @@ const ProfileModalContent: React.FC = () => {
   const [altura, setAltura] = useState<number | "">("");
   const [imc, setImc] = useState<number | "">("");
 
+  const [nomeError, setNomeError] = useState<boolean>(false);
+  const [dataNascimentoError, setDataNascimentoError] =
+    useState<boolean>(false);
+  const [pesoError, setPesoError] = useState<boolean>(false);
+  const [generoError, setGeneroError] = useState<boolean>(false);
+  const [alturaError, setAlturaError] = useState<boolean>(false);
+
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
   const [modalType, setModalType] = useState<"success" | "error">("success");
@@ -34,6 +41,19 @@ const ProfileModalContent: React.FC = () => {
   }, [peso, altura]);
 
   const handleSubmit = async () => {
+    setNomeError(!nome);
+    setDataNascimentoError(!dataNascimento);
+    setPesoError(!peso);
+    setGeneroError(genero === "X");
+    setAlturaError(!altura);
+
+    if (!nome || !dataNascimento || !peso || !altura || genero === "X") {
+      setModalMessage("Preencha todos os campos obrigatórios.");
+      setModalType("error");
+      setModalIsOpen(true);
+      return;
+    }
+
     const userId = localStorage.getItem("userId");
 
     const profileData = {
@@ -67,51 +87,74 @@ const ProfileModalContent: React.FC = () => {
   return (
     <div className="flex flex-col space-y-4">
       <div>
-        <label className="font-bold">Nome:</label>
+        <label className={`font-bold ${nomeError ? "text-red-500" : ""}`}>
+          Nome:
+        </label>
         <input
           type="text"
           value={nome}
           onChange={(e) => setNome(e.target.value)}
-          className="p-1 border rounded-md w-full"
+          className={`p-1 border rounded-md w-full ${
+            nomeError ? "border-red-500" : ""
+          }`}
         />
       </div>
       <div>
-        <label className="font-bold">Data de Nascimento:</label>
+        <label
+          className={`font-bold ${dataNascimentoError ? "text-red-500" : ""}`}
+        >
+          Data de Nascimento:
+        </label>
         <input
           type="date"
           value={dataNascimento}
           onChange={(e) => setDataNascimento(e.target.value)}
-          className="p-1 border rounded-md w-full"
+          className={`p-1 border rounded-md w-full ${
+            dataNascimentoError ? "border-red-500" : ""
+          }`}
         />
       </div>
       <div>
-        <label className="font-bold">Peso (kg):</label>
+        <label className={`font-bold ${pesoError ? "text-red-500" : ""}`}>
+          Peso (kg):
+        </label>
         <input
           type="number"
           value={peso}
           onChange={handlePesoChange}
-          className="p-1 border rounded-md w-full"
+          className={`p-1 border rounded-md w-full ${
+            pesoError ? "border-red-500" : ""
+          }`}
           step="0.1"
         />
       </div>
       <div>
-        <label className="font-bold">Gênero:</label>
+        <label className={`font-bold ${generoError ? "text-red-500" : ""}`}>
+          Gênero:
+        </label>
         <select
           value={genero}
           onChange={(e) => setGenero(e.target.value)}
-          className="p-1 border rounded-md w-full"
+          className={`p-1 border rounded-md w-full ${
+            generoError ? "border-red-500" : ""
+          }`}
         >
-          <option value="X">X</option>
-          <option value="Y">Y</option>
+          <option value="X">Selecione o Gênero</option>
+          <option value="Y">Masculino</option>
+          <option value="Z">Feminino</option>
         </select>
       </div>
       <div>
-        <label className="font-bold">Altura (m):</label>
+        <label className={`font-bold ${alturaError ? "text-red-500" : ""}`}>
+          Altura (m):
+        </label>
         <input
           type="number"
           value={altura}
           onChange={handleAlturaChange}
-          className="p-1 border rounded-md w-full"
+          className={`p-1 border rounded-md w-full ${
+            alturaError ? "border-red-500" : ""
+          }`}
           step="0.01"
         />
       </div>
