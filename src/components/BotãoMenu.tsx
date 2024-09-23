@@ -1,7 +1,14 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CardProfile from "./CardProfile";
 
 const NavigationButtons = () => {
   const navigate = useNavigate();
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+
+  const toggleProfileModal = () => {
+    setIsProfileModalOpen(!isProfileModalOpen);
+  };
 
   return (
     <div className="flex gap-4 p-4 justify-center">
@@ -12,8 +19,8 @@ const NavigationButtons = () => {
         <img src="/imagens/home.svg" alt="Home" className="w-8 h-8" />
       </button>
       <button
-        onClick={() => navigate("/configuracoes")}
-        className="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-green-500 hover:to-green-700 transition-colors"
+        onClick={toggleProfileModal}
+        className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-yellow-600  rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-700 transition-colors"
       >
         <img
           src="/imagens/ajustes.svg"
@@ -23,7 +30,7 @@ const NavigationButtons = () => {
       </button>
       <button
         onClick={() => navigate("/graficos")}
-        className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-yellow-600  rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-yellow-500 hover:to-yellow-700 transition-colors"
+        className="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-green-500 hover:to-green-700 transition-colors"
       >
         <img src="/imagens/graphic.svg" alt="Gráficos" className="w-8 h-8" />
       </button>
@@ -33,6 +40,20 @@ const NavigationButtons = () => {
       >
         <img src="/imagens/sair.svg" alt="Sair" className="w-8 h-8" />
       </button>
+
+      {isProfileModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-gradient-to-r from-yellow-200 to-yellow-400 p-8 rounded-lg">
+            <CardProfile />
+            <button
+              onClick={toggleProfileModal}
+              className="bg-gradient-to-r from-[#979996] to-[#000000] p-2 w-auto rounded-lg mt-4 text-white font-bold hover:from-[#808586] hover:to-[#1a1a1a] transition-colors duration-200"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

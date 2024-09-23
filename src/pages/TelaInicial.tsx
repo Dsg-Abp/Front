@@ -1,27 +1,45 @@
 import Animação from "../components/Animação";
 import aguaJson from "../assets/animacoes/agua.json";
-import passoJson from "../assets/animacoes/passo.json";
 import caloriasJson from "../assets/animacoes/calorias.json";
 import NavigationButtons from "../components/BotãoMenu";
 import Calendario from "../components/Calendario";
 import ModalEscolha from "../components/ModalFuncionalidades/ModalAgua";
 import ButtonGroup from "../components/ButtonAjuste";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 export default function TelaInicial() {
-  const [passos, setPassos] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [nome, setNome] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    api
+      .get("/")
+      .then((response) => {
+        setNome(response.data.nome);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar nome:", error);
+      });
+  }, []);
 
   const handleBack = () => {
     navigate("/Alimento");
   };
+
   return (
-    <div className="flex flex-col min-h-screen bg-custom-bg px-6">
-      <header className="flex flex-col flex-grow items-center">
+    <div className="flex flex-col min-h-screen bg-custom-bg md:px-40 px-10">
+      <header className="flex flex-col flex-grow items-center w-full">
         <Calendario />
-        <div className="grid grid-cols-1 gap-2 lg:gap-x-32">
+
+        <div className="w-full my-4 p-4 bg-gradient-to-r from-[#212270] to-[#6efbe8] text-white rounded-lg text-center">
+          <h3 className="text-lg font-bold">Nome Recebido:</h3>
+          <p className="text-md">{nome ? nome : "Carregando..."}</p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-2 lg:gap-x-32 w-full">
           {[
             {
               data: caloriasJson,
@@ -57,41 +75,25 @@ export default function TelaInicial() {
                 },
               ],
             },
-            {
-              data: passoJson,
-              title: "Passos",
-              inputValue: passos,
-              onInputChange: setPassos,
-            },
           ].map((item, index) => (
             <div
               key={index}
-              className="rounded-lg bg-gradient-to-r from-[#a8f748] to-[#05fa29] flex items-center w-full justify-between p-6"
+              className="rounded-lg bg-gradient-to-r from-[#212270] to-[#6efbe8] flex items-center w-full h-auto justify-between p-6"
             >
               <div className="relative flex flex-col items-center justify-center w-[70px] h-[70px]">
                 <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
                   <Animação animationData={item.data} />
                 </div>
               </div>
-              <h2 className="font-bold text-black mt-2 text-center">
+              <h2 className="font-bold text-[20px] mx-2 text-white mt-2 text-center">
                 {item.title}
               </h2>
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
-              {item.inputValue !== undefined && (
-                <div className="mt-4 p-2 w-[30%] rounded-lg bg-white flex flex-col items-center">
-                  <input
-                    type="text"
-                    value={item.inputValue}
-                    onChange={(e) => item.onInputChange?.(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-lg w-full"
-                  />
-                </div>
-              )}
             </div>
           ))}
         </div>
       </header>
-      <footer>
+      <footer className="w-full">
         <NavigationButtons />
       </footer>
       {showModal && (

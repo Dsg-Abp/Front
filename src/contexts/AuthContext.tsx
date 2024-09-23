@@ -7,10 +7,16 @@ import React, {
 } from "react";
 import axios from "axios";
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 interface AuthContextProps {
   isAuthenticated: boolean;
-  user: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  login: (token: string, user: any) => void; // eslint-disable-line @typescript-eslint/no-explicit-any
+  user: User | null;
+  login: (token: string, user: User) => void;
   logout: () => void;
 }
 
@@ -21,8 +27,8 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<any>(null); // eslint-disable-line @typescript-eslint/no-explicit-any
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,7 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const storedUser = localStorage.getItem("user");
       if (storedUser) {
         try {
-          const parsedUser = JSON.parse(storedUser);
+          const parsedUser: User = JSON.parse(storedUser);
           setUser(parsedUser);
         } catch (error) {
           console.error("Failed to parse user JSON:", error);
@@ -43,8 +49,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const login = (token: string, user: any) => {
-    // eslint-disable-line @typescript-eslint/no-explicit-any
+  const login = (token: string, user: User) => {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
