@@ -1,60 +1,51 @@
 import Animação from "../components/Animação";
 import aguaJson from "../assets/animacoes/agua.json";
-import passoJson from "../assets/animacoes/passo.json";
 import caloriasJson from "../assets/animacoes/calorias.json";
 import NavigationButtons from "../components/BotãoMenu";
 import Calendario from "../components/Calendario";
 import ModalEscolha from "../components/ModalFuncionalidades/ModalAgua";
 import ButtonGroup from "../components/ButtonAjuste";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 
 export default function TelaInicial() {
-  const [passos, setPassos] = useState("");
-
-  const [batimentos, setBatimentos] = useState("");
-  const [quantidadeAgua, setQuantidadeAgua] = useState(0); // Estado para quantidade de copos de água
-
   const [showModal, setShowModal] = useState(false);
+  const [nome, setNome] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    api
+      .get("/")
+      .then((response) => {
+        setNome(response.data.nome);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar nome:", error);
+      });
+  }, []);
 
   const handleBack = () => {
     navigate("/Alimento");
   };
 
-
-  const handleAguaClick = (action:any) => {
-    setQuantidadeAgua(prev => {
-      if (action === 'mais') return prev + 1;
-      if (action === 'menos' && prev > 0) return prev - 1;
-      return prev;
-    });
-  };
-
-
   return (
-    <div className="flex flex-col min-h-screen bg-custom-bg px-6">
-      <header className="flex flex-col flex-grow items-center">
+    <div className="flex flex-col min-h-screen bg-custom-bg md:px-40 px-10">
+      <header className="flex flex-col flex-grow items-center w-full">
         <Calendario />
-        <div className="grid grid-cols-1 gap-2 lg:gap-x-32">
+
+        <div className="w-full my-4 p-4 bg-gradient-to-r from-[#212270] to-[#6efbe8] text-white rounded-lg text-center">
+          <h3 className="text-lg font-bold">Nome Recebido:</h3>
+          <p className="text-md">{nome ? nome : "Carregando..."}</p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-2 lg:gap-x-32 w-full">
           {[
             {
               data: caloriasJson,
               title: "Calorias",
               buttons: [
                 {
-
-                  id: "calorias-menos",
-                  iconSrc: "/imagens/menos.svg",
-                  altText: "Button Icon 1",
-                },
-                {
-                  id: "calorias-mais",
-                  iconSrc: "/imagens/mais.svg",
-                  altText: "Button Icon 2",
-                },
-                {
-
                   id: "calorias-escolha",
                   iconSrc: "/imagens/escolha.svg",
                   altText: "Button Icon 3",
@@ -70,13 +61,11 @@ export default function TelaInicial() {
                   id: "agua-menos",
                   iconSrc: "/imagens/menos.svg",
                   altText: "Button Icon 4",
-                  onClick: () => handleAguaClick('menos'),
                 },
                 {
                   id: "agua-mais",
                   iconSrc: "/imagens/mais.svg",
                   altText: "Button Icon 5",
-                  onClick: () => handleAguaClick('mais'),
                 },
                 {
                   id: "agua-escolha",
@@ -85,51 +74,26 @@ export default function TelaInicial() {
                   onClick: () => setShowModal(true),
                 },
               ],
-              quantityDisplay: (
-                <div className="mt-4 p-2 w-[60%] rounded-lg bg-white flex flex-col items-center">
-                  <p className="text-xl font-bold">Quantidade de Copos: {quantidadeAgua}</p>
-                </div>
-              ),
-            },
-            {
-              data: passoJson,
-              title: "Passos",
-              inputValue: passos,
-              onInputChange: setPassos,
             },
           ].map((item, index) => (
             <div
               key={index}
-
-              className="rounded-lg bg-gradient-to-r from-[#212270] to-[#6efbe8] flex items-center w-full justify-between p-6"
-
+              className="rounded-lg bg-gradient-to-r from-[#212270] to-[#6efbe8] flex items-center w-full h-auto justify-between p-6"
             >
               <div className="relative flex flex-col items-center justify-center w-[70px] h-[70px]">
                 <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
-
                   <Animação animationData={item.data} />
                 </div>
               </div>
-              <h2 className="font-bold text-white mt-2 text-center">
+              <h2 className="font-bold text-[20px] mx-2 text-white mt-2 text-center">
                 {item.title}
               </h2>
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
-              {item.quantityDisplay}
-              {item.inputValue !== undefined && (
-                <div className="mt-4 p-2 w-[30%] rounded-lg bg-white flex flex-col items-center">
-                  <input
-                    type="text"
-                    value={item.inputValue}
-                    onChange={(e) => item.onInputChange?.(e.target.value)}
-                    className="p-2 border border-gray-300 rounded-lg w-full"
-                  />
-                </div>
-              )}
             </div>
           ))}
         </div>
       </header>
-      <footer>
+      <footer className="w-full">
         <NavigationButtons />
       </footer>
       {showModal && (

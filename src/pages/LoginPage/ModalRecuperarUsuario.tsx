@@ -5,13 +5,13 @@ import api from "../../services/api";
 interface ForgotPasswordModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  onSuccess: (email: string) => void; // Notificar com o email
+  onSuccess: (email: string) => void;
 }
 
 const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
   isOpen,
   onRequestClose,
-  onSuccess, // Receba a prop onSuccess
+  onSuccess,
 }) => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -31,7 +31,7 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
 
       if (response.status === 200) {
         setSuccessMessage(response.data.message);
-        onSuccess(email); // Notifique com o email
+        onSuccess(email);
       }
     } catch (error: any) {
       if (error.response) {
