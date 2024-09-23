@@ -34,7 +34,10 @@ const ProfileModalContent: React.FC = () => {
   }, [peso, altura]);
 
   const handleSubmit = async () => {
+    const userID = localStorage.getItem("userId");
+
     const profileData = {
+      userID,
       nome,
       dataNascimento,
       peso,
