@@ -12,17 +12,30 @@ import api from "../services/api";
 export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);
   const [nome, setNome] = useState("");
+  const [peso, setPeso] = useState<number | null>(null);
+  const [altura, setAltura] = useState<number | null>(null);
+  const [imc, setImc] = useState<number | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    api
-      .get("/")
-      .then((response) => {
-        setNome(response.data.nome);
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar nome:", error);
-      });
+    const userId = localStorage.getItem("userId");
+
+    if (userId) {
+      api
+        .get(`/profile/${userId}`)
+        .then((response) => {
+          const profile = response.data.profile;
+          setNome(profile.nome);
+          setPeso(profile.peso);
+          setAltura(profile.altura);
+          setImc(parseFloat(profile.imc));
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar perfil:", error);
+        });
+    } else {
+      console.error("User ID não encontrado no localStorage.");
+    }
   }, []);
 
   const handleBack = () => {
@@ -37,6 +50,15 @@ export default function TelaInicial() {
         <div className="w-full my-4 p-4 bg-gradient-to-r from-[#212270] to-[#6efbe8] text-white rounded-lg text-center">
           <h3 className="text-lg font-bold">Nome Recebido:</h3>
           <p className="text-md">{nome ? nome : "Carregando..."}</p>
+          <h4 className="text-md">
+            Peso: {peso !== null ? peso : "Carregando..."} kg
+          </h4>
+          <h4 className="text-md">
+            Altura: {altura !== null ? altura : "Carregando..."} m
+          </h4>
+          <h4 className="text-md">
+            IMC: {imc !== null ? imc.toFixed(2) : "Carregando..."}
+          </h4>
         </div>
 
         <div className="grid grid-cols-1 gap-2 lg:gap-x-32 w-full">
