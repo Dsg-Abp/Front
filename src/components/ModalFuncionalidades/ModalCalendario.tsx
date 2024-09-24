@@ -19,6 +19,7 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
         .get("/teste") // A rota que você configurou no backend
         .then((response) => {
           setDados(response.data.findResult); // Armazena os dados retornados no estado
+          
         })
         .catch((error) => {
           console.error("Erro ao buscar dados:", error);
