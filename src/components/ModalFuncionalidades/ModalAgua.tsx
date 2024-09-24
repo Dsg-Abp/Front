@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+import api from "../../services/api"; // Certifique-se de ajustar o caminho do serviço de API
 
 interface ModalEscolhaProps {
   onClose: () => void;
@@ -18,6 +19,29 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setQuantidade(parseInt(event.target.value, 10));
+  };
+
+  const enviarDados = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+
+      // Obtém a data de hoje e formata como DDMMYYYY (ex: 24092024)
+      const dataAtual = Number(
+        new Date().toLocaleDateString("pt-BR").replace(/\//g, "")
+      );
+
+      // Monta o payload diretamente, sem objeto aninhado
+      const payload = {
+        user: userId,
+        date: { $numberInt: dataAtual.toString() }, // Data no formato $numberInt
+        somewater: { $numberInt: (quantidade ?? 0).toString() }, // Quantidade no formato $numberInt
+      };
+
+      const response = await api.post("/insert", payload);
+      console.log("Dados enviados com sucesso:", response.data);
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+    }
   };
 
   return (
@@ -77,8 +101,15 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
         </div>
 
         <button
-          onClick={onClose}
+          onClick={enviarDados} // Envia os dados ao clicar
           className="w-full py-2 bg-gradient-to-r from-[#979996] to-[#000000] text-white rounded-lg hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors"
+        >
+          Enviar e Fechar
+        </button>
+
+        <button
+          onClick={onClose}
+          className="w-full py-2 bg-gradient-to-r from-[#979996] to-[#000000] text-white rounded-lg hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors mt-2"
         >
           Fechar
         </button>
