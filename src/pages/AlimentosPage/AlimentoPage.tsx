@@ -1,7 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { useAlimentoContext } from "../../contexts/AlimentoContext";
 import { AlimentoDataType } from "../../types/alimentos";
-import { useNavigate } from "react-router-dom";
+import NavigationButtons from "../../components/BotãoMenu";
+import Calendario from "../../components/Calendario";
 
 const AlimentoSearchPage = () => {
   const { alimentos, searchAlimentos } = useAlimentoContext();
@@ -10,7 +11,6 @@ const AlimentoSearchPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para o modal
 
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const navigate = useNavigate();
 
   const handleCheckboxChange = (alimento: AlimentoDataType) => {
     setSelectedAlimentos((prevSelected) => {
@@ -42,10 +42,6 @@ const AlimentoSearchPage = () => {
     if (descricao) {
       await searchAlimentos(descricao);
     }
-  };
-
-  const handleBack = () => {
-    navigate("/TelaInicial");
   };
 
   // Função para somar os nutrientes selecionados
@@ -100,6 +96,9 @@ const AlimentoSearchPage = () => {
 
   return (
     <div className="h-screen flex flex-col justify-center items-center bg-custom-bg">
+      <div className="fixed top-0">
+        <Calendario />
+      </div>
       <div className="flex">
         <input
           className="border-2 rounded-lg border-black p-1"
@@ -133,12 +132,6 @@ const AlimentoSearchPage = () => {
           </ul>
         </div>
       </div>
-      <button
-        onClick={handleBack}
-        className="text-white rounded-lg bg-red-600 p-1 mt-4"
-      >
-        Voltar
-      </button>
       {/* Botão para abrir o modal */}
       <button
         className="fixed top-4 right-4 text-white bg-blue-600 rounded-full p-2"
@@ -148,7 +141,7 @@ const AlimentoSearchPage = () => {
       </button>
       {/* Modal com a tabela de soma dos nutrientes */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center">
+        <div className="fixed top-4 right-4 bg-gray-900 bg-opacity-75 flex items-center justify-center">
           <div className="bg-black border-2 border-white text-white rounded-lg p-4 max-w-sm mx-auto relative">
             <button
               className="absolute top-2 right-2 text-white"
@@ -206,6 +199,11 @@ const AlimentoSearchPage = () => {
           </div>
         </div>
       )}
+      <div className="fixed bottom-0">
+      <footer>
+        <NavigationButtons />
+      </footer>
+      </div>
     </div>
   );
 };
