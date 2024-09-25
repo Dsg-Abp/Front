@@ -10,8 +10,8 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
   diaSelecionado,
   fecharModal,
 }) => {
-  const [dados, setDados] = useState<any[]>([]); // Estado para armazenar os dados filtrados
-  const [totalWater, setTotalWater] = useState<number>(0); // Novo estado para armazenar a soma de somewater
+  const [, setDados] = useState<any[]>([]);
+  const [totalWater, setTotalWater] = useState<number>(0);
 
   useEffect(() => {
     if (diaSelecionado) {
@@ -21,8 +21,7 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
         .get("/teste")
         .then((response) => {
           const filteredData = response.data.findResult.filter(
-            (item: any) =>
-              item.user === userId || item.email?.user === userId
+            (item: any) => item.user === userId || item.email?.user === userId
           );
           setDados(filteredData);
 
@@ -51,7 +50,9 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
         </h2>
 
         <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-3">Total de Água Consumida:</h3>
+          <h3 className="text-lg font-semibold mb-3">
+            Total de Água Consumida:
+          </h3>
           <p className="text-blue-600 text-2xl font-bold">{totalWater} ml</p>
         </div>
 
