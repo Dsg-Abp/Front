@@ -8,6 +8,7 @@ import ButtonGroup from "../components/ButtonAjuste";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import WebcamCapture from "../components/ComponenteWeb";
 
 export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);
@@ -48,7 +49,6 @@ export default function TelaInicial() {
         <Calendario />
 
         <div className="w-full my-4 p-4 bg-gradient-to-r from-[#212270] to-[#6efbe8] text-white rounded-lg text-center">
-          <h3 className="text-lg font-bold">Nome Recebido:</h3>
           <p className="text-md">{nome ? nome : "Carregando..."}</p>
           <h4 className="text-md">
             Peso: {peso !== null ? peso : "Carregando..."} kg

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import api from "../services/api";
 import ResponseModal from "./ModalFuncionalidades/ModalResponse";
+import WebcamCapture from "./ComponenteWeb";
 
 const ProfileModalContent: React.FC = () => {
   const [nome, setNome] = useState<string>("");
@@ -86,99 +87,105 @@ const ProfileModalContent: React.FC = () => {
 
   return (
     <div className="flex flex-col space-y-4">
-      <div>
-        <label className={`font-bold ${nomeError ? "text-red-500" : ""}`}>
-          Nome:
-        </label>
-        <input
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          className={`p-1 border rounded-md w-full ${
-            nomeError ? "border-red-500" : ""
-          }`}
-        />
+      <WebcamCapture />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+        <div>
+          <label className={`font-bold ${nomeError ? "text-red-500" : ""}`}>
+            Nome:
+          </label>
+          <input
+            type="text"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            className={`p-1 border rounded-md w-full ${
+              nomeError ? "border-red-500" : ""
+            }`}
+          />
+        </div>
+        <div>
+          <label
+            className={`font-bold ${dataNascimentoError ? "text-red-500" : ""}`}
+          >
+            Data de Nascimento:
+          </label>
+          <input
+            type="date"
+            value={dataNascimento}
+            onChange={(e) => setDataNascimento(e.target.value)}
+            className={`p-1 border rounded-md w-full ${
+              dataNascimentoError ? "border-red-500" : ""
+            }`}
+          />
+        </div>
+        <div>
+          <label className={`font-bold ${pesoError ? "text-red-500" : ""}`}>
+            Peso (kg):
+          </label>
+          <input
+            type="number"
+            value={peso}
+            onChange={handlePesoChange}
+            className={`p-1 border rounded-md w-full ${
+              pesoError ? "border-red-500" : ""
+            }`}
+            step="0.1"
+          />
+        </div>
+        <div>
+          <label className={`font-bold ${generoError ? "text-red-500" : ""}`}>
+            Gênero:
+          </label>
+          <select
+            value={genero}
+            onChange={(e) => setGenero(e.target.value)}
+            className={`p-1 border rounded-md w-full ${
+              generoError ? "border-red-500" : ""
+            }`}
+          >
+            <option value="X">Selecione o Gênero</option>
+            <option value="Y">Masculino</option>
+            <option value="Z">Feminino</option>
+          </select>
+        </div>
+        <div>
+          <label className={`font-bold ${alturaError ? "text-red-500" : ""}`}>
+            Altura (m):
+          </label>
+          <input
+            type="number"
+            value={altura}
+            onChange={handleAlturaChange}
+            className={`p-1 border rounded-md w-full ${
+              alturaError ? "border-red-500" : ""
+            }`}
+            step="0.01"
+          />
+        </div>
+        <div>
+          <label className="font-bold">IMC:</label>
+          <input
+            type="number"
+            value={imc}
+            readOnly
+            className="p-1 border rounded-md w-full"
+          />
+        </div>
       </div>
-      <div>
-        <label
-          className={`font-bold ${dataNascimentoError ? "text-red-500" : ""}`}
+
+      <div className="flex justify-between items-center mt-4">
+        <ResponseModal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          message={modalMessage}
+          type={modalType}
+        />
+        <button
+          onClick={handleSubmit}
+          className="bg-gradient-to-r from-[#7bdb6f] to-[#22610f] p-2 rounded-lg text-white font-bold hover:from-[#5abc4c] hover:to-[#1e4f0d] transition-colors duration-200"
         >
-          Data de Nascimento:
-        </label>
-        <input
-          type="date"
-          value={dataNascimento}
-          onChange={(e) => setDataNascimento(e.target.value)}
-          className={`p-1 border rounded-md w-full ${
-            dataNascimentoError ? "border-red-500" : ""
-          }`}
-        />
+          Salvar
+        </button>
       </div>
-      <div>
-        <label className={`font-bold ${pesoError ? "text-red-500" : ""}`}>
-          Peso (kg):
-        </label>
-        <input
-          type="number"
-          value={peso}
-          onChange={handlePesoChange}
-          className={`p-1 border rounded-md w-full ${
-            pesoError ? "border-red-500" : ""
-          }`}
-          step="0.1"
-        />
-      </div>
-      <div>
-        <label className={`font-bold ${generoError ? "text-red-500" : ""}`}>
-          Gênero:
-        </label>
-        <select
-          value={genero}
-          onChange={(e) => setGenero(e.target.value)}
-          className={`p-1 border rounded-md w-full ${
-            generoError ? "border-red-500" : ""
-          }`}
-        >
-          <option value="X">Selecione o Gênero</option>
-          <option value="Y">Masculino</option>
-          <option value="Z">Feminino</option>
-        </select>
-      </div>
-      <div>
-        <label className={`font-bold ${alturaError ? "text-red-500" : ""}`}>
-          Altura (m):
-        </label>
-        <input
-          type="number"
-          value={altura}
-          onChange={handleAlturaChange}
-          className={`p-1 border rounded-md w-full ${
-            alturaError ? "border-red-500" : ""
-          }`}
-          step="0.01"
-        />
-      </div>
-      <div>
-        <label className="font-bold">IMC:</label>
-        <input
-          type="number"
-          value={imc}
-          readOnly
-          className="p-1 border rounded-md w-full"
-        />
-      </div>
-      <button
-        onClick={handleSubmit}
-        className="bg-gradient-to-r from-[#7bdb6f] to-[#22610f] p-2 w-auto rounded-lg mt-4 text-white font-bold hover:from-[#5abc4c] hover:to-[#1e4f0d] transition-colors duration-200"
-      >
-        Salvar
-      </button>
-      <ResponseModal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        message={modalMessage}
-        type={modalType}
-      />
     </div>
   );
 };
