@@ -8,7 +8,6 @@ import ButtonGroup from "../components/ButtonAjuste";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-import WebcamCapture from "../components/ComponenteWeb";
 
 export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);
