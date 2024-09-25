@@ -12,13 +12,16 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^2.1.8",
-    "@mui/x-charts": "^7.12.0",
+    "@mui/x-charts": "^7.18.0",
     "@mui/x-data-grid": "^7.7.0",
     "@react-oauth/google": "^0.12.1",
     "@types/react-datepicker": "^7.0.0",
     "axios": "^1.7.2",
-    "echarts": "^5.5.0",
+    "echarts": "^5.5.1",
+    "echarts-for-react": "^3.0.2",
     "front-end": "file:",
     "lottie-react": "^2.4.0",
     "react": "^18.3.1",
@@ -28,7 +31,11 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.22.3",
     "react-table": "^7.8.0",
+<<<<<<< HEAD
     "react-webcam": "^7.2.0"
+=======
+    "recharts": "^2.12.7"
+>>>>>>> 40b6e7674c317075c12ba97cb71349cb1530d5e5
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
