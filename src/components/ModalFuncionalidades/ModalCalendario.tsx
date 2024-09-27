@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import api from "../../services/api"; // Certifique-se de ajustar o caminho para o arquivo correto
+import api from "../../services/api";
 
 interface ModalDetalhesDiaProps {
   diaSelecionado: { inicial: string; dia: string } | null;
@@ -10,8 +10,8 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
   diaSelecionado,
   fecharModal,
 }) => {
-  const [dados, setDados] = useState<any[]>([]); // Estado para armazenar os dados filtrados
-  const [totalWater, setTotalWater] = useState<number>(0); // Novo estado para armazenar a soma de somewater
+  const [dados, setDados] = useState<any[]>([]);
+  const [totalWater, setTotalWater] = useState<number>(0);
 
   useEffect(() => {
     if (diaSelecionado) {
@@ -20,18 +20,35 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
       api
         .get("/teste")
         .then((response) => {
-          const filteredData = response.data.findResult.filter(
-            (item: any) =>
-              item.user === userId || item.email?.user === userId
-          );
+          const filteredData = response.data.findResult.filter((item: any) => {
+            // Extraindo o dia e o mês do diaSelecionado e do item.date
+            const selectedDay = diaSelecionado.dia.split("/").map(Number); // [dia, mês]
+            const itemDate = item.email.date.toString(); // Convertendo a data para string
+            const itemDay = parseInt(itemDate.slice(0, 2)); // Pegando o dia do item
+            const itemMonth = parseInt(itemDate.slice(2, 4)); // Pegando o mês do item
+
+            // Comparando dia e mês com o dia selecionado
+            const isSameDay = selectedDay[0] === itemDay && selectedDay[1] === itemMonth;
+            const isSameUser = item.email?.user === userId;
+
+            console.log("Comparando:", itemDay, itemMonth, selectedDay, isSameDay);
+
+            return isSameUser && isSameDay;
+          });
+
           setDados(filteredData);
 
-          // Somar o valor de "somewater" para todos os itens filtrados
+          // Log para depuração: verifique os dados filtrados
+          console.log("Dados filtrados:", filteredData);
+
           const total = filteredData.reduce((acc: number, item: any) => {
-            const water = item.somewater || item.email?.somewater || 0;
-            return acc + water;
+            return acc + (item.email.somewater || 0);
           }, 0);
+
           setTotalWater(total); // Armazena o total no estado
+
+          // Log para depuração: verificar o total de água somado
+          console.log("Total de água consumida:", total);
         })
         .catch((error) => {
           console.error("Erro ao buscar dados:", error);
@@ -51,7 +68,9 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
         </h2>
 
         <div className="mb-6">
-          <h3 className="text-lg font-semibold mb-3">Total de Água Consumida:</h3>
+          <h3 className="text-lg font-semibold mb-3">
+            Total de Água Consumida:
+          </h3>
           <p className="text-blue-600 text-2xl font-bold">{totalWater} ml</p>
         </div>
 
