@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+
 import api from "../../services/api";
 import RegisterModal from "./ModalRegistroUsuario";
 import ForgotPasswordModal from "./ModalRecuperarUsuario";
 import ResetPasswordModal from "./ModalDeNovaSenha";
 import { ApiError } from "../../types/types";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -48,10 +49,14 @@ const Login: React.FC = () => {
 
     if (token) {
       handleGoogleToken(token);
-    } else if (passwordRef.current) {
+    } else if (!email && passwordRef.current) {
       passwordRef.current.focus();
     }
-  }, [handleGoogleToken]);
+  }, [handleGoogleToken, email]);
+
+  useEffect(() => {
+    setError("");
+  }, [email, senha]);
 
   const handleUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -63,10 +68,13 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
+      console.log("Tentando fazer login com:", { email, senha }); // Debug info
       const response = await api.post("/login", { email, senha });
 
       if (response.status === 200) {
         const { token, userId } = response.data;
+
+        console.log("Login bem-sucedido, token recebido:", { token, userId }); // Debug info
 
         if (!token) {
           throw new Error("Token não recebido do servidor");
@@ -75,21 +83,20 @@ const Login: React.FC = () => {
         localStorage.setItem("token", token);
         localStorage.setItem("userId", userId);
 
-        const user = userId;
-
-        login(token, user);
+        login(token);
 
         setEmail("");
         setSenha("");
         navigate("/TelaInicial");
       } else {
-        console.log("Erro ao Logar:", response.data);
+        console.log("Erro ao Logar:", response.data); // Exibir detalhes do erro
       }
     } catch (error) {
       const apiError = error as ApiError;
       console.error("Erro de login:", apiError);
 
       if (apiError.response) {
+        console.log("Erro da resposta da API:", apiError.response); // Debug info
         if (apiError.response.status === 401) {
           setError("Credenciais inválidas. Por favor, tente novamente.");
         } else if (apiError.response.status === 500) {
@@ -98,14 +105,13 @@ const Login: React.FC = () => {
           );
         }
       } else {
-        setError(
-          "Ocorreu um erro ao tentar fazer login. Por favor, tente novamente mais tarde."
-        );
+        console.error("Erro desconhecido:", error); // Debug info
+        setError("Ocorreu um erro desconhecido. Tente novamente.");
       }
     }
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleLogin();
     }
@@ -156,7 +162,7 @@ const Login: React.FC = () => {
             placeholder="Entre com a sua senha"
             value={senha}
             onChange={handlePasswordChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
           />
 
           {error && (

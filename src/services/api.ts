@@ -1,15 +1,13 @@
 import axios, { AxiosInstance } from "axios";
 
 const api: AxiosInstance = axios.create({
-
-  baseURL: "https://back-production-f64e.up.railway.app/",
+  baseURL: "http://localhost:3202/", //"https://back-production-f64e.up.railway.app/",
 
   headers: {
     "Content-Type": "application/json",
   },
-});+
-
-api.interceptors.request.use(
+});
++api.interceptors.request.use(
   (config) => {
     config.headers["Sec-Ch-Ua"] =
       '"Not A(Brand";v="99", "Samsung Internet";v="25.0", "Chromium";v="121"';
