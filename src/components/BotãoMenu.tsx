@@ -38,6 +38,7 @@ const NavigationButtons = () => {
         onClick={() => {
           localStorage.removeItem("token");
           localStorage.removeItem("userId");
+          localStorage.removeItem("user");
 
           navigate("/");
         }}
