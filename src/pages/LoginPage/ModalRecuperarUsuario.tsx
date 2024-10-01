@@ -5,13 +5,13 @@ import api from "../../services/api";
 interface ForgotPasswordModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
-  onSuccess: (email: string) => void; // Notificar com o email
+  onSuccess: (email: string) => void;
 }
 
 const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
   isOpen,
   onRequestClose,
-  onSuccess, // Receba a prop onSuccess
+  onSuccess,
 }) => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -31,7 +31,7 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
 
       if (response.status === 200) {
         setSuccessMessage(response.data.message);
-        onSuccess(email); // Notifique com o email
+        onSuccess(email);
       }
     } catch (error: any) {
       if (error.response) {
@@ -46,7 +46,7 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="relative bg-white opacity-90  rounded-full w-full max-w-md p-20 mx-4 overflow-y-auto max-h-[90%] outline-none"
+      className="relative bg-white opacity-100  rounded-full w-full max-w-md p-20 mx-4 overflow-y-auto max-h-[90%] outline-none"
       overlayClassName="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50"
     >
       <div className="flex flex-col items-center">

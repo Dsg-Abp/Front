@@ -25,6 +25,7 @@ export interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 // Hook personalizado para usar o contexto do usuário
+// eslint-disable-next-line react-refresh/only-export-components
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {

@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context.tsx/AuthContext";
+
 import api from "../../services/api";
 import RegisterModal from "./ModalRegistroUsuario";
 import ForgotPasswordModal from "./ModalRecuperarUsuario";
 import ResetPasswordModal from "./ModalDeNovaSenha";
+import { ApiError } from "../../types/types";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -24,18 +26,21 @@ const Login: React.FC = () => {
   const handleGoogleToken = useCallback(
     (token: string) => {
       try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get("userId");
+
         localStorage.setItem("token", token);
+        if (userId) {
+          localStorage.setItem("userId", userId);
+        }
 
-        const userId = {};
-
-        login(token, userId);
         navigate("/TelaInicial");
       } catch (error) {
         console.error("Erro ao processar o login com o Google:", error);
         setError("Erro ao processar o login com o Google.");
       }
     },
-    [login, navigate]
+    [navigate]
   );
 
   useEffect(() => {
@@ -44,10 +49,14 @@ const Login: React.FC = () => {
 
     if (token) {
       handleGoogleToken(token);
-    } else if (passwordRef.current) {
+    } else if (!email && passwordRef.current) {
       passwordRef.current.focus();
     }
-  }, [handleGoogleToken]);
+  }, [handleGoogleToken, email]);
+
+  useEffect(() => {
+    setError("");
+  }, [email, senha]);
 
   const handleUserChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -59,49 +68,57 @@ const Login: React.FC = () => {
 
   const handleLogin = async () => {
     try {
+      console.log("Tentando fazer login com:", { email, senha }); // Debug info
       const response = await api.post("/login", { email, senha });
 
       if (response.status === 200) {
         const { token, userId } = response.data;
 
+        console.log("Login bem-sucedido, token recebido:", { token, userId }); // Debug info
+
         if (!token) {
           throw new Error("Token não recebido do servidor");
         }
 
-        login(token, userId);
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", userId);
+
+        login(token);
+
         setEmail("");
         setSenha("");
         navigate("/TelaInicial");
       } else {
-        console.log("Erro ao Logar:", response.data);
+        console.log("Erro ao Logar:", response.data); // Exibir detalhes do erro
       }
-    } catch (error: any) {
-      console.error("Erro de login:", error);
+    } catch (error) {
+      const apiError = error as ApiError;
+      console.error("Erro de login:", apiError);
 
-      if (error.response) {
-        if (error.response.status === 401) {
+      if (apiError.response) {
+        console.log("Erro da resposta da API:", apiError.response); // Debug info
+        if (apiError.response.status === 401) {
           setError("Credenciais inválidas. Por favor, tente novamente.");
-        } else if (error.response.status === 500) {
+        } else if (apiError.response.status === 500) {
           setError(
             "O servidor encontrou um erro. Por favor, tente novamente mais tarde."
           );
         }
       } else {
-        setError(
-          "Ocorreu um erro ao tentar fazer login. Por favor, tente novamente mais tarde."
-        );
+        console.error("Erro desconhecido:", error); // Debug info
+        setError("Ocorreu um erro desconhecido. Tente novamente.");
       }
     }
   };
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleLogin();
     }
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${api.defaults.baseURL}/auth/google`;
+    window.location.href = `${api.defaults.baseURL}auth/google`;
   };
 
   const openRegisterModal = () => setIsRegisterModalOpen(true);
@@ -122,8 +139,11 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="relative select-none flex flex-col h-screen bg-cover bg-center bg-custom-bg">
-      <div className="absolute inset-0 flex justify-center items-center">
+    <div className="relative select-none flex flex-col h-screen bg-cover bg-center bg-white">
+      <div className="flex-col absolute inset-0 flex justify-center items-center">
+        <div className="w-[200px]">
+          <img src="/public/imagens/OIG2.jpeg" alt="" />
+        </div>
         <div className="rounded-lg bg-white bg-opacity-20 w-96 h-96 flex flex-col items-center justify-center p-10 mb-2">
           <input
             className="mb-1 mt-3 roboto rounded-lg p-2 w-full border-[#9e9e9e] border hover:border hover:w-full transition-all text-center"
@@ -142,14 +162,14 @@ const Login: React.FC = () => {
             placeholder="Entre com a sua senha"
             value={senha}
             onChange={handlePasswordChange}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyDown}
           />
 
           {error && (
             <div className="text-[#4CAF50] font-bold mt-2">{error}</div>
           )}
           <button
-            className="w-full bg-gradient-to-r from-teal-400 to-cyan-600 hover:from-teal-500 hover:to-cyan-700 text-white font-bold py-2 px-2 rounded-lg mb-2"
+            className="w-full bg-gradient-to-r from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white font-bold py-2 px-2 rounded-lg mb-2"
             onClick={handleLogin}
           >
             Login
@@ -168,13 +188,13 @@ const Login: React.FC = () => {
 
           <div className="flex justify-between w-full mt-4">
             <button
-              className="rounded-lg px-2 bg-gradient-to-r from-teal-400 to-cyan-600 hover:from-teal-500 hover:to-cyan-700 text-white"
+              className="rounded-lg px-2 bg-gradient-to-r font-bold from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
               onClick={openRegisterModal}
             >
               Criar conta
             </button>
             <button
-              className="rounded-lg px-2 bg-gradient-to-r from-teal-400 to-cyan-600 hover:from-teal-500 hover:to-cyan-700 text-white"
+              className="rounded-lg p-2 bg-gradient-to-r font-bold from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
               onClick={openForgotPasswordModal}
             >
               Esqueci minha senha

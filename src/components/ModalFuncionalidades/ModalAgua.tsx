@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+import api from "../../services/api"; // Certifique-se de ajustar o caminho do serviço de API
 
 interface ModalEscolhaProps {
   onClose: () => void;
@@ -7,17 +8,45 @@ interface ModalEscolhaProps {
 
 const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
   const [escolha, setEscolha] = useState("copo");
-  const [quantidade, setQuantidade] = useState<number | null>(null);
+  const [quantidade, setQuantidade] = useState<number>(50); // Inicia com 50 ml para "copo"
 
   const handleEscolhaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setEscolha(event.target.value);
-    setQuantidade(null);
+    const novaEscolha = event.target.value;
+    setEscolha(novaEscolha);
+
+    // Define a quantidade inicial para cada tipo
+    if (novaEscolha === "copo") {
+      setQuantidade(50); // Valor inicial de copo
+    } else if (novaEscolha === "garrafa") {
+      setQuantidade(300); // Valor inicial de garrafa
+    }
   };
 
-  const handleQuantidadeChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleQuantidadeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setQuantidade(parseInt(event.target.value, 10));
+  };
+
+  const enviarDados = async () => {
+    try {
+      const userId = localStorage.getItem("userId");
+
+      // Obtém a data de hoje e formata como DDMMYYYY (ex: 27092024)
+      const dataAtual = Number(
+        new Date().toLocaleDateString("pt-BR").replace(/\//g, "")
+      );
+
+      // Monta o payload sem o uso de $numberInt
+      const payload = {
+        user: userId,
+        date: dataAtual, // Envia a data como número simples
+        somewater: quantidade, // Envia a quantidade como número simples
+      };
+
+      const response = await api.post("/insert", payload);
+      console.log("Dados enviados com sucesso:", response.data);
+    } catch (error) {
+      console.error("Erro ao enviar dados:", error);
+    }
   };
 
   return (
@@ -36,7 +65,7 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
         </select>
         {escolha === "copo" && (
           <select
-            value={quantidade ?? ""}
+            value={quantidade}
             onChange={handleQuantidadeChange}
             className="mb-4 p-2 border border-gray-300 rounded-lg w-full text-black"
           >
@@ -49,7 +78,7 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
         )}
         {escolha === "garrafa" && (
           <select
-            value={quantidade ?? ""}
+            value={quantidade}
             onChange={handleQuantidadeChange}
             className="mb-4 p-2 border border-gray-300 rounded-lg w-full text-black"
           >
@@ -63,7 +92,7 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
 
         <div className="mb-4">
           <Gauge
-            value={quantidade ?? 0}
+            value={quantidade}
             startAngle={-110}
             endAngle={110}
             sx={{
@@ -77,8 +106,15 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
         </div>
 
         <button
-          onClick={onClose}
+          onClick={enviarDados}
           className="w-full py-2 bg-gradient-to-r from-[#979996] to-[#000000] text-white rounded-lg hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors"
+        >
+          Enviar e Fechar
+        </button>
+
+        <button
+          onClick={onClose}
+          className="w-full py-2 bg-gradient-to-r from-[#979996] to-[#000000] text-white rounded-lg hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors mt-2"
         >
           Fechar
         </button>
