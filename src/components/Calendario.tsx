@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { format, startOfWeek, addDays } from "date-fns";
 import ModalDetalhesDia from "./ModalFuncionalidades/ModalCalendario";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleLeft, faAngleRight, faList, faSearch, } from '@fortawesome/free-solid-svg-icons';
 
 interface DiaDaSemana {
   inicial: string;
@@ -53,10 +55,10 @@ const Calendario: React.FC = () => {
       <div className="flex justify-between mb-4 my-7 items-center">
         {/* Botão para semana anterior */}
         <button
-          className="p-2 bg-[#212270] text-white rounded-lg"
+          className="p-2"
           onClick={semanaAnterior}
         >
-          {"<"} Semana Anterior
+           <FontAwesomeIcon icon={faAngleLeft} />
         </button>
 
         {/* Dias da semana */}
@@ -64,7 +66,9 @@ const Calendario: React.FC = () => {
           {diasSemana.map((item, index) => (
             <button
               key={index}
-              className="flex flex-col items-center p-2 w-15 h-15 bg-[#212270] rounded-lg text-center text-white"
+              className="flex flex-col items-center p-2 w-15 h-15
+              
+              bg-[#212270] rounded-lg text-center text-white"
               onClick={() => abrirModal(item)}
             >
               <div className="text-lg sm:text-2xl font-bold">{item.inicial}</div>
@@ -75,10 +79,10 @@ const Calendario: React.FC = () => {
 
         {/* Botão para próxima semana */}
         <button
-          className="p-2 bg-[#212270] text-white rounded-lg"
+          className="p-2"
           onClick={proximaSemana}
         >
-          Próxima Semana {">"}
+           <FontAwesomeIcon icon={faAngleRight} />
         </button>
       </div>
 
