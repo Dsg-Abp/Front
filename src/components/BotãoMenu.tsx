@@ -28,12 +28,7 @@ const NavigationButtons = () => {
           className="w-8 h-8"
         />
       </button>
-      <button
-        onClick={() => navigate("/graficos")}
-        className="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-green-500 hover:to-green-700 transition-colors"
-      >
-        <img src="/imagens/graphic.svg" alt="Gráficos" className="w-8 h-8" />
-      </button>
+
       <button
         onClick={() => {
           localStorage.removeItem("token");

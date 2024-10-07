@@ -50,7 +50,7 @@ export default function TelaInicial() {
         <Calendario />
 
         <div className="w-full my-4 p-4 bg-gradient-to-r from-[#212270] to-[#6efbe8] text-white rounded-lg flex items-center">
-          <div className="w-32 h-32 bg-lime-200 rounded-lg border-2 border-slate-300 mr-4 flex items-center justify-center">
+          <div className="w-32 h-32 bg-lime-200 rounded-lg border-2 border-white mr-4 flex items-center justify-center">
             {imageSrc ? (
               <img
                 src={imageSrc}
@@ -87,7 +87,7 @@ export default function TelaInicial() {
             )}
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col border-1 border-slate-800 p-3 bg-slate-800 rounded-lg">
             <p className="text-lg font-bold">{nome ? nome : "Carregando..."}</p>
             <h4 className="text-md">
               Peso: {peso !== null ? peso : "Carregando..."} kg

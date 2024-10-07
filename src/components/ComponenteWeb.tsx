@@ -1,11 +1,18 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
 import api from "../services/api";
+import ResponseModal from "./ModalFuncionalidades/ModalResponse";
 
 const WebcamCapture: React.FC = () => {
   const [isCameraOpen, setIsCameraOpen] = useState(false);
   const webcamRef = useRef<Webcam>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [modalMessage, setModalMessage] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<"success" | "error">("success");
+
+  const navigate = useNavigate();
 
   const capture = () => {
     if (webcamRef.current) {
@@ -26,10 +33,23 @@ const WebcamCapture: React.FC = () => {
       });
       console.log("Imagem enviada com sucesso:", response.data);
 
+      setModalMessage("Imagem enviada com sucesso!");
+      setModalType("success");
+      setIsModalOpen(true);
       setImageSrc(null);
+
+      navigate("/Telainicial");
     } catch (error) {
       console.error("Erro ao enviar a imagem:", error);
+      setModalMessage("Erro ao enviar a imagem.");
+      setModalType("error");
+      setIsModalOpen(true);
     }
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    window.location.reload();
   };
 
   return (
@@ -59,7 +79,10 @@ const WebcamCapture: React.FC = () => {
                   Tirar Foto
                 </button>
                 <button
-                  onClick={() => setIsCameraOpen(false)}
+                  onClick={() => {
+                    setIsCameraOpen(false);
+                    closeModal();
+                  }}
                   className="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition"
                 >
                   Fechar Câmera
@@ -84,6 +107,12 @@ const WebcamCapture: React.FC = () => {
           </div>
         </>
       )}
+      <ResponseModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        message={modalMessage}
+        type={modalType}
+      />
     </div>
   );
 };
