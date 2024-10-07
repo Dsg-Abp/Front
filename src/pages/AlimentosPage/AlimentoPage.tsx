@@ -190,30 +190,28 @@ const AlimentoSearchPage = () => {
           <FontAwesomeIcon icon={faSearch} className=" p-2" />
         </button>
       </div>
-      <div className="flex mt-2 text-black">
-        <div className="flex flex-col">
-          <ul className="text-white p-2 rounded-lg max-h-96 overflow-y-auto">
-            {paginatedAlimentos.map((alimento: AlimentoDataType) => (
-              <li key={alimento._id}>
-                <strong>{alimento["Descrição do Alimento"]}</strong>
-                <input
-                  className="ml-2"
-                  type="checkbox"
-                  checked={selectedAlimentos.includes(alimento)}
-                  onChange={() => handleCheckboxChange(alimento)}
-                />
-              </li>
-            ))}
-          </ul>
-          {/* Controles de Paginação */}
-          {alimentos.length > 0 && (
+      {alimentos.length > 0 && (
+        <div className="flex mt-2 text-black">
+          <div className="flex flex-col">
+            <ul className="flex flex-col text-black p-2 rounded-md max-h-96 overflow-y-auto bg-gray-100 justify-center">
+              {paginatedAlimentos.map((alimento: AlimentoDataType) => (
+                <li
+                  key={alimento._id}
+                  className={`hover:text-red-500 cursor-pointer ${selectedAlimentos.includes(alimento) ? 'text-green-500' : ''}`}
+                  onClick={() => handleCheckboxChange(alimento)}
+                >
+                  <strong>{alimento["Descrição do Alimento"]}</strong>
+                </li>
+              ))}
+            </ul>
+
             <div className="flex justify-center items-center mt-2 gap-4">
               <button
                 className="p-2 font-bold text-white"
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               >
-                <FontAwesomeIcon icon={faAngleLeft}  />
+                <FontAwesomeIcon icon={faAngleLeft} />
               </button>
               <span className="text-white font-bold">{currentPage}/{totalPages}</span>
               <button
@@ -221,20 +219,21 @@ const AlimentoSearchPage = () => {
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               >
-                <FontAwesomeIcon icon={faAngleRight}  />
+                <FontAwesomeIcon icon={faAngleRight} />
               </button>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
+
       {selectedAlimentos.length > 0 && (
         <button
           className="fixed top-4 right-4 text-white p-2"
           onClick={() => setIsModalOpen(true)}
         >
-          <FontAwesomeIcon icon={faList} className="h-8"/> 
+          <FontAwesomeIcon icon={faList} className="h-8" />
         </button>
-        
+
       )}
       {isModalOpen && (
         <motion.div
