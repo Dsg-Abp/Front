@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { format, startOfWeek, addDays } from "date-fns";
 import ModalDetalhesDia from "./ModalFuncionalidades/ModalCalendario";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faList, faSearch, } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons';
 
 interface DiaDaSemana {
   inicial: string;
