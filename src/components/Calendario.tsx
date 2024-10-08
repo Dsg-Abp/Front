@@ -58,7 +58,7 @@ const Calendario: React.FC = () => {
           className="p-2"
           onClick={semanaAnterior}
         >
-           <FontAwesomeIcon icon={faAngleLeft} />
+           <FontAwesomeIcon icon={faAngleLeft} className="text-white" />
         </button>
 
         {/* Dias da semana */}
@@ -82,7 +82,7 @@ const Calendario: React.FC = () => {
           className="p-2"
           onClick={proximaSemana}
         >
-           <FontAwesomeIcon icon={faAngleRight} />
+           <FontAwesomeIcon icon={faAngleRight} className="text-white" />
         </button>
       </div>
 
