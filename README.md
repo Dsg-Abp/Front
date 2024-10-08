@@ -157,18 +157,18 @@ Essas melhorias visam proporcionar uma aplicação mais completa, funcional e se
 
 | ID  | Tarefa                                                                                   | Responsável | Status          | Estimativa (Pontos) | Conclusão (Data)  |
 |-----|------------------------------------------------------------------------------------------|-------------|------------------|---------------------|--------------------|
-| SB-01 | Adicionar funcionalidades de navegação aos botões da tela inicial                      | [Nome]      | ✅ Concluído      | 3                   | 25/Set              |
+| SB-01 | Adicionar funcionalidades de navegação aos botões da tela inicial                      | [Isaac Souza]      | ✅ Concluído      | 3                   | 25/Set              |
 | SB-02 | Colocar o banco de dados em nuvem                                                       | [Nome]      | ✅ Concluído      | 3                   | 26/Set              |
-| SB-03 | Construir login com criação de usuário                                                  | [Nome]      | ✅ Concluído      | 4                   | 28/Set              |
-| SB-04 | Criar autenticação de rotas e salvá-las no local storage                                | [Nome]      | ✅ Concluído      | 4                   | 30/Set              |
+| SB-03 | Construir login com criação de usuário                                                  | [Isaac Souza]      | ✅ Concluído      | 4                   | 28/Set              |
+| SB-04 | Criar autenticação de rotas e salvá-las no local storage                                | [Isaac Souza]      | ✅ Concluído      | 4                   | 30/Set              |
 | SB-05 | Criar função para inserção de informações do componente água                            | [Nome]      | ✅ Concluído      | 2                   | 01/Out              |
 | SB-06 | Implementação da feature de nutrientes no Front                                          | [Nome]      | ✅ Concluído      | 3                   | 02/Out              |
-| SB-07 | Criar interface de login no Front end                                                   | [Nome]      | ✅ Concluído      | 3                   | 03/Out              |
-| SB-08 | Fazer método de login no back end                                                        | [Nome]      | ✅ Concluído      | 4                   | 04/Out              |
+| SB-07 | Criar interface de login no Front end                                                   | [Isaac Souza]      | ✅ Concluído      | 3                   | 03/Out              |
+| SB-08 | Fazer método de login no back end                                                        | [Isaac Souza]      | ✅ Concluído      | 4                   | 04/Out              |
 | SB-09 | Implementação de gráficos relacionados aos alimentos na tela de alimentos                | [Nome]      | ✅ Concluído      | 3                   | 05/Out              |
-| SB-10 | Implementar interface onde permita o usuário inserir dados para o cálculo de IMC       | [Nome]      | ✅ Concluído      | 3                   | 06/Out              |
+| SB-10 | Implementar interface onde permita o usuário inserir dados para o cálculo de IMC       | [Isaac Souza]      | ✅ Concluído      | 3                   | 06/Out              |
 | SB-11 | Implementar sistema de calendários na tela inicial                                       | [Nome]      | ✅ Concluído      | 3                   | 07/Out              |
-| SB-12 | Login deve permitir autenticação com o Google                                           | [Nome]      | ✅ Concluído      | 4                   | 08/Out              |
+| SB-12 | Login deve permitir autenticação com o Google                                           | [Isaac Souza]      | ✅ Concluído      | 4                   | 08/Out              |
 | SB-13 | Login deve permitir recuperação de senha através do email                                | [Nome]      | ✅ Concluído      | 3                   | 08/Out              |
 | SB-14 | Mostrar o resultado do cálculo de IMC na tela inicial                                   | [Nome]      | ✅ Concluído      | 2                   | 08/Out              |
 
