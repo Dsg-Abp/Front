@@ -43,8 +43,8 @@ const NavigationButtons = () => {
       </button>
 
       {isProfileModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-gradient-to-r from-yellow-200 to-yellow-400 p-8 rounded-lg">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white">
+          <div className="bg-[#212270] p-8 rounded-lg">
             <CardProfile />
             <button
               onClick={toggleProfileModal}
