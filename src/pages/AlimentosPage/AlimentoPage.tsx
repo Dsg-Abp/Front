@@ -6,7 +6,7 @@ import Calendario from "../../components/Calendario";
 import ReactECharts from 'echarts-for-react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faList, faSearch, } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, faList, faSearch, faTrash, } from '@fortawesome/free-solid-svg-icons';
 
 const AlimentoSearchPage = () => {
   const { alimentos, searchAlimentos } = useAlimentoContext();
@@ -174,30 +174,37 @@ const AlimentoSearchPage = () => {
       <div className="fixed top-0">
         <Calendario />
       </div>
-      <div className="flex">
-        <input
-          className="border-0 shadow-sm rounded-lg p-1"
-          type="text"
-          value={descricao}
-          onChange={(e) => setDescricao(e.target.value)}
-          placeholder="Digite aqui..."
-        />
-        <button
-          className="text-white ml-2 shadow-sm"
-          ref={buttonRef}
-          onClick={handleSearch}
-        >
-          <FontAwesomeIcon icon={faSearch} className=" p-2" />
-        </button>
+
+      <h1 className="text-white text-2xl mb-10">Monte sua lista:</h1>
+
+      <div className="flex ml-10 mb-5">
+        <div className="flex justify-center">
+          <input
+            className="w-[300px] border-0 shadow-md shadow-gray-400 rounded-lg p-1"
+            type="text"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+            placeholder="Digite aqui..."
+          />
+        </div>
+        <div className="flex">
+          <button
+            className="text-white ml-2 shadow-sm"
+            ref={buttonRef}
+            onClick={handleSearch}
+          >
+            <FontAwesomeIcon icon={faSearch} className=" p-2" />
+          </button>
+        </div>
       </div>
       {alimentos.length > 0 && (
         <div className="flex mt-2 text-black">
           <div className="flex flex-col">
-            <ul className="flex flex-col text-black p-2 rounded-md max-h-96 overflow-y-auto bg-gray-100 justify-center">
+            <ul className="flex flex-col text-black p-2 rounded-md h-[260px] w-[300px] bg-gray-100 max-h-96 overflow-y-auto justify-between shadow-md shadow-gray-400">
               {paginatedAlimentos.map((alimento: AlimentoDataType) => (
                 <li
                   key={alimento._id}
-                  className={`hover:text-red-500 cursor-pointer ${selectedAlimentos.includes(alimento) ? 'text-green-500' : ''}`}
+                  className={`hover:text-blue-600 cursor-pointer ${selectedAlimentos.includes(alimento) ? 'text-green-500' : ''}`}
                   onClick={() => handleCheckboxChange(alimento)}
                 >
                   <strong>{alimento["Descrição do Alimento"]}</strong>
@@ -226,6 +233,7 @@ const AlimentoSearchPage = () => {
         </div>
       )}
 
+
       {selectedAlimentos.length > 0 && (
         <button
           className="fixed top-4 right-4 text-white p-2"
@@ -237,60 +245,93 @@ const AlimentoSearchPage = () => {
       )}
       {isModalOpen && (
         <motion.div
-          className="fixed top-0 right-1 h-screen w-[500px] bg-gray-100 shadow-lg z-10 overflow-y-auto rounded-lg"
+          className="fixed top-0 right-1 h-screen w-[600px] bg-gray-100 shadow-lg z-10 overflow-hidden rounded-lg"
           initial="hidden"
           animate="visible"
           exit="exit"
           variants={modalVariants}
         >
-          <div className="p-6 rounded-lg max-h-[80vh] relative">
-            <button
-              className="absolute top-4 right-4 text-black text-lg hover:text-gray-700"
-              onClick={() => setIsModalOpen(false)}
-            >
-              {"X"}
-            </button>
+          <div className="flex flex-col h-full">
+            <div className="p-6 rounded-lg flex-1 overflow-y-auto">
+              <button
+                className="absolute top-4 right-4 text-black text-lg hover:text-gray-700"
+                onClick={() => setIsModalOpen(false)}
+              >
+                {"X"}
+              </button>
 
-            <h2 className="text-lg font-bold mb-4">Alimentos Selecionados:</h2>
-            <ul className="space-y-2">
-              {selectedAlimentos.map((alimento) => (
-                <li key={alimento._id} className="flex justify-between items-center">
-                  <strong>{alimento["Descrição do Alimento"]}</strong>
-                  <button
-                    className="text-red-500 hover:text-red-700"
-                    onClick={() => handleRemoveAlimento(alimento)}
-                  >
-                    Remover
-                  </button>
-                </li>
-              ))}
-            </ul>
+              <h2 className="text-lg font-bold mb-4">Alimentos Selecionados:</h2>
+              <ul className="space-y-2">
+                {selectedAlimentos.map((alimento) => (
+                  <li key={alimento._id} className="flex justify-between items-center">
+                    <strong>{alimento["Descrição do Alimento"]}</strong>
+                    <button
+                      onClick={() => handleRemoveAlimento(alimento)}
+                    >
+                      <FontAwesomeIcon icon={faTrash} className="h-3 bg-red-500 hover:bg-red-400 text-white p-2 rounded-md" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
 
-            <div className="mt-6 border-t-2 border-b-2 border-black border-opacity-70">
-              <h2 className="text-lg font-bold ">Total de Nutrientes:</h2>
-              <p>Calorias: {somaNutrientes.calorias}</p>
-              <p>Proteínas: {somaNutrientes.proteina}</p>
-              <p>Carboidratos: {somaNutrientes.carboidrato}</p>
-              <p>Magnésio: {somaNutrientes.magnesio}</p>
-              <p>Ferro: {somaNutrientes.ferro}</p>
-              <p>Sódio: {somaNutrientes.sodio}</p>
-              <p>Potássio: {somaNutrientes.potassio}</p>
-              <p>Zinco: {somaNutrientes.zinco}</p>
-              <p>Vitamina C: {somaNutrientes.vitaminaC}</p>
+              <div className="flex flex-row justify-center items-center mt-6 border-t-2 border-b-2 border-black border-opacity-70">
+                <div className="flex flex-col ">
+                  <h2 className="text-lg font-bold">Nutrientes:</h2>
+                  <div className="flex gap-2">
+                    <p className="font-semibold">Calorias:</p>
+                    <p>{somaNutrientes.calorias}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="font-semibold">Proteínas:</p>
+                    <p>{somaNutrientes.proteina}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="font-semibold">Carboidratos:</p>
+                    <p>{somaNutrientes.carboidrato}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="font-semibold">Magnésio:</p>
+                    <p>{somaNutrientes.magnesio}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="font-semibold">Ferro:</p>
+                    <p>{somaNutrientes.ferro}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="font-semibold">Sódio:</p>
+                    <p>{somaNutrientes.sodio}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="font-semibold">Potássio:</p>
+                    <p>{somaNutrientes.potassio}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="font-semibold">Zinco:</p>
+                    <p>{somaNutrientes.zinco}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <p className="font-semibold">Vitamina C:</p>
+                    <p>{somaNutrientes.vitaminaC}</p>
+                  </div>
+                </div>
+
+                <div className="ml-12 p-4 rounded-lg">
+                  <ReactECharts option={chartOptions} style={{ width: 300, height: 300 }} />
+                </div>
+              </div>
             </div>
 
-            <div className="mt-6 p-4 rounded-lg">
-              <h2 className="text-lg font-bold ">Distribuição dos Nutrientes:</h2>
-              <ReactECharts option={chartOptions} style={{ width: 350, height: 250 }} />
-            </div>
-            <div className="flex">
-              <button className="bg-blue-600 hover:bg-blue-500 rounded-lg p-4 text-white justify-center items-center  w-screen mt-12 text-xl">
+            {/* Botão Salvar na parte inferior */}
+            <div className="p-4 bg-gray-100">
+              <button className="bg-blue-600 hover:bg-blue-500 rounded-lg p-4 text-white w-full text-xl">
                 Salvar
               </button>
             </div>
           </div>
         </motion.div>
       )}
+
+
 
       <div className="fixed bottom-0">
         <footer>
