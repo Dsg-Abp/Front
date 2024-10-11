@@ -9,7 +9,7 @@ const NavigationButtons = () => {
   const toggleProfileModal = () => {
     setIsProfileModalOpen(!isProfileModalOpen);
   };
-
+  //
   return (
     <div className="flex gap-4 p-4 justify-center">
       <button
