@@ -43,7 +43,7 @@ const NavigationButtons = () => {
       </button>
 
       {isProfileModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-black">
           <div className="bg-[#212270] p-8 rounded-lg">
             <CardProfile />
             <button

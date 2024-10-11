@@ -6,7 +6,7 @@ import Calendario from "../../components/Calendario";
 import ReactECharts from 'echarts-for-react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faList, faSearch, faTrash, } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, faList, faMinus, faPlus, faSearch, faTrash, } from '@fortawesome/free-solid-svg-icons';
 
 const AlimentoSearchPage = () => {
   const { alimentos, searchAlimentos } = useAlimentoContext();
@@ -14,7 +14,36 @@ const AlimentoSearchPage = () => {
   const [selectedAlimentos, setSelectedAlimentos] = useState<AlimentoDataType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [grams, setGrams] = useState<{ [key: string]: string }>({});
   const ITEMS_PER_PAGE = 10;
+
+  useEffect(() => {
+    const initialGrams: { [key: string]: string } = {};
+    alimentos.forEach(alimento => {
+      initialGrams[alimento._id] = "100g";
+    });
+    setGrams(initialGrams);
+  }, [alimentos]);
+
+  const handleAddGrams = (id: string) => {
+    setGrams((prevGrams) => {
+      const currentGrams = parseInt(prevGrams[id]) || 0;
+      return {
+        ...prevGrams,
+        [id]: `${Math.min(currentGrams + 100, 1000)}g`,
+      };
+    });
+  };
+
+  const handleSubtractGrams = (id: string) => {
+    setGrams((prevGrams) => {
+      const currentGrams = parseInt(prevGrams[id]) || 0;
+      return {
+        ...prevGrams,
+        [id]: `${Math.max(currentGrams - 100, 100)}g`,
+      };
+    });
+  };
 
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -49,6 +78,7 @@ const AlimentoSearchPage = () => {
   const handleSearch = async () => {
     if (descricao) {
       await searchAlimentos(descricao);
+      setCurrentPage(1);
     }
   };
 
@@ -97,6 +127,10 @@ const AlimentoSearchPage = () => {
     setSelectedAlimentos((prevSelected) => {
       return prevSelected.filter((alimento) => alimento !== alimentoToRemove);
     });
+    setGrams((prevGrams) => ({
+      ...prevGrams,
+      [alimentoToRemove._id]: "100g",
+    }));
   };
 
   const somaNutrientes = calcularSomaNutrientes();
@@ -174,29 +208,28 @@ const AlimentoSearchPage = () => {
       <div className="fixed top-0">
         <Calendario />
       </div>
-
-      <h1 className="text-white text-2xl mb-10">Monte sua lista:</h1>
-
-      <div className="flex ml-10 mb-5">
-        <div className="flex justify-center">
-          <input
-            className="w-[300px] border-0 shadow-md shadow-gray-400 rounded-lg p-1"
-            type="text"
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-            placeholder="Digite aqui..."
-          />
+      <div className="flex flex-col justify-start items-center p-2 border-2 w-1/4 h-[465px] border-white shadow-md shadow-gray-500 rounded-md bg-gray-100">
+        <h1 className="text-black text-2xl mb-10">Monte sua lista:</h1>
+        <div className="flex ml-10 mb-5">
+          <div className="flex justify-center">
+            <input
+              className="w-[300px] border-0 shadow-md shadow-gray-400 rounded-lg p-1"
+              type="text"
+              value={descricao}
+              onChange={(e) => setDescricao(e.target.value)}
+              placeholder="Digite aqui..."
+            />
+          </div>
+          <div className="flex">
+            <button
+              className="text-black ml-2 shadow-md shadow-gray-400 rounded-lg"
+              ref={buttonRef}
+              onClick={handleSearch}
+            >
+              <FontAwesomeIcon icon={faSearch} className=" p-2" />
+            </button>
+          </div>
         </div>
-        <div className="flex">
-          <button
-            className="text-white ml-2 shadow-sm"
-            ref={buttonRef}
-            onClick={handleSearch}
-          >
-            <FontAwesomeIcon icon={faSearch} className=" p-2" />
-          </button>
-        </div>
-      </div>
       {alimentos.length > 0 && (
         <div className="flex mt-2 text-black">
           <div className="flex flex-col">
@@ -214,15 +247,15 @@ const AlimentoSearchPage = () => {
 
             <div className="flex justify-center items-center mt-2 gap-4">
               <button
-                className="p-2 font-bold text-white"
+                className="p-2 font-bold text-black"
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               >
                 <FontAwesomeIcon icon={faAngleLeft} />
               </button>
-              <span className="text-white font-bold">{currentPage}/{totalPages}</span>
+              <span className="text-black font-bold">{currentPage}/{totalPages}</span>
               <button
-                className="p-2 font-bold text-white"
+                className="p-2 font-bold text-black"
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               >
@@ -232,8 +265,7 @@ const AlimentoSearchPage = () => {
           </div>
         </div>
       )}
-
-
+      </div>
       {selectedAlimentos.length > 0 && (
         <button
           className="fixed top-4 right-4 text-white p-2"
@@ -241,7 +273,6 @@ const AlimentoSearchPage = () => {
         >
           <FontAwesomeIcon icon={faList} className="h-8" />
         </button>
-
       )}
       {isModalOpen && (
         <motion.div
@@ -265,11 +296,20 @@ const AlimentoSearchPage = () => {
                 {selectedAlimentos.map((alimento) => (
                   <li key={alimento._id} className="flex justify-between items-center">
                     <strong>{alimento["Descrição do Alimento"]}</strong>
-                    <button
-                      onClick={() => handleRemoveAlimento(alimento)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} className="h-3 bg-red-500 hover:bg-red-400 text-white p-2 rounded-md" />
-                    </button>
+                    <div className="flex justify-between gap-2">
+                      <button onClick={() => handleSubtractGrams(alimento._id)} className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8">
+                        <FontAwesomeIcon icon={faMinus} />
+                      </button>
+                      <input type="text" value={grams[alimento._id || 0]} className="text-center rounded-md w-16 border-black border-2 border-opacity-70" />
+                      <button onClick={() => handleAddGrams(alimento._id)} className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8">
+                        <FontAwesomeIcon icon={faPlus} />
+                      </button>
+                      <button
+                        onClick={() => handleRemoveAlimento(alimento)}
+                      >
+                        <FontAwesomeIcon icon={faTrash} className="h-3 bg-red-500 hover:bg-red-400 text-white p-2 rounded-md" />
+                      </button>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -320,7 +360,6 @@ const AlimentoSearchPage = () => {
                 </div>
               </div>
             </div>
-
             {/* Botão Salvar na parte inferior */}
             <div className="p-4 bg-gray-100">
               <button className="bg-blue-600 hover:bg-blue-500 rounded-lg p-4 text-white w-full text-xl">
@@ -330,9 +369,6 @@ const AlimentoSearchPage = () => {
           </div>
         </motion.div>
       )}
-
-
-
       <div className="fixed bottom-0">
         <footer>
           <NavigationButtons />
