@@ -9,7 +9,7 @@ const NavigationButtons = () => {
   const toggleProfileModal = () => {
     setIsProfileModalOpen(!isProfileModalOpen);
   };
-  //
+
   return (
     <div className="flex gap-4 p-4 justify-center">
       <button
@@ -43,7 +43,7 @@ const NavigationButtons = () => {
       </button>
 
       {isProfileModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-black">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white">
           <div className="bg-[#212270] p-8 rounded-lg">
             <CardProfile />
             <button
