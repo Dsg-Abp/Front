@@ -28,8 +28,8 @@ const ProfileModalContent: React.FC = () => {
   };
 
   const handleAlturaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value);
-    setAltura(isNaN(value) ? "" : value);
+    const value = e.target.value.replace(",", ".");
+    setAltura(isNaN(parseFloat(value)) ? "" : parseFloat(value));
   };
 
   useEffect(() => {
