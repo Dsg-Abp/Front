@@ -97,7 +97,7 @@ const ProfileModalContent: React.FC = () => {
             type="text"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
-            className={`p-1 border rounded-md w-full ${
+            className={`p-1 text-black border rounded-md w-full ${
               nomeError ? "border-red-500" : ""
             }`}
           />
@@ -112,7 +112,7 @@ const ProfileModalContent: React.FC = () => {
             type="date"
             value={dataNascimento}
             onChange={(e) => setDataNascimento(e.target.value)}
-            className={`p-1 border rounded-md w-full ${
+            className={`p-1 text-black border rounded-md w-full ${
               dataNascimentoError ? "border-red-500" : ""
             }`}
           />
@@ -125,7 +125,7 @@ const ProfileModalContent: React.FC = () => {
             type="number"
             value={peso}
             onChange={handlePesoChange}
-            className={`p-1 border rounded-md w-full ${
+            className={`p-1 text-black border rounded-md w-full ${
               pesoError ? "border-red-500" : ""
             }`}
             step="0.1"
@@ -138,7 +138,7 @@ const ProfileModalContent: React.FC = () => {
           <select
             value={genero}
             onChange={(e) => setGenero(e.target.value)}
-            className={`p-1 border rounded-md w-full ${
+            className={`p-1 text-black border rounded-md w-full ${
               generoError ? "border-red-500" : ""
             }`}
           >
@@ -155,7 +155,7 @@ const ProfileModalContent: React.FC = () => {
             type="number"
             value={altura}
             onChange={handleAlturaChange}
-            className={`p-1 border rounded-md w-full ${
+            className={`p-1 text-black border rounded-md w-full ${
               alturaError ? "border-red-500" : ""
             }`}
             step="0.01"
@@ -167,7 +167,7 @@ const ProfileModalContent: React.FC = () => {
             type="number"
             value={imc}
             readOnly
-            className="p-1 border rounded-md w-full"
+            className="p-1 text-black border rounded-md w-full"
           />
         </div>
       </div>

@@ -35,7 +35,7 @@ const NavigationButtons = () => {
           localStorage.removeItem("userId");
           localStorage.removeItem("user");
 
-          navigate("/");
+          navigate("/", { replace: true });
         }}
         className="w-16 h-16 bg-gradient-to-r from-red-400 to-red-600 rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-red-500 hover:to-red-700 transition-colors"
       >
@@ -47,7 +47,11 @@ const NavigationButtons = () => {
           <div className="bg-[#212270] p-8 rounded-lg">
             <CardProfile />
             <button
-              onClick={toggleProfileModal}
+              onClick={() => {
+                toggleProfileModal();
+                navigate("/TelaInicial", { replace: true });
+                window.location.reload();
+              }}
               className="bg-gradient-to-r from-[#979996] to-[#000000] p-2 w-auto rounded-lg mt-4 text-white font-bold hover:from-[#808586] hover:to-[#1a1a1a] transition-colors duration-200"
             >
               Fechar
