@@ -4,7 +4,7 @@ import loadingAnimation from "../assets/animacoes/loading.json";
 
 const LoadingSpinner: React.FC = () => {
   return (
-    <div className="flex items-center justify-center h-screen bg-black">
+    <div className="flex items-center justify-center h-screen bg-gray-200">
       <Animação animationData={loadingAnimation} />
     </div>
   );

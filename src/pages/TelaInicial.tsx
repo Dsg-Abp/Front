@@ -44,10 +44,10 @@ export default function TelaInicial() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-custom-bg md:px-40 px-10">
+    <div className="flex flex-col min-h-screen bg-gray-200 md:px-40 px-10">
       <header className="flex flex-col flex-grow items-center w-full">
         <Calendario />
-        <div className="w-full my-4 p-4 bg-gradient-to-r from-[#212270] to-[#6efbe8] text-white rounded-lg flex flex-col py-2 md:flex-row items-center">
+        <div className="w-full my-4 p-4 bg-gradient-to-r from-[#212270] to-[#1550bd] text-white rounded-lg flex flex-col py-2 md:flex-row items-center">
           <div className="flex items-center mr-4 h-32">
             <div className="w-32 h-full bg-lime-200 rounded-lg border-2 border-white flex items-center justify-center">
               {imageSrc ? (
@@ -87,15 +87,15 @@ export default function TelaInicial() {
             </div>
           </div>
           <div className="flex flex-col w-auto py-2">
-            <div className="flex border border-slate-200 p-3 bg-slate-600 rounded-lg h-full flex-1">
+            <div className="flex border border-slate-200 p-3 bg-gray-200 rounded-lg h-full flex-1">
               <div className="flex-1 pt-5">
-                <p className="text-lg font-bold">
+                <p className="text-lg text-blue-900 font-bold">
                   {nome ? nome : "Carregando..."}
                 </p>
-                <h4 className="text-md">
+                <h4 className="text-md text-blue-900">
                   Peso: {peso !== null ? peso : "Carregando..."} kg
                 </h4>
-                <h4 className="text-md">
+                <h4 className="text-md text-blue-900">
                   Altura: {altura !== null ? altura : "Carregando..."} m
                 </h4>
               </div>
@@ -145,7 +145,7 @@ export default function TelaInicial() {
           ].map((item, index) => (
             <div
               key={index}
-              className="rounded-lg bg-gradient-to-r from-[#212270] to-[#6efbe8] flex items-center w-full h-auto justify-between p-6"
+              className="rounded-lg bg-gradient-to-r from-[#212270] to-[#1550bd] flex items-center w-full h-auto justify-between p-6"
             >
               <div className="relative flex flex-col items-center justify-center w-[70px] h-[70px]">
                 <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">

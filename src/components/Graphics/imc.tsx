@@ -35,7 +35,7 @@ export default function ArcDesign() {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="text-blue-900"> Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (imc === null) return <div></div>;
 
@@ -60,14 +60,14 @@ export default function ArcDesign() {
             fill: "#FFFFFF",
           },
           [`& .${gaugeClasses.valueArc}`]: {
-            fill: "#d4600d",
+            fill: "#0d5dd4",
           },
           [`& .${gaugeClasses.referenceArc}`]: {
             fill: theme.palette.text.disabled,
           },
         })}
       />
-      <p className="text-sm font-bold text-slate-100"> {category}</p>
+      <p className="text-sm font-bold text-blue-900"> {category}</p>
     </div>
   );
 }

@@ -3,15 +3,25 @@ import { useAlimentoContext } from "../../contexts/AlimentoContext";
 import { AlimentoDataType } from "../../types/alimentos";
 import NavigationButtons from "../../components/BotãoMenu";
 import Calendario from "../../components/Calendario";
-import ReactECharts from 'echarts-for-react';
-import { findSpring, motion } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faList, faMinus, faPlus, faSearch, faTrash, } from '@fortawesome/free-solid-svg-icons';
+import ReactECharts from "echarts-for-react";
+import { findSpring, motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleLeft,
+  faAngleRight,
+  faList,
+  faMinus,
+  faPlus,
+  faSearch,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 const AlimentoSearchPage = () => {
   const { alimentos, searchAlimentos } = useAlimentoContext();
   const [descricao, setDescricao] = useState("");
-  const [selectedAlimentos, setSelectedAlimentos] = useState<AlimentoDataType[]>([]);
+  const [selectedAlimentos, setSelectedAlimentos] = useState<
+    AlimentoDataType[]
+  >([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 10;
@@ -32,7 +42,7 @@ const AlimentoSearchPage = () => {
 
   useEffect(() => {
     const initialGrams: { [key: string]: string } = {};
-    alimentos.forEach(alimento => {
+    alimentos.forEach((alimento) => {
       initialGrams[alimento._id] = "100g";
     });
     setGrams(initialGrams);
@@ -67,7 +77,10 @@ const AlimentoSearchPage = () => {
 
   const totalPages = Math.ceil(alimentos.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedAlimentos = alimentos.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const paginatedAlimentos = alimentos.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
 
   const handleCheckboxChange = (alimento: AlimentoDataType) => {
     setSelectedAlimentos((prevSelected) => {
@@ -157,64 +170,64 @@ const AlimentoSearchPage = () => {
   const somaNutrientes = calcularSomaNutrientes();
 
   const pieData = [
-    { value: parseFloat(somaNutrientes.calorias), name: 'Calorias' },
-    { value: parseFloat(somaNutrientes.proteina), name: 'Proteínas' },
-    { value: parseFloat(somaNutrientes.carboidrato), name: 'Carboidratos' },
-    { value: parseFloat(somaNutrientes.magnesio), name: 'Magnésio' },
-    { value: parseFloat(somaNutrientes.ferro), name: 'Ferro' },
-    { value: parseFloat(somaNutrientes.sodio), name: 'Sódio' },
-    { value: parseFloat(somaNutrientes.potassio), name: 'Potássio' },
-    { value: parseFloat(somaNutrientes.zinco), name: 'Zinco' },
-    { value: parseFloat(somaNutrientes.vitaminaC), name: 'Vitamina C' },
+    { value: parseFloat(somaNutrientes.calorias), name: "Calorias" },
+    { value: parseFloat(somaNutrientes.proteina), name: "Proteínas" },
+    { value: parseFloat(somaNutrientes.carboidrato), name: "Carboidratos" },
+    { value: parseFloat(somaNutrientes.magnesio), name: "Magnésio" },
+    { value: parseFloat(somaNutrientes.ferro), name: "Ferro" },
+    { value: parseFloat(somaNutrientes.sodio), name: "Sódio" },
+    { value: parseFloat(somaNutrientes.potassio), name: "Potássio" },
+    { value: parseFloat(somaNutrientes.zinco), name: "Zinco" },
+    { value: parseFloat(somaNutrientes.vitaminaC), name: "Vitamina C" },
   ];
 
   const chartOptions = {
     tooltip: {
-      trigger: 'item'
+      trigger: "item",
     },
     legend: {
-      top: 'center',
-      left: 'left',
-      orient: 'vertical',
-      padding: 10
+      top: "center",
+      left: "left",
+      orient: "vertical",
+      padding: 10,
     },
     series: [
       {
-        name: 'Nutrientes',
-        type: 'pie',
-        radius: ['40%', '70%'],
+        name: "Nutrientes",
+        type: "pie",
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 10,
-          borderColor: '#dcfce7',
-          borderWidth: 2
+          borderColor: "#dcfce7",
+          borderWidth: 2,
         },
         label: {
           show: false,
-          position: 'inside'
+          position: "inside",
         },
         emphasis: {
           label: {
             show: true,
             fontSize: 20,
-            fontWeight: 'bold',
-            position: 'inside'
-          }
+            fontWeight: "bold",
+            position: "inside",
+          },
         },
         labelLine: {
-          show: false
+          show: false,
         },
         data: pieData,
-        left: '100px'
-      }
-    ]
+        left: "100px",
+      },
+    ],
   };
 
   useEffect(() => {
     if (isModalOpen) {
-      document.body.style.overflowX = 'hidden';
+      document.body.style.overflowX = "hidden";
     } else {
-      document.body.style.overflowX = 'auto';
+      document.body.style.overflowX = "auto";
     }
   }, [isModalOpen]);
 
@@ -225,7 +238,7 @@ const AlimentoSearchPage = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center bg-custom-bg">
+    <div className="h-screen flex flex-col justify-center items-center bg-gray-200">
       <div className="fixed top-0">
         <Calendario />
       </div>
@@ -258,7 +271,11 @@ const AlimentoSearchPage = () => {
                 {paginatedAlimentos.map((alimento: AlimentoDataType) => (
                   <li
                     key={alimento._id}
-                    className={`hover:text-blue-600 cursor-pointer ${selectedAlimentos.includes(alimento) ? 'text-green-500' : ''}`}
+                    className={`hover:text-blue-600 cursor-pointer ${
+                      selectedAlimentos.includes(alimento)
+                        ? "text-green-500"
+                        : ""
+                    }`}
                     onClick={() => handleCheckboxChange(alimento)}
                   >
                     <strong>{alimento["Descrição do Alimento"]}</strong>
@@ -270,15 +287,21 @@ const AlimentoSearchPage = () => {
                 <button
                   className="p-2 font-bold text-black"
                   disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
                 >
                   <FontAwesomeIcon icon={faAngleLeft} />
                 </button>
-                <span className="text-black font-bold">{currentPage}/{totalPages}</span>
+                <span className="text-black font-bold">
+                  {currentPage}/{totalPages}
+                </span>
                 <button
                   className="p-2 font-bold text-black"
                   disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
                 >
                   <FontAwesomeIcon icon={faAngleRight} />
                 </button>
@@ -312,23 +335,39 @@ const AlimentoSearchPage = () => {
                 {"X"}
               </button>
 
-              <h2 className="text-lg font-bold mb-4">Alimentos Selecionados:</h2>
+              <h2 className="text-lg font-bold mb-4">
+                Alimentos Selecionados:
+              </h2>
               <ul className="space-y-2">
                 {selectedAlimentos.map((alimento) => (
-                  <li key={alimento._id} className="flex justify-between items-center">
+                  <li
+                    key={alimento._id}
+                    className="flex justify-between items-center"
+                  >
                     <strong>{alimento["Descrição do Alimento"]}</strong>
                     <div className="flex justify-between gap-2">
-                      <button onClick={() => handleSubtractGrams(alimento._id)} className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8">
+                      <button
+                        onClick={() => handleSubtractGrams(alimento._id)}
+                        className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8"
+                      >
                         <FontAwesomeIcon icon={faMinus} />
                       </button>
-                      <input type="text" value={grams[alimento._id || 0]} className="text-center rounded-md w-16 border-black border-2 border-opacity-70" />
-                      <button onClick={() => handleAddGrams(alimento._id)} className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8">
+                      <input
+                        type="text"
+                        value={grams[alimento._id || 0]}
+                        className="text-center rounded-md w-16 border-black border-2 border-opacity-70"
+                      />
+                      <button
+                        onClick={() => handleAddGrams(alimento._id)}
+                        className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8"
+                      >
                         <FontAwesomeIcon icon={faPlus} />
                       </button>
-                      <button
-                        onClick={() => handleRemoveAlimento(alimento)}
-                      >
-                        <FontAwesomeIcon icon={faTrash} className="h-3 bg-red-500 hover:bg-red-400 text-white p-2 rounded-md" />
+                      <button onClick={() => handleRemoveAlimento(alimento)}>
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          className="h-3 bg-red-500 hover:bg-red-400 text-white p-2 rounded-md"
+                        />
                       </button>
                     </div>
                   </li>
@@ -377,20 +416,29 @@ const AlimentoSearchPage = () => {
                 </div>
 
                 <div className="ml-12 p-4 rounded-lg">
-                  <ReactECharts option={chartOptions} style={{ width: 300, height: 300 }} />
+                  <ReactECharts
+                    option={chartOptions}
+                    style={{ width: 300, height: 300 }}
+                  />
                 </div>
               </div>
-            <div className="flex flex-col items-center mt-3">
-              <select className="flex justify-center items-start w-3/4 text-md text-center p-2" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
-                <option value="" disabled>Selecione a Refeição</option>
-                <option value="cafeManha">Café da manhã</option>
-                <option value="almoco">Almoço</option>
-                <option value="cafeTarde">Café da tarde</option>
-                <option value="jantar">Jantar</option>
-                <option value="outros">Outros...</option>
-              </select>
-              {selectedOption && <p>Você selecionou: {selectedOption}</p>}
-            </div>
+              <div className="flex flex-col items-center mt-3">
+                <select
+                  className="flex justify-center items-start w-3/4 text-md text-center p-2"
+                  value={selectedOption}
+                  onChange={(e) => setSelectedOption(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Selecione a Refeição
+                  </option>
+                  <option value="cafeManha">Café da manhã</option>
+                  <option value="almoco">Almoço</option>
+                  <option value="cafeTarde">Café da tarde</option>
+                  <option value="jantar">Jantar</option>
+                  <option value="outros">Outros...</option>
+                </select>
+                {selectedOption && <p>Você selecionou: {selectedOption}</p>}
+              </div>
             </div>
             <div className="p-4 bg-gray-100">
               <button className="bg-blue-600 hover:bg-blue-500 rounded-lg p-4 text-white w-full text-xl">
@@ -399,14 +447,13 @@ const AlimentoSearchPage = () => {
             </div>
           </div>
         </motion.div>
-      )
-      }
+      )}
       <div className="fixed bottom-0">
         <footer>
           <NavigationButtons />
         </footer>
       </div>
-    </div >
+    </div>
   );
 };
 
