@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { format, startOfWeek, addDays } from "date-fns";
 import ModalDetalhesDia from "./ModalFuncionalidades/ModalCalendario";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
 interface DiaDaSemana {
   inicial: string;
@@ -19,7 +19,10 @@ const Calendario: React.FC = () => {
   const [semanaOffset, setSemanaOffset] = useState<number>(0); // Estado para controle da semana
 
   const hoje = new Date();
-  const inicioDaSemana = addDays(startOfWeek(hoje, { weekStartsOn: 1 }), semanaOffset * 7);
+  const inicioDaSemana = addDays(
+    startOfWeek(hoje, { weekStartsOn: 1 }),
+    semanaOffset * 7
+  );
 
   const diasSemana: DiaDaSemana[] = Array.from({ length: 7 }).map(
     (_, index) => {
@@ -54,11 +57,8 @@ const Calendario: React.FC = () => {
     <>
       <div className="flex justify-between mb-4 my-7 items-center">
         {/* Botão para semana anterior */}
-        <button
-          className="p-2"
-          onClick={semanaAnterior}
-        >
-           <FontAwesomeIcon icon={faAngleLeft} className="text-white" />
+        <button className="p-2" onClick={semanaAnterior}>
+          <FontAwesomeIcon icon={faAngleLeft} className="text-blue-900" />
         </button>
 
         {/* Dias da semana */}
@@ -71,18 +71,17 @@ const Calendario: React.FC = () => {
               bg-[#212270] rounded-lg text-center text-white"
               onClick={() => abrirModal(item)}
             >
-              <div className="text-lg sm:text-2xl font-bold">{item.inicial}</div>
+              <div className="text-lg sm:text-2xl font-bold">
+                {item.inicial}
+              </div>
               <div className="text-xs sm:text-base">{item.dia}</div>
             </button>
           ))}
         </div>
 
         {/* Botão para próxima semana */}
-        <button
-          className="p-2"
-          onClick={proximaSemana}
-        >
-           <FontAwesomeIcon icon={faAngleRight} className="text-white" />
+        <button className="p-2" onClick={proximaSemana}>
+          <FontAwesomeIcon icon={faAngleRight} className="text-blue-900" />
         </button>
       </div>
 
