@@ -4,7 +4,7 @@ import { AlimentoDataType } from "../../types/alimentos";
 import NavigationButtons from "../../components/BotãoMenu";
 import Calendario from "../../components/Calendario";
 import ReactECharts from 'echarts-for-react';
-import { motion } from 'framer-motion';
+import { findSpring, motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight, faList, faMinus, faPlus, faSearch, faTrash, } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,8 +14,20 @@ const AlimentoSearchPage = () => {
   const [selectedAlimentos, setSelectedAlimentos] = useState<AlimentoDataType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [grams, setGrams] = useState<{ [key: string]: string }>({});
   const ITEMS_PER_PAGE = 10;
+  const [grams, setGrams] = useState<{ [key: string]: string }>({});
+  const [somarNutrientes, setSomarNutrientes] = useState({
+    calorias: "0.00",
+    proteina: "0.00",
+    colesterol: "0.00",
+    carboidrato: "0.00",
+    magnesio: "0.00",
+    ferro: "0.00",
+    sodio: "0.00",
+    potassio: "0.00",
+    zinco: "0.00",
+    vitaminaC: "0.00",
+  });
 
   useEffect(() => {
     const initialGrams: { [key: string]: string } = {};
@@ -24,6 +36,11 @@ const AlimentoSearchPage = () => {
     });
     setGrams(initialGrams);
   }, [alimentos]);
+
+  useEffect(() => {
+  const nutrientesTotais = calcularSomaNutrientes();
+  setSomarNutrientes(nutrientesTotais); 
+}, [grams, selectedAlimentos]);
 
   const handleAddGrams = (id: string) => {
     setGrams((prevGrams) => {
@@ -97,18 +114,21 @@ const AlimentoSearchPage = () => {
     };
 
     selectedAlimentos.forEach((alimento) => {
-      total.calorias += alimento["Energia(kcal)"] || 0;
-      total.proteina += alimento["Proteína(g)"] || 0;
-      total.colesterol += alimento["Colesterol(mg)"] || 0;
-      total.carboidrato += alimento["Carboidrato(g)"] || 0;
-      total.magnesio += alimento["Magnésio(mg)"] || 0;
-      total.ferro += alimento["Ferro(mg)"] || 0;
-      total.sodio += alimento["Sódio(mg)"] || 0;
-      total.potassio += alimento["Potássio(mg)"] || 0;
-      total.zinco += alimento["Zinco(mg)"] || 0;
-      total.vitaminaC += alimento["VitaminaC(mg)"] || 0;
+      const quantidadeGramas = parseInt(grams[alimento._id]) || 100; // Pega a quantidade de gramas
+      const proporcao = quantidadeGramas / 100; // Base de cálculo de 100g
+  
+      total.calorias += (alimento["Energia(kcal)"] || 0) * proporcao;
+      total.proteina += (alimento["Proteína(g)"] || 0) * proporcao;
+      total.colesterol += (alimento["Colesterol(mg)"] || 0) * proporcao;
+      total.carboidrato += (alimento["Carboidrato(g)"] || 0) * proporcao;
+      total.magnesio += (alimento["Magnésio(mg)"] || 0) * proporcao;
+      total.ferro += (alimento["Ferro(mg)"] || 0) * proporcao;
+      total.sodio += (alimento["Sódio(mg)"] || 0) * proporcao;
+      total.potassio += (alimento["Potássio(mg)"] || 0) * proporcao;
+      total.zinco += (alimento["Zinco(mg)"] || 0) * proporcao;
+      total.vitaminaC += (alimento["VitaminaC(mg)"] || 0) * proporcao;
     });
-
+  
     return {
       calorias: total.calorias.toFixed(2),
       proteina: total.proteina.toFixed(2),
