@@ -16,6 +16,7 @@ const AlimentoSearchPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 10;
   const [grams, setGrams] = useState<{ [key: string]: string }>({});
+  const [selectedOption, setSelectedOption] = useState("");
   const [somarNutrientes, setSomarNutrientes] = useState({
     calorias: "0.00",
     proteina: "0.00",
@@ -38,9 +39,9 @@ const AlimentoSearchPage = () => {
   }, [alimentos]);
 
   useEffect(() => {
-  const nutrientesTotais = calcularSomaNutrientes();
-  setSomarNutrientes(nutrientesTotais); 
-}, [grams, selectedAlimentos]);
+    const nutrientesTotais = calcularSomaNutrientes();
+    setSomarNutrientes(nutrientesTotais);
+  }, [grams, selectedAlimentos]);
 
   const handleAddGrams = (id: string) => {
     setGrams((prevGrams) => {
@@ -116,7 +117,7 @@ const AlimentoSearchPage = () => {
     selectedAlimentos.forEach((alimento) => {
       const quantidadeGramas = parseInt(grams[alimento._id]) || 100; // Pega a quantidade de gramas
       const proporcao = quantidadeGramas / 100; // Base de cálculo de 100g
-  
+
       total.calorias += (alimento["Energia(kcal)"] || 0) * proporcao;
       total.proteina += (alimento["Proteína(g)"] || 0) * proporcao;
       total.colesterol += (alimento["Colesterol(mg)"] || 0) * proporcao;
@@ -128,7 +129,7 @@ const AlimentoSearchPage = () => {
       total.zinco += (alimento["Zinco(mg)"] || 0) * proporcao;
       total.vitaminaC += (alimento["VitaminaC(mg)"] || 0) * proporcao;
     });
-  
+
     return {
       calorias: total.calorias.toFixed(2),
       proteina: total.proteina.toFixed(2),
@@ -250,41 +251,41 @@ const AlimentoSearchPage = () => {
             </button>
           </div>
         </div>
-      {alimentos.length > 0 && (
-        <div className="flex mt-2 text-black">
-          <div className="flex flex-col">
-            <ul className="flex flex-col text-black p-2 rounded-md h-[260px] w-[300px] bg-gray-100 max-h-96 overflow-y-auto justify-between shadow-md shadow-gray-400">
-              {paginatedAlimentos.map((alimento: AlimentoDataType) => (
-                <li
-                  key={alimento._id}
-                  className={`hover:text-blue-600 cursor-pointer ${selectedAlimentos.includes(alimento) ? 'text-green-500' : ''}`}
-                  onClick={() => handleCheckboxChange(alimento)}
-                >
-                  <strong>{alimento["Descrição do Alimento"]}</strong>
-                </li>
-              ))}
-            </ul>
+        {alimentos.length > 0 && (
+          <div className="flex mt-2 text-black">
+            <div className="flex flex-col">
+              <ul className="flex flex-col text-black p-2 rounded-md h-[260px] w-[300px] bg-gray-100 max-h-96 overflow-y-auto justify-between shadow-md shadow-gray-400">
+                {paginatedAlimentos.map((alimento: AlimentoDataType) => (
+                  <li
+                    key={alimento._id}
+                    className={`hover:text-blue-600 cursor-pointer ${selectedAlimentos.includes(alimento) ? 'text-green-500' : ''}`}
+                    onClick={() => handleCheckboxChange(alimento)}
+                  >
+                    <strong>{alimento["Descrição do Alimento"]}</strong>
+                  </li>
+                ))}
+              </ul>
 
-            <div className="flex justify-center items-center mt-2 gap-4">
-              <button
-                className="p-2 font-bold text-black"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              >
-                <FontAwesomeIcon icon={faAngleLeft} />
-              </button>
-              <span className="text-black font-bold">{currentPage}/{totalPages}</span>
-              <button
-                className="p-2 font-bold text-black"
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              >
-                <FontAwesomeIcon icon={faAngleRight} />
-              </button>
+              <div className="flex justify-center items-center mt-2 gap-4">
+                <button
+                  className="p-2 font-bold text-black"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                >
+                  <FontAwesomeIcon icon={faAngleLeft} />
+                </button>
+                <span className="text-black font-bold">{currentPage}/{totalPages}</span>
+                <button
+                  className="p-2 font-bold text-black"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                >
+                  <FontAwesomeIcon icon={faAngleRight} />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
       {selectedAlimentos.length > 0 && (
         <button
@@ -379,8 +380,18 @@ const AlimentoSearchPage = () => {
                   <ReactECharts option={chartOptions} style={{ width: 300, height: 300 }} />
                 </div>
               </div>
+            <div className="flex flex-col items-center mt-3">
+              <select className="flex justify-center items-start w-3/4 text-md text-center p-2" value={selectedOption} onChange={(e) => setSelectedOption(e.target.value)}>
+                <option value="" disabled>Selecione a Refeição</option>
+                <option value="cafeManha">Café da manhã</option>
+                <option value="almoco">Almoço</option>
+                <option value="cafeTarde">Café da tarde</option>
+                <option value="jantar">Jantar</option>
+                <option value="outros">Outros...</option>
+              </select>
+              {selectedOption && <p>Você selecionou: {selectedOption}</p>}
             </div>
-            {/* Botão Salvar na parte inferior */}
+            </div>
             <div className="p-4 bg-gray-100">
               <button className="bg-blue-600 hover:bg-blue-500 rounded-lg p-4 text-white w-full text-xl">
                 Salvar
@@ -388,13 +399,14 @@ const AlimentoSearchPage = () => {
             </div>
           </div>
         </motion.div>
-      )}
+      )
+      }
       <div className="fixed bottom-0">
         <footer>
           <NavigationButtons />
         </footer>
       </div>
-    </div>
+    </div >
   );
 };
 
