@@ -142,9 +142,9 @@ const ProfileModalContent: React.FC = () => {
               generoError ? "border-red-500" : ""
             }`}
           >
-            <option value="X">Selecione o Gênero</option>
-            <option value="Y">Masculino</option>
-            <option value="Z">Feminino</option>
+            <option value="X">Outro</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
           </select>
         </div>
         <div>
