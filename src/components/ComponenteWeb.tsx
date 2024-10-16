@@ -49,7 +49,6 @@ const WebcamCapture: React.FC = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    window.location.reload();
   };
 
   return (

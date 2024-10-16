@@ -28,19 +28,14 @@ const NavigationButtons = () => {
           className="w-8 h-8"
         />
       </button>
-      <button
-        onClick={() => navigate("/graficos")}
-        className="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-green-500 hover:to-green-700 transition-colors"
-      >
-        <img src="/imagens/graphic.svg" alt="Gráficos" className="w-8 h-8" />
-      </button>
+
       <button
         onClick={() => {
           localStorage.removeItem("token");
           localStorage.removeItem("userId");
           localStorage.removeItem("user");
 
-          navigate("/");
+          navigate("/", { replace: true });
         }}
         className="w-16 h-16 bg-gradient-to-r from-red-400 to-red-600 rounded-full flex items-center justify-center hover:bg-gradient-to-r hover:from-red-500 hover:to-red-700 transition-colors"
       >
@@ -48,11 +43,15 @@ const NavigationButtons = () => {
       </button>
 
       {isProfileModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-gradient-to-r from-yellow-200 to-yellow-400 p-8 rounded-lg">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white">
+          <div className="bg-[#212270] p-8 rounded-lg">
             <CardProfile />
             <button
-              onClick={toggleProfileModal}
+              onClick={() => {
+                toggleProfileModal();
+                navigate("/TelaInicial", { replace: true });
+                window.location.reload();
+              }}
               className="bg-gradient-to-r from-[#979996] to-[#000000] p-2 w-auto rounded-lg mt-4 text-white font-bold hover:from-[#808586] hover:to-[#1a1a1a] transition-colors duration-200"
             >
               Fechar

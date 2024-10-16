@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         "custom-bg": "rgba(16, 30, 30,1)",
+        "custom-white": "#D1D1D1",
       },
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
