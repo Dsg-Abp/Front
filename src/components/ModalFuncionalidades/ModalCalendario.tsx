@@ -34,7 +34,7 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
             const isSameDay = selectedDay[0] === itemDay && selectedDay[1] === itemMonth;
             const isSameUser = item.email?.user === userId;
 
-            console.log("Comparando:", itemDay, itemMonth, selectedDay, isSameDay);
+           // console.log("Comparando:", itemDay, itemMonth, selectedDay, isSameDay);
 
             return isSameUser && isSameDay;
           });
@@ -43,7 +43,7 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
           setDados(filteredData);
 
           // Log para depuração: verifique os dados filtrados
-          console.log("Dados filtrados:", filteredData);
+         // console.log("Dados filtrados:", filteredData);
 
           const total = filteredData.reduce((acc: number, item: any) => {
             return acc + (item.email.somewater || 0);
@@ -52,10 +52,10 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
           setTotalWater(total); // Armazena o total no estado
 
           // Log para depuração: verificar o total de água somado
-          console.log("Total de água consumida:", total);
+          //console.log("Total de água consumida:", total);
         })
         .catch((error) => {
-          console.error("Erro ao buscar dados:", error);
+          //console.error("Erro ao buscar dados:", error);
         });
     }
   }, [diaSelecionado]);

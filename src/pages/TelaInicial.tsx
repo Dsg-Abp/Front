@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import ArcDesign from "../components/Graphics/imc";
+import { useWater } from "../contexts/WaterContext"; 
 
 export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +18,8 @@ export default function TelaInicial() {
   const [altura, setAltura] = useState<number | null>(null);
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  const { totalWater } = useWater(); 
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -107,8 +110,7 @@ export default function TelaInicial() {
         </div>
 
         <div className="grid grid-cols-1 gap-2 lg:gap-x-32 w-full">
-          {[
-            {
+          {[{
               data: caloriasJson,
               title: "Calorias",
               buttons: [
@@ -155,6 +157,11 @@ export default function TelaInicial() {
               <h2 className="font-bold text-[20px] mx-2 text-white mt-2 text-center">
                 {item.title}
               </h2>
+              {item.title === "Água" && (
+                <h4 className="text-md text-white mt-2">
+                  Total consumido hoje: {totalWater} ml
+                </h4>
+              )}
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
             </div>
           ))}
