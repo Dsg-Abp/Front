@@ -63,8 +63,7 @@ const ArcDesignAgua: React.FC = () => {
           },
         })}
       />
-      <p className="text-sm font-bold text-blue-900">Água Necessária: {aguaNecessaria} ml</p>
-      <p className="text-sm font-bold text-blue-900">Total Ingerido: {totalWater} ml</p>
+   
     </div>
   );
 };

@@ -9,8 +9,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import ArcDesign from "../components/Graphics/imc";
-import { useWater } from "../contexts/WaterContext"; 
+import { useWater } from "../contexts/WaterContext";
 import ArcDesignAgua from "../components/Graphics/agua";
+import ArcDesignGCB from "../components/Graphics/calorias";
 
 export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);
@@ -21,7 +22,6 @@ export default function TelaInicial() {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
   const { totalWater, handleAguaMais, handleAguaMenos } = useWater(); // Obtendo as funções do contexto
-
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -105,7 +105,7 @@ export default function TelaInicial() {
                 </h4>
               </div>
               <div className="flex items-center justify-center ml-4">
-                <ArcDesign /> <ArcDesignAgua />
+                <div className="flex"> <ArcDesign /></div>
               </div>
             </div>
           </div>
@@ -113,41 +113,50 @@ export default function TelaInicial() {
 
         <div className="grid grid-cols-1 gap-2 lg:gap-x-32 w-full">
           {[{
-              data: caloriasJson,
-              title: "Calorias",
-              buttons: [
-                {
-                  id: "calorias-escolha",
-                  iconSrc: "/imagens/escolha.svg",
-                  altText: "Button Icon 3",
-                  onClick: () => handleBack(),
-                },
-              ],
-            },
-            {
-              data: aguaJson,
-              title: "Água",
-              buttons: [
-                {
-                  id: "agua-menos",
-                  iconSrc: "/imagens/menos.svg",
-                  altText: "Button Icon 4",
-                  onClick: handleAguaMenos, // Adicione o manipulador de clique
-                },
-                {
-                  id: "agua-mais",
-                  iconSrc: "/imagens/mais.svg",
-                  altText: "Button Icon 5",
-                  onClick: handleAguaMais, // Adicione o manipulador de clique
-                },
-                {
-                  id: "agua-escolha",
-                  iconSrc: "/imagens/escolha.svg",
-                  altText: "Button Icon 6",
-                  onClick: () => setShowModal(true),
-                },
-              ],
-            },
+            data: caloriasJson,
+            title: (
+              <div className="flex items-center">
+                <h2 className="font-bold text-[20px] text-white mt-2 text-center">
+                  Calorias
+                </h2>
+                <div className="ml-2 flex"> 
+                  <ArcDesignGCB />
+                </div>
+              </div>
+            ),
+            buttons: [
+              {
+                id: "calorias-escolha",
+                iconSrc: "/imagens/escolha.svg",
+                altText: "Button Icon 3",
+                onClick: () => handleBack(),
+              },
+            ],
+          },
+          {
+            data: aguaJson,
+            title: "Água",
+            buttons: [
+              {
+                id: "agua-menos",
+                iconSrc: "/imagens/menos.svg",
+                altText: "Button Icon 4",
+                onClick: handleAguaMenos, // Adicione o manipulador de clique
+              },
+              {
+                id: "agua-mais",
+                iconSrc: "/imagens/mais.svg",
+                altText: "Button Icon 5",
+                onClick: handleAguaMais, // Adicione o manipulador de clique
+              },
+              {
+                id: "agua-escolha",
+                iconSrc: "/imagens/escolha.svg",
+                altText: "Button Icon 6",
+                onClick: () => setShowModal(true),
+              },
+            ],
+          },
           ].map((item, index) => (
             <div
               key={index}
@@ -158,11 +167,10 @@ export default function TelaInicial() {
                   <Animação animationData={item.data} />
                 </div>
               </div>
-              <h2 className="font-bold text-[20px] mx-2 text-white mt-2 text-center">
-                {item.title}
-              </h2>
+              {item.title}
               {item.title === "Água" && (
                 <h4 className="text-md text-white mt-2">
+                  <div className="flex"> <ArcDesignAgua /></div>
                   Total consumido hoje: {totalWater} ml
                 </h4>
               )}

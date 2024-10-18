@@ -1,40 +1,36 @@
-// formula para calcular o gasto calorico basal
-
-//homens:
-//GBC = (10 X PESO) + (6.25 X ALTURA) - (5 X IDADE) + 5;
-
-//mulheres:
-//GBC = (10 X PESO) + (6.25 X ALTURA) - (5 X IDADE) - 161
-
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import { useEffect, useState } from "react";
-import api from "../../services/api";
+import api from "../../services/api"; // Certifique-se de que o caminho do serviço de API esteja correto
 
-const getIMCCategory = (imc: number) => {
-  if (imc < 18.5) return "Abaixo do peso";
-  if (imc >= 18.5 && imc < 25) return "Peso normal";
-  if (imc >= 25 && imc < 30) return "Sobrepeso";
-  if (imc >= 30 && imc < 35) return "Obesidade grau 1";
-  if (imc >= 35 && imc < 40) return "Obesidade grau 2";
-  return "Obesidade grau 3";
-};
-
-export default function ArcDesign() {
-  const [imc, setImc] = useState<number | null>(null);
-  const [loading, setLoading] = useState(true);
+const ArcDesignGCB: React.FC = () => {
+  const [gcb, setGcb] = useState<number | null>(null);
+  const [_imc, setImc] = useState<number | null>(null);
+  const [altura, setAltura] = useState<number | null>(null);
+  const [idade, setIdade] = useState<number | null>(null);
+  const [genero, setGenero] = useState<string | null>(null);
+  const [peso, setPeso] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userId = localStorage.getItem("userId");
-        const response = await api.get(`profile/${userId}`);
+        const userId = localStorage.getItem("userId"); // Obtém o userId do localStorage
+        if (!userId) throw new Error("User ID não encontrado");
 
-        const imcValue = response.data.profile.imc;
-        setImc(Number(imcValue));
+        const response = await api.get(`Profile/${userId}`);
+        const { peso, altura, genero, dataNascimento, imc } = response.data.profile;
+
+        const idadeValue = new Date().getFullYear() - new Date(dataNascimento).getFullYear();
+
+        setPeso(peso);
+        setGenero(genero);
+        setImc(imc);
+        setAltura(altura);
+        setIdade(idadeValue);
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
-        setError("Erro ao buscar IMC. Tente novamente.");
+        setError("Erro ao buscar os dados. Tente novamente.");
       } finally {
         setLoading(false);
       }
@@ -43,19 +39,38 @@ export default function ArcDesign() {
     fetchData();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  // Função para calcular o GCB
+  const calcularGCB = (genero: string, peso: number, altura: number, idade: number): number => {
+    if (genero.toLowerCase() === 'y') { // "y" para homens
+      return (10 * peso) + (6.25 * altura * 100) - (5 * idade) + 5;
+    } else if (genero.toLowerCase() === 'x') { // "x" para mulheres
+      return (10 * peso) + (6.25 * altura * 100) - (5 * idade) - 161;
+    }
+    return 0; // Valor padrão se o gênero não for válido
+  };
+
+  // Calcular o GCB após obter os dados
+  useEffect(() => {
+    if (peso !== null && altura !== null && idade !== null && genero !== null) {
+      const calculatedGcb = calcularGCB(genero, peso, altura, idade);
+      setGcb(calculatedGcb);
+    }
+  }, [peso, altura, idade, genero]);
+
+  if (loading) return <div className="text-blue-900">Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (imc === null) return <div></div>;
+  if (gcb === null || altura === null) return <div></div>;
+
+  // Definir o valor máximo do GCB com base no gênero
+  const maxGCB = genero?.toLowerCase() === 'y' ? 3000 : 2500; // Ajuste o valor máximo conforme o gênero
 
   const settings = {
     width: 120,
     height: 120,
-    value: imc,
+    value: gcb, // Use o GCB calculado como valor do gráfico
     min: 0,
-    max: 50,
+    max: maxGCB, // Máximo definido com base no gênero
   };
-
-  const category = getIMCCategory(imc);
 
   return (
     <div className="flex flex-col items-center">
@@ -75,7 +90,9 @@ export default function ArcDesign() {
           },
         })}
       />
-      <p className="text-sm font-bold text-slate-100"> {category}</p>
+     
     </div>
   );
-}
+};
+
+export default ArcDesignGCB;

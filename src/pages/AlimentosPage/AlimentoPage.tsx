@@ -4,17 +4,9 @@ import { AlimentoDataType } from "../../types/alimentos";
 import NavigationButtons from "../../components/BotãoMenu";
 import Calendario from "../../components/Calendario";
 import ReactECharts from "echarts-for-react";
-import { findSpring, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faAngleLeft,
-  faAngleRight,
-  faList,
-  faMinus,
-  faPlus,
-  faSearch,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight, faList, faMinus, faPlus, faSearch, faTrash, } from "@fortawesome/free-solid-svg-icons";
 
 const AlimentoSearchPage = () => {
   const { alimentos, searchAlimentos } = useAlimentoContext();
@@ -27,7 +19,7 @@ const AlimentoSearchPage = () => {
   const ITEMS_PER_PAGE = 10;
   const [grams, setGrams] = useState<{ [key: string]: string }>({});
   const [selectedOption, setSelectedOption] = useState("");
-  const [somarNutrientes, setSomarNutrientes] = useState({
+  const [_somarNutrientes, setSomarNutrientes] = useState({
     calorias: "0.00",
     proteina: "0.00",
     colesterol: "0.00",
