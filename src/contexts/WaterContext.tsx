@@ -6,6 +6,8 @@ import { WaterDataItem, ApiResponse } from "../types/agua";
 interface WaterContextType {
   totalWater: number;
   loadTotalWater: (date?: string) => void;
+  handleAguaMais: () => void; // Adicionando a função ao contexto
+  handleAguaMenos: () => void; // Adicionando a função ao contexto
 }
 
 const WaterContext = createContext<WaterContextType | undefined>(undefined);
@@ -43,12 +45,20 @@ export const WaterProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
+  const handleAguaMais = () => {
+    console.log("clicou no botão água-mais");
+  };
+
+  const handleAguaMenos = () => {
+    console.log("clicou no botão água-menos");
+  };
+
   useEffect(() => {
     loadTotalWater();
   }, []);
 
   return (
-    <WaterContext.Provider value={{ totalWater, loadTotalWater }}>
+    <WaterContext.Provider value={{ totalWater, loadTotalWater, handleAguaMais, handleAguaMenos }}>
       {children}
     </WaterContext.Provider>
   );
