@@ -1,45 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
-import api from "../../services/api"; // Certifique-se de ajustar o caminho do serviço de API
+import api from "../../services/api"; 
+import { useWater } from "../../contexts/WaterContext"; // Importando o contexto
 
 interface ModalEscolhaProps {
   onClose: () => void;
 }
 
 const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
+  const { setQuantidadeSelecionada } = useWater(); // Obtendo a função do contexto
   const [escolha, setEscolha] = useState("copo");
   const [quantidade, setQuantidade] = useState<number>(50); // Inicia com 50 ml para "copo"
+
+  useEffect(() => {
+    setQuantidadeSelecionada(quantidade); // Atualiza a quantidade selecionada ao abrir o modal
+  }, [quantidade, setQuantidadeSelecionada]);
 
   const handleEscolhaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const novaEscolha = event.target.value;
     setEscolha(novaEscolha);
 
-    // Define a quantidade inicial para cada tipo
     if (novaEscolha === "copo") {
-      setQuantidade(50); // Valor inicial de copo
+      setQuantidade(50);
     } else if (novaEscolha === "garrafa") {
-      setQuantidade(300); // Valor inicial de garrafa
+      setQuantidade(300);
     }
   };
 
   const handleQuantidadeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setQuantidade(parseInt(event.target.value, 10));
+    const newQuantidade = parseInt(event.target.value, 10);
+    setQuantidade(newQuantidade);
   };
 
   const enviarDados = async () => {
     try {
       const userId = localStorage.getItem("userId");
-
-      // Obtém a data de hoje e formata como DDMMYYYY (ex: 27092024)
-      const dataAtual = Number(
-        new Date().toLocaleDateString("pt-BR").replace(/\//g, "")
-      );
-
-      // Monta o payload sem o uso de $numberInt
+      const dataAtual = Number(new Date().toLocaleDateString("pt-BR").replace(/\//g, ""));
       const payload = {
         user: userId,
-        date: dataAtual, // Envia a data como número simples
-        somewater: quantidade, // Envia a quantidade como número simples
+        date: dataAtual,
+        somewater: quantidade,
       };
 
       const response = await api.post("/insert", payload);

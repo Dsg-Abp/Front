@@ -5,15 +5,18 @@ import { WaterDataItem, ApiResponse } from "../types/agua";
 // Definindo a interface para o contexto
 interface WaterContextType {
   totalWater: number;
+  quantidadeSelecionada: number; // Adicionando a quantidade selecionada
   loadTotalWater: (date?: string) => void;
-  handleAguaMais: () => void; // Adicionando a função ao contexto
-  handleAguaMenos: () => void; // Adicionando a função ao contexto
+  handleAguaMais: () => void;
+  handleAguaMenos: () => void;
+  setQuantidadeSelecionada: (quantidade: number) => void; // Função para atualizar a quantidade selecionada
 }
 
 const WaterContext = createContext<WaterContextType | undefined>(undefined);
 
 export const WaterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [totalWater, setTotalWater] = useState<number>(0);
+  const [quantidadeSelecionada, setQuantidadeSelecionada] = useState<number>(0); // Estado para a quantidade selecionada
 
   const loadTotalWater = (date?: string) => {
     const userId = localStorage.getItem("userId");
@@ -46,19 +49,29 @@ export const WaterProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const handleAguaMais = () => {
-    console.log("clicou no botão água-mais");
-  };
+    setTotalWater(prevTotal => prevTotal + quantidadeSelecionada);
+    console.log(`Adicionado ${quantidadeSelecionada} ml. Total agora: ${totalWater + quantidadeSelecionada} ml`);
+};
 
-  const handleAguaMenos = () => {
-    console.log("clicou no botão água-menos");
-  };
+const handleAguaMenos = () => {
+    setTotalWater(prevTotal => Math.max(prevTotal - quantidadeSelecionada, 0)); // Não deixar total negativo
+    console.log(`Subtraído ${quantidadeSelecionada} ml. Total agora: ${Math.max(totalWater - quantidadeSelecionada, 0)} ml`);
+};
+
 
   useEffect(() => {
     loadTotalWater();
   }, []);
 
   return (
-    <WaterContext.Provider value={{ totalWater, loadTotalWater, handleAguaMais, handleAguaMenos }}>
+    <WaterContext.Provider value={{ 
+      totalWater, 
+      quantidadeSelecionada, 
+      loadTotalWater, 
+      handleAguaMais, 
+      handleAguaMenos, 
+      setQuantidadeSelecionada // Passando a função para o contexto
+    }}>
       {children}
     </WaterContext.Provider>
   );
