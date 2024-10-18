@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import ArcDesign from "../components/Graphics/imc";
 import { useWater } from "../contexts/WaterContext"; 
+import ArcDesignAgua from "../components/Graphics/agua";
 
 export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);
@@ -104,7 +105,7 @@ export default function TelaInicial() {
                 </h4>
               </div>
               <div className="flex items-center justify-center ml-4">
-                <ArcDesign />
+                <ArcDesign /> <ArcDesignAgua />
               </div>
             </div>
           </div>
