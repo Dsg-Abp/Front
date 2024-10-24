@@ -36,7 +36,8 @@ const ArcDesignAgua: React.FC = () => {
   if (peso === null) return <div></div>;
 
   const aguaNecessaria = peso * 35; // Quantidade de água necessária por dia em ml
-  const percentualConsumido = (totalWater / aguaNecessaria) * 100; // Cálculo do percentual
+  const percentualConsumido = Math.floor((totalWater / aguaNecessaria) * 100); // Arredondando para o valor inteiro
+
 
   // Configurações do gráfico ajustadas para o valor em porcentagem
   const settings = {
