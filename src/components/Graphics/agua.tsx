@@ -18,7 +18,6 @@ const ArcDesignAgua: React.FC = () => {
         }
 
         const response = await api.get(`profile/${userId}`);
-
         const pesoValue: number = response.data.profile.peso; // Supondo que o peso está neste endpoint
         setPeso(pesoValue);
       } catch (error) {
@@ -37,12 +36,15 @@ const ArcDesignAgua: React.FC = () => {
   if (peso === null) return <div></div>;
 
   const aguaNecessaria = peso * 35; // Quantidade de água necessária por dia em ml
+  const percentualConsumido = (totalWater / aguaNecessaria) * 100; // Cálculo do percentual
+
+  // Configurações do gráfico ajustadas para o valor em porcentagem
   const settings = {
     width: 120,
     height: 120,
-    value: totalWater, // Use o total de água ingerida como valor do gráfico
+    value: percentualConsumido, // Percentual de água consumida
     min: 0,
-    max: aguaNecessaria, // Máximo baseado na quantidade necessária
+    max: 100, // Trabalhar com porcentagem
   };
 
   return (
@@ -57,13 +59,21 @@ const ArcDesignAgua: React.FC = () => {
           },
           [`& .${gaugeClasses.valueArc}`]: {
             fill: "#0d5dd4",
+            transition: "stroke-dashoffset 1s ease-in-out", // Suavizar animação
           },
           [`& .${gaugeClasses.referenceArc}`]: {
             fill: theme.palette.text.disabled,
+            transition: "stroke-dashoffset 1s ease-in-out", // Animação também no arco de referência
           },
         })}
       />
-   
+      {/* 
+      <div>
+        <p>Total consumido: {totalWater} ml</p>
+        <p>Água necessária: {aguaNecessaria} ml</p>
+        <p>Percentual consumido: {percentualConsumido.toFixed(2)}%</p>
+      </div>
+      */}
     </div>
   );
 };
