@@ -119,7 +119,7 @@ export default function TelaInicial() {
                 <h2 className="font-bold text-[20px] text-white mt-2 text-center">
                   Calorias
                 </h2>
-                <div className="ml-2 flex"> 
+                <div className="ml-2 flex h-20  "> 
                   <ArcDesignGCB />
                 </div>
               </div>
