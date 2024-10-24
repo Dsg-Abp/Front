@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
-import api from "../../services/api"; 
+import api from "../../services/api";
 import { useWater } from "../../contexts/WaterContext"; // Importando o contexto
 
 interface ModalEscolhaProps {
@@ -11,9 +11,10 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
   const { setQuantidadeSelecionada } = useWater(); // Obtendo a função do contexto
   const [escolha, setEscolha] = useState("copo");
   const [quantidade, setQuantidade] = useState<number>(50); // Inicia com 50 ml para "copo"
+  const [resposta, setResposta] = useState<string | null>(null); // Estado para armazenar a resposta
 
   useEffect(() => {
-    setQuantidadeSelecionada(quantidade); // Atualiza a quantidade selecionada ao abrir o modal
+    setQuantidadeSelecionada(quantidade);
   }, [quantidade, setQuantidadeSelecionada]);
 
   const handleEscolhaChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -27,7 +28,9 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
     }
   };
 
-  const handleQuantidadeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleQuantidadeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const newQuantidade = parseInt(event.target.value, 10);
     setQuantidade(newQuantidade);
   };
@@ -35,7 +38,9 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
   const enviarDados = async () => {
     try {
       const userId = localStorage.getItem("userId");
-      const dataAtual = Number(new Date().toLocaleDateString("pt-BR").replace(/\//g, ""));
+      const dataAtual = Number(
+        new Date().toLocaleDateString("pt-BR").replace(/\//g, "")
+      );
       const payload = {
         user: userId,
         date: dataAtual,
@@ -44,15 +49,19 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
 
       const response = await api.post("/insert", payload);
       console.log("Dados enviados com sucesso:", response.data);
+      setResposta(
+        response.data.message || "Quantidade atualizada com sucesso!"
+      );
     } catch (error) {
       console.error("Erro ao enviar dados:", error);
+      setResposta("Erro ao enviar dados.");
     }
   };
 
   return (
     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center">
-      <div className="bg-gradient-to-r from-[#a8f748] to-[#05fa29] p-6 rounded-lg shadow-lg">
-        <h2 className="text-xl font-bold mb-4 text-black">
+      <div className="bg-gradient-to-r bg-blue-900 p-6 rounded-lg shadow-lg">
+        <h2 className="text-xl font-bold mb-4 text-white">
           Escolha entre copo e garrafa
         </h2>
         <select
@@ -105,15 +114,22 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
           />
         </div>
 
+        {resposta && (
+          <div className="mb-4 font-bold text-white">
+            <p>{resposta}</p>
+          </div>
+        )}
+
         <button
           onClick={enviarDados}
           className="w-full py-2 bg-gradient-to-r from-[#979996] to-[#000000] text-white rounded-lg hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors"
         >
           Enviar e Fechar
         </button>
-
         <button
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+          }}
           className="w-full py-2 bg-gradient-to-r from-[#979996] to-[#000000] text-white rounded-lg hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors mt-2"
         >
           Fechar

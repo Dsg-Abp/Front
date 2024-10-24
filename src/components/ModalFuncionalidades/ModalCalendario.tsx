@@ -10,7 +10,6 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
   diaSelecionado,
   fecharModal,
 }) => {
-
   const [dados, setDados] = useState<any[]>([]);
 
   const [totalWater, setTotalWater] = useState<number>(0);
@@ -22,7 +21,6 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
       api
         .get("/teste")
         .then((response) => {
-
           const filteredData = response.data.findResult.filter((item: any) => {
             // Extraindo o dia e o mês do diaSelecionado e do item.date
             const selectedDay = diaSelecionado.dia.split("/").map(Number); // [dia, mês]
@@ -31,19 +29,19 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
             const itemMonth = parseInt(itemDate.slice(2, 4)); // Pegando o mês do item
 
             // Comparando dia e mês com o dia selecionado
-            const isSameDay = selectedDay[0] === itemDay && selectedDay[1] === itemMonth;
+            const isSameDay =
+              selectedDay[0] === itemDay && selectedDay[1] === itemMonth;
             const isSameUser = item.email?.user === userId;
 
-           // console.log("Comparando:", itemDay, itemMonth, selectedDay, isSameDay);
+            // console.log("Comparando:", itemDay, itemMonth, selectedDay, isSameDay);
 
             return isSameUser && isSameDay;
           });
 
-
           setDados(filteredData);
 
           // Log para depuração: verifique os dados filtrados
-         // console.log("Dados filtrados:", filteredData);
+          // console.log("Dados filtrados:", filteredData);
 
           const total = filteredData.reduce((acc: number, item: any) => {
             return acc + (item.email.somewater || 0);
@@ -80,7 +78,7 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
 
         <button
           onClick={fecharModal}
-          className="bg-gradient-to-r from-[#979996] to-[#e41c09] hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors text-white p-2 rounded mt-4"
+          className="bg-gradient-to-r from-[#979996] to-[#000000] hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors text-white p-2 rounded mt-4"
         >
           Fechar
         </button>
