@@ -5,13 +5,14 @@ import NavigationButtons from "../components/BotãoMenu";
 import Calendario from "../components/Calendario";
 import ModalEscolha from "../components/ModalFuncionalidades/ModalAgua";
 import ButtonGroup from "../components/ButtonAjuste";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-import ArcDesign from "../components/Graphics/imc";
 import { useWater } from "../contexts/WaterContext";
-import ArcDesignAgua from "../components/Graphics/agua";
-import ArcDesignGCB from "../components/Graphics/calorias";
+
+const ArcDesign = lazy(() => import("../components/Graphics/imc"));
+const ArcDesignAgua = lazy(() => import("../components/Graphics/agua"));
+const ArcDesignGCB = lazy(() => import("../components/Graphics/calorias"));
 
 export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);
@@ -21,7 +22,7 @@ export default function TelaInicial() {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-  const { totalWater, handleAguaMais, handleAguaMenos } = useWater(); // Obtendo as funções do contexto
+  const { totalWater, handleAguaMais, handleAguaMenos } = useWater();
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -105,58 +106,63 @@ export default function TelaInicial() {
                 </h4>
               </div>
               <div className="flex items-center justify-center ml-4">
-                <div className="flex"> <ArcDesign /></div>
+                <Suspense fallback={<div>Carregando gráfico...</div>}>
+                  <ArcDesign />
+                </Suspense>
               </div>
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-2 lg:gap-x-32 w-full">
-          {[{
-            data: caloriasJson,
-            title: (
-              <div className="flex items-center">
-                <h2 className="font-bold text-[20px] text-white mt-2 text-center">
-                  Calorias
-                </h2>
-                <div className="ml-2 flex h-20  "> 
-                  <ArcDesignGCB />
+          {[
+            {
+              data: caloriasJson,
+              title: (
+                <div className="flex items-center">
+                  <h2 className="font-bold text-[20px] text-white mt-2 text-center">
+                    Calorias
+                  </h2>
+                  <div className="ml-2 flex">
+                    <Suspense fallback={<div>Carregando gráfico...</div>}>
+                      <ArcDesignGCB />
+                    </Suspense>
+                  </div>
                 </div>
-              </div>
-            ),
-            buttons: [
-              {
-                id: "calorias-escolha",
-                iconSrc: "/imagens/escolha.svg",
-                altText: "Button Icon 3",
-                onClick: () => handleBack(),
-              },
-            ],
-          },
-          {
-            data: aguaJson,
-            title: "Água",
-            buttons: [
-              {
-                id: "agua-menos",
-                iconSrc: "/imagens/menos.svg",
-                altText: "Button Icon 4",
-                onClick: handleAguaMenos, // Adicione o manipulador de clique
-              },
-              {
-                id: "agua-mais",
-                iconSrc: "/imagens/mais.svg",
-                altText: "Button Icon 5",
-                onClick: handleAguaMais, // Adicione o manipulador de clique
-              },
-              {
-                id: "agua-escolha",
-                iconSrc: "/imagens/escolha.svg",
-                altText: "Button Icon 6",
-                onClick: () => setShowModal(true),
-              },
-            ],
-          },
+              ),
+              buttons: [
+                {
+                  id: "calorias-escolha",
+                  iconSrc: "/imagens/escolha.svg",
+                  altText: "Button Icon 3",
+                  onClick: () => handleBack(),
+                },
+              ],
+            },
+            {
+              data: aguaJson,
+              title: "Água",
+              buttons: [
+                {
+                  id: "agua-menos",
+                  iconSrc: "/imagens/menos.svg",
+                  altText: "Button Icon 4",
+                  onClick: handleAguaMenos,
+                },
+                {
+                  id: "agua-mais",
+                  iconSrc: "/imagens/mais.svg",
+                  altText: "Button Icon 5",
+                  onClick: handleAguaMais,
+                },
+                {
+                  id: "agua-escolha",
+                  iconSrc: "/imagens/escolha.svg",
+                  altText: "Button Icon 6",
+                  onClick: () => setShowModal(true),
+                },
+              ],
+            },
           ].map((item, index) => (
             <div
               key={index}
@@ -170,7 +176,11 @@ export default function TelaInicial() {
               {item.title}
               {item.title === "Água" && (
                 <h4 className="text-md text-white mt-2">
-                  <div className="flex"> <ArcDesignAgua /></div>
+                  <div className="flex">
+                    <Suspense fallback={<div>Carregando gráfico...</div>}>
+                      <ArcDesignAgua />
+                    </Suspense>
+                  </div>
                   Total consumido hoje: {totalWater} ml
                 </h4>
               )}

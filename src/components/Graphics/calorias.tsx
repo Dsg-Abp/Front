@@ -4,6 +4,7 @@ import api from "../../services/api"; // Certifique-se de que o caminho do servi
 
 const ArcDesignGCB: React.FC = () => {
   const [gcb, setGcb] = useState<number | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_imc, setImc] = useState<number | null>(null);
   const [altura, setAltura] = useState<number | null>(null);
   const [idade, setIdade] = useState<number | null>(null);
@@ -19,9 +20,11 @@ const ArcDesignGCB: React.FC = () => {
         if (!userId) throw new Error("User ID não encontrado");
 
         const response = await api.get(`Profile/${userId}`);
-        const { peso, altura, genero, dataNascimento, imc } = response.data.profile;
+        const { peso, altura, genero, dataNascimento, imc } =
+          response.data.profile;
 
-        const idadeValue = new Date().getFullYear() - new Date(dataNascimento).getFullYear();
+        const idadeValue =
+          new Date().getFullYear() - new Date(dataNascimento).getFullYear();
 
         setPeso(peso);
         setGenero(genero);
@@ -40,11 +43,18 @@ const ArcDesignGCB: React.FC = () => {
   }, []);
 
   // Função para calcular o GCB
-  const calcularGCB = (genero: string, peso: number, altura: number, idade: number): number => {
-    if (genero.toLowerCase() === 'y') { // "y" para homens
-      return (10 * peso) + (6.25 * altura * 100) - (5 * idade) + 5;
-    } else if (genero.toLowerCase() === 'x') { // "x" para mulheres
-      return (10 * peso) + (6.25 * altura * 100) - (5 * idade) - 161;
+  const calcularGCB = (
+    genero: string,
+    peso: number,
+    altura: number,
+    idade: number
+  ): number => {
+    if (genero.toLowerCase() === "y") {
+      // "y" para homens
+      return 10 * peso + 6.25 * altura * 100 - 5 * idade + 5;
+    } else if (genero.toLowerCase() === "x") {
+      // "x" para mulheres
+      return 10 * peso + 6.25 * altura * 100 - 5 * idade - 161;
     }
     return 0; // Valor padrão se o gênero não for válido
   };
@@ -62,7 +72,7 @@ const ArcDesignGCB: React.FC = () => {
   if (gcb === null || altura === null) return <div></div>;
 
   // Definir o valor máximo do GCB com base no gênero
-  const maxGCB = genero?.toLowerCase() === 'y' ? 3000 : 2500; // Ajuste o valor máximo conforme o gênero
+  const maxGCB = genero?.toLowerCase() === "y" ? 3000 : 2500; // Ajuste o valor máximo conforme o gênero
 
   const settings = {
     width: 120,
@@ -90,7 +100,6 @@ const ArcDesignGCB: React.FC = () => {
           },
         })}
       />
-     
     </div>
   );
 };
