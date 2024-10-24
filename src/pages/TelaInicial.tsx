@@ -125,7 +125,7 @@ export default function TelaInicial() {
                   </h2>
                   <div className="ml-2 flex">
                     <Suspense fallback={<div>Carregando gráfico...</div>}>
-                      <ArcDesignGCB />
+                      {/* <ArcDesignGCB /> */}
                     </Suspense>
                   </div>
                 </div>
