@@ -60,7 +60,7 @@ export default function ArcDesign() {
             fill: "#FFFFFF",
           },
           [`& .${gaugeClasses.valueArc}`]: {
-            fill: "#0d5dd4",
+            fill: "#09d909",
           },
           [`& .${gaugeClasses.referenceArc}`]: {
             fill: theme.palette.text.disabled,

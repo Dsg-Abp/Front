@@ -173,17 +173,21 @@ export default function TelaInicial() {
                   <Animação animationData={item.data} />
                 </div>
               </div>
-              {item.title}
+              <div className="font-bold text-[20px] text-white mt-2 text-center">
+                {item.title}
+              </div>
+
               {item.title === "Água" && (
-                <h4 className="text-md text-white mt-2">
-                  <div className="flex">
-                    <Suspense fallback={<div>Carregando gráfico...</div>}>
-                      <ArcDesignAgua />
-                    </Suspense>
-                  </div>
-                  Total consumido hoje: {totalWater} ml
-                </h4>
+                <div className="flex-col items-center text-white font-bold">
+                  <Suspense fallback={<div>Carregando gráfico...</div>}>
+                    <ArcDesignAgua />
+                  </Suspense>
+                  <h2 className="font-bold text-center">
+                    Total consumido hoje : {totalWater} ml
+                  </h2>
+                </div>
               )}
+
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
             </div>
           ))}
