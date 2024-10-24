@@ -12,7 +12,7 @@ import { useWater } from "../contexts/WaterContext";
 
 const ArcDesign = lazy(() => import("../components/Graphics/imc"));
 const ArcDesignAgua = lazy(() => import("../components/Graphics/agua"));
-const ArcDesignGCB = lazy(() => import("../components/Graphics/calorias"));
+//const ArcDesignGCB = lazy(() => import("../components/Graphics/calorias"));
 
 export default function TelaInicial() {
   const [showModal, setShowModal] = useState(false);

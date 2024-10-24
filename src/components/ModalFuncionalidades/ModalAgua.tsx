@@ -129,7 +129,6 @@ const ModalEscolha: React.FC<ModalEscolhaProps> = ({ onClose }) => {
         <button
           onClick={() => {
             onClose();
-            window.location.reload();
           }}
           className="w-full py-2 bg-gradient-to-r from-[#979996] to-[#000000] text-white rounded-lg hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors mt-2"
         >
