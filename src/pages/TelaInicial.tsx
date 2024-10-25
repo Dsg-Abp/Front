@@ -23,8 +23,7 @@ export default function TelaInicial() {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
 
-
-  const { totalWater, handleAguaMais, handleAguaMenos } = useWater();
+  const { totalWater, enviarDadosAguaMais, enviarDadosAguaMenos } = useWater();
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -150,13 +149,13 @@ export default function TelaInicial() {
                   id: "agua-menos",
                   iconSrc: "/imagens/menos.svg",
                   altText: "Button Icon 4",
-                  onClick: handleAguaMenos,
+                  onClick: enviarDadosAguaMenos,
                 },
                 {
                   id: "agua-mais",
                   iconSrc: "/imagens/mais.svg",
                   altText: "Button Icon 5",
-                  onClick: handleAguaMais,
+                  onClick: enviarDadosAguaMais,
                 },
                 {
                   id: "agua-escolha",
