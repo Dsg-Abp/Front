@@ -2,21 +2,20 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import api from "../services/api";
 import { WaterDataItem, ApiResponse } from "../types/agua";
 
-// Definindo a interface para o contexto
 interface WaterContextType {
   totalWater: number;
-  quantidadeSelecionada: number; // Adicionando a quantidade selecionada
+  quantidadeSelecionada: number;
   loadTotalWater: (date?: string) => void;
-  handleAguaMais: () => void;
-  handleAguaMenos: () => void;
-  setQuantidadeSelecionada: (quantidade: number) => void; // Função para atualizar a quantidade selecionada
+  enviarDadosAguaMais: () => void;
+  enviarDadosAguaMenos: () => void;
+  setQuantidadeSelecionada: (quantidade: number) => void;
 }
 
 const WaterContext = createContext<WaterContextType | undefined>(undefined);
 
 export const WaterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [totalWater, setTotalWater] = useState<number>(0);
-  const [quantidadeSelecionada, setQuantidadeSelecionada] = useState<number>(0); // Estado para a quantidade selecionada
+  const [quantidadeSelecionada, setQuantidadeSelecionada] = useState<number>(50);
 
   const loadTotalWater = (date?: string) => {
     const userId = localStorage.getItem("userId");
@@ -48,16 +47,45 @@ export const WaterProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const handleAguaMais = () => {
-    setTotalWater(prevTotal => prevTotal + quantidadeSelecionada);
-    console.log(`Adicionado ${quantidadeSelecionada} ml. Total agora: ${totalWater + quantidadeSelecionada} ml`);
-};
+  const enviarDadosAguaMais = async () => {
+    const userId = localStorage.getItem("userId");
+    const dataAtual = Number(new Date().toLocaleDateString("pt-BR").replace(/\//g, ""));
+    
+    if (userId) {
+      try {
+        const payload = {
+          user: userId,
+          date: dataAtual,
+          somewater: quantidadeSelecionada,
+        };
+        const response = await api.post("/insert", payload);
+        setTotalWater(prevTotal => prevTotal + quantidadeSelecionada);
+        console.log("Dados enviados com sucesso:", response.data);
+      } catch (error) {
+        console.error("Erro ao enviar dados:", error);
+      }
+    }
+  };
 
-const handleAguaMenos = () => {
-    setTotalWater(prevTotal => Math.max(prevTotal - quantidadeSelecionada, 0)); // Não deixar total negativo
-    console.log(`Subtraído ${quantidadeSelecionada} ml. Total agora: ${Math.max(totalWater - quantidadeSelecionada, 0)} ml`);
-};
-
+  const enviarDadosAguaMenos = async () => {
+    const userId = localStorage.getItem("userId");
+    const dataAtual = Number(new Date().toLocaleDateString("pt-BR").replace(/\//g, ""));
+    
+    if (userId) {
+      try {
+        const payload = {
+          user: userId,
+          date: dataAtual,
+          somewater: -quantidadeSelecionada,
+        };
+        const response = await api.post("/insert", payload);
+        setTotalWater(prevTotal => Math.max(prevTotal - quantidadeSelecionada, 0));
+        console.log("Dados enviados com sucesso:", response.data);
+      } catch (error) {
+        console.error("Erro ao enviar dados:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     loadTotalWater();
@@ -68,9 +96,9 @@ const handleAguaMenos = () => {
       totalWater, 
       quantidadeSelecionada, 
       loadTotalWater, 
-      handleAguaMais, 
-      handleAguaMenos, 
-      setQuantidadeSelecionada // Passando a função para o contexto
+      enviarDadosAguaMais, 
+      enviarDadosAguaMenos, 
+      setQuantidadeSelecionada 
     }}>
       {children}
     </WaterContext.Provider>
