@@ -19,8 +19,10 @@ export default function TelaInicial() {
   const [nome, setNome] = useState("");
   const [peso, setPeso] = useState<number | null>(null);
   const [altura, setAltura] = useState<number | null>(null);
+  const [imc , setImc] = useState<string | null>(null)
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
+
 
   const { totalWater, handleAguaMais, handleAguaMenos } = useWater();
 
@@ -35,6 +37,7 @@ export default function TelaInicial() {
           setNome(profile.nome);
           setPeso(profile.peso);
           setAltura(profile.altura);
+          setImc(profile.imc);
           setImageSrc(profile.image);
         })
         .catch((error) => {
@@ -51,9 +54,9 @@ export default function TelaInicial() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-200 md:px-40 px-10">
-      <header className="flex flex-col flex-grow items-center w-full">
+      <header className="flex flex-col flex-grow items-center w-full px-96">
         <Calendario />
-        <div className="w-full my-4 p-4 bg-gradient-to-r from-[#212270] to-[#1550bd] text-white rounded-lg flex flex-col py-2 md:flex-row items-center">
+        <div className="w-full my-2 p-4 bg-gradient-to-r from-[#212270] to-[#1550bd] text-white rounded-lg flex flex-col py-2 md:flex-row items-center">
           <div className="flex items-center mr-4 h-32">
             <div className="w-32 h-full bg-lime-200 rounded-lg border-2 border-white flex items-center justify-center">
               {imageSrc ? (
@@ -92,7 +95,7 @@ export default function TelaInicial() {
               )}
             </div>
           </div>
-          <div className="flex flex-col w-auto py-2">
+          <div className="flex flex-col w-auto ">
             <div className="flex border border-slate-200 p-3 bg-gray-200 rounded-lg h-full flex-1">
               <div className="flex-1 pt-5">
                 <p className="text-lg text-blue-900 font-bold">
@@ -103,6 +106,9 @@ export default function TelaInicial() {
                 </h4>
                 <h4 className="text-md text-blue-900">
                   Altura: {altura !== null ? altura : "Carregando..."} m
+                </h4>
+                <h4 className="text-md text-blue-900">
+                  IMC: {imc !== null ? imc : "Carregando..."} 
                 </h4>
               </div>
               <div className="flex items-center justify-center ml-4">
@@ -120,9 +126,6 @@ export default function TelaInicial() {
               data: caloriasJson,
               title: (
                 <div className="flex items-center">
-                  <h2 className="font-bold text-[20px] text-white mt-2 text-center">
-                    Calorias
-                  </h2>
                   <div className="ml-2 flex">
                     <Suspense fallback={<div>Carregando gráfico...</div>}>
                       {/* <ArcDesignGCB /> */}
@@ -173,10 +176,6 @@ export default function TelaInicial() {
                   <Animação animationData={item.data} />
                 </div>
               </div>
-              <div className="font-bold text-[20px] text-white mt-2 text-center">
-                {item.title}
-              </div>
-
               {item.title === "Água" && (
                 <div className="flex-col items-center text-white font-bold">
                   <Suspense fallback={<div>Carregando gráfico...</div>}>

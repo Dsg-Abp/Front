@@ -6,7 +6,7 @@ import Calendario from "../../components/Calendario";
 import ReactECharts from "echarts-for-react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight, faList, faMinus, faPlus, faSearch, faTrash, } from "@fortawesome/free-solid-svg-icons";
+import { faAngleLeft, faAngleRight, faMinus, faPlus, faSearch, faTrash, } from "@fortawesome/free-solid-svg-icons";
 
 const AlimentoSearchPage = () => {
   const { alimentos, searchAlimentos } = useAlimentoContext();
@@ -32,6 +32,9 @@ const AlimentoSearchPage = () => {
     vitaminaC: "0.00",
   });
 
+  useEffect(() => {
+    setIsModalOpen(true)
+  }, [isModalOpen])
   useEffect(() => {
     const initialGrams: { [key: string]: string } = {};
     alimentos.forEach((alimento) => {
@@ -304,15 +307,12 @@ const AlimentoSearchPage = () => {
       </div>
       {selectedAlimentos.length > 0 && (
         <button
-          className="fixed top-4 right-4 text-white p-2"
+          className="fixed top-4 right-4 text-white== p-2"
           onClick={() => setIsModalOpen(true)}
         >
-          <FontAwesomeIcon icon={faList} className="h-8" />
-        </button>
-      )}
-      {isModalOpen && (
+          {isModalOpen && (
         <motion.div
-          className="fixed top-0 right-1 h-screen w-[600px] bg-gray-100 shadow-lg z-10 overflow-hidden rounded-lg"
+          className="fixed top-0 right-1 h-screen w-[600px] text-black bg-gray-100 shadow-lg z-10 overflow-hidden rounded-lg"
           initial="hidden"
           animate="visible"
           exit="exit"
@@ -322,7 +322,7 @@ const AlimentoSearchPage = () => {
             <div className="p-6 rounded-lg flex-1 overflow-y-auto">
               <button
                 className="absolute top-4 right-4 text-black text-lg hover:text-gray-700"
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => setSelectedAlimentos([])}
               >
                 {"X"}
               </button>
@@ -440,6 +440,9 @@ const AlimentoSearchPage = () => {
           </div>
         </motion.div>
       )}
+        </button>
+      )}
+      
       <div className="fixed bottom-0">
         <footer>
           <NavigationButtons />

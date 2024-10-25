@@ -68,13 +68,13 @@ const ArcDesignAgua: React.FC = () => {
           },
         })}
       />
-      {/* 
-      <div>
-        <p>Total consumido: {totalWater} ml</p>
+      
+      {/* <div>
+        <p>Total consumido: {totalWater} ml</p> */}
         <p>Água necessária: {aguaNecessaria} ml</p>
-        <p>Percentual consumido: {percentualConsumido.toFixed(2)}%</p>
-      </div>
-      */}
+        {/* <p>Percentual consumido: {percentualConsumido.toFixed(2)}%</p> */}
+      {/* </div> */}
+      
     </div>
   );
 };
