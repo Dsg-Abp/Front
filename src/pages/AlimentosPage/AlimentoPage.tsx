@@ -7,6 +7,7 @@ import ReactECharts from "echarts-for-react";
 import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight, faMinus, faPlus, faSearch, faTrash, } from "@fortawesome/free-solid-svg-icons";
+import api from "../../services/api";
 
 const AlimentoSearchPage = () => {
   const { alimentos, searchAlimentos } = useAlimentoContext();
@@ -32,9 +33,36 @@ const AlimentoSearchPage = () => {
     vitaminaC: "0.00",
   });
 
+  const handleSave = () => {
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+      console.error("User ID não encontrado no localStorage.");
+      return;
+    }
+
+    const data = {
+      userId,
+      alimentos: selectedAlimentos,
+      nutrientes: somaNutrientes,
+      grams: grams,
+      day: selectedOption,
+    };
+
+    api
+      .post("/alimentosData", data)
+      .then((response) => {
+        console.log("Dados inseridos com sucesso:", response.data);
+      })
+      .catch((error) => {
+        console.error("Erro ao inserir os dados:", error);
+      });
+  };
+
   useEffect(() => {
     setIsModalOpen(true)
   }, [isModalOpen])
+
   useEffect(() => {
     const initialGrams: { [key: string]: string } = {};
     alimentos.forEach((alimento) => {
@@ -266,11 +294,10 @@ const AlimentoSearchPage = () => {
                 {paginatedAlimentos.map((alimento: AlimentoDataType) => (
                   <li
                     key={alimento._id}
-                    className={`hover:text-blue-600 cursor-pointer ${
-                      selectedAlimentos.includes(alimento)
-                        ? "text-green-500"
-                        : ""
-                    }`}
+                    className={`hover:text-blue-600 cursor-pointer ${selectedAlimentos.includes(alimento)
+                      ? "text-green-500"
+                      : ""
+                      }`}
                     onClick={() => handleCheckboxChange(alimento)}
                   >
                     <strong>{alimento["Descrição do Alimento"]}</strong>
@@ -311,138 +338,138 @@ const AlimentoSearchPage = () => {
           onClick={() => setIsModalOpen(true)}
         >
           {isModalOpen && (
-        <motion.div
-          className="fixed top-0 right-1 h-screen w-[600px] text-black bg-gray-100 shadow-lg z-10 overflow-hidden rounded-lg"
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={modalVariants}
-        >
-          <div className="flex flex-col h-full">
-            <div className="p-6 rounded-lg flex-1 overflow-y-auto">
-              <button
-                className="absolute top-4 right-4 text-black text-lg hover:text-gray-700"
-                onClick={() => setSelectedAlimentos([])}
-              >
-                {"X"}
-              </button>
-
-              <h2 className="text-lg font-bold mb-4">
-                Alimentos Selecionados:
-              </h2>
-              <ul className="space-y-2">
-                {selectedAlimentos.map((alimento) => (
-                  <li
-                    key={alimento._id}
-                    className="flex justify-between items-center"
+            <motion.div
+              className="fixed top-0 right-1 h-screen w-[600px] text-black bg-gray-100 shadow-lg z-10 overflow-hidden rounded-lg"
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={modalVariants}
+            >
+              <div className="flex flex-col h-full">
+                <div className="p-6 rounded-lg flex-1 overflow-y-auto">
+                  <button
+                    className="absolute top-4 right-4 text-black text-lg hover:text-gray-700"
+                    onClick={() => setSelectedAlimentos([])}
                   >
-                    <strong>{alimento["Descrição do Alimento"]}</strong>
-                    <div className="flex justify-between gap-2">
-                      <button
-                        onClick={() => handleSubtractGrams(alimento._id)}
-                        className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8"
+                    {"X"}
+                  </button>
+
+                  <h2 className="text-lg font-bold mb-4">
+                    Alimentos Selecionados:
+                  </h2>
+                  <ul className="space-y-2">
+                    {selectedAlimentos.map((alimento) => (
+                      <li
+                        key={alimento._id}
+                        className="flex justify-between items-center"
                       >
-                        <FontAwesomeIcon icon={faMinus} />
-                      </button>
-                      <input
-                        type="text"
-                        value={grams[alimento._id || 0]}
-                        className="text-center rounded-md w-16 border-black border-2 border-opacity-70"
-                      />
-                      <button
-                        onClick={() => handleAddGrams(alimento._id)}
-                        className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8"
-                      >
-                        <FontAwesomeIcon icon={faPlus} />
-                      </button>
-                      <button onClick={() => handleRemoveAlimento(alimento)}>
-                        <FontAwesomeIcon
-                          icon={faTrash}
-                          className="h-3 bg-red-500 hover:bg-red-400 text-white p-2 rounded-md"
-                        />
-                      </button>
+                        <strong>{alimento["Descrição do Alimento"]}</strong>
+                        <div className="flex justify-between gap-2">
+                          <button
+                            onClick={() => handleSubtractGrams(alimento._id)}
+                            className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8"
+                          >
+                            <FontAwesomeIcon icon={faMinus} />
+                          </button>
+                          <input
+                            type="text"
+                            value={grams[alimento._id || 0]}
+                            className="text-center rounded-md w-16 border-black border-2 border-opacity-70"
+                          />
+                          <button
+                            onClick={() => handleAddGrams(alimento._id)}
+                            className="text-white bg-blue-500 hover:bg-blue-400 rounded-full p-1 h-8 w-8"
+                          >
+                            <FontAwesomeIcon icon={faPlus} />
+                          </button>
+                          <button onClick={() => handleRemoveAlimento(alimento)}>
+                            <FontAwesomeIcon
+                              icon={faTrash}
+                              className="h-3 bg-red-500 hover:bg-red-400 text-white p-2 rounded-md"
+                            />
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="flex flex-row justify-center items-center mt-6 border-t-2 border-b-2 border-black border-opacity-70">
+                    <div className="flex flex-col ">
+                      <h2 className="text-lg font-bold">Nutrientes:</h2>
+                      <div className="flex gap-2">
+                        <p className="font-semibold">Calorias:</p>
+                        <p>{somaNutrientes.calorias}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <p className="font-semibold">Proteínas:</p>
+                        <p>{somaNutrientes.proteina}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <p className="font-semibold">Carboidratos:</p>
+                        <p>{somaNutrientes.carboidrato}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <p className="font-semibold">Magnésio:</p>
+                        <p>{somaNutrientes.magnesio}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <p className="font-semibold">Ferro:</p>
+                        <p>{somaNutrientes.ferro}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <p className="font-semibold">Sódio:</p>
+                        <p>{somaNutrientes.sodio}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <p className="font-semibold">Potássio:</p>
+                        <p>{somaNutrientes.potassio}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <p className="font-semibold">Zinco:</p>
+                        <p>{somaNutrientes.zinco}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <p className="font-semibold">Vitamina C:</p>
+                        <p>{somaNutrientes.vitaminaC}</p>
+                      </div>
                     </div>
-                  </li>
-                ))}
-              </ul>
 
-              <div className="flex flex-row justify-center items-center mt-6 border-t-2 border-b-2 border-black border-opacity-70">
-                <div className="flex flex-col ">
-                  <h2 className="text-lg font-bold">Nutrientes:</h2>
-                  <div className="flex gap-2">
-                    <p className="font-semibold">Calorias:</p>
-                    <p>{somaNutrientes.calorias}</p>
+                    <div className="ml-12 p-4 rounded-lg">
+                      <ReactECharts
+                        option={chartOptions}
+                        style={{ width: 300, height: 300 }}
+                      />
+                    </div>
                   </div>
-                  <div className="flex gap-2">
-                    <p className="font-semibold">Proteínas:</p>
-                    <p>{somaNutrientes.proteina}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="font-semibold">Carboidratos:</p>
-                    <p>{somaNutrientes.carboidrato}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="font-semibold">Magnésio:</p>
-                    <p>{somaNutrientes.magnesio}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="font-semibold">Ferro:</p>
-                    <p>{somaNutrientes.ferro}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="font-semibold">Sódio:</p>
-                    <p>{somaNutrientes.sodio}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="font-semibold">Potássio:</p>
-                    <p>{somaNutrientes.potassio}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="font-semibold">Zinco:</p>
-                    <p>{somaNutrientes.zinco}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <p className="font-semibold">Vitamina C:</p>
-                    <p>{somaNutrientes.vitaminaC}</p>
+                  <div className="flex flex-col items-center mt-3">
+                    <select
+                      className="flex justify-center items-start w-3/4 text-md text-center p-2"
+                      value={selectedOption}
+                      onChange={(e) => setSelectedOption(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Selecione a Refeição
+                      </option>
+                      <option value="cafeManha">Café da manhã</option>
+                      <option value="almoco">Almoço</option>
+                      <option value="cafeTarde">Café da tarde</option>
+                      <option value="jantar">Jantar</option>
+                      <option value="outros">Outros...</option>
+                    </select>
+                    {selectedOption && <p>Você selecionou: {selectedOption}</p>}
                   </div>
                 </div>
-
-                <div className="ml-12 p-4 rounded-lg">
-                  <ReactECharts
-                    option={chartOptions}
-                    style={{ width: 300, height: 300 }}
-                  />
+                <div className="p-4 bg-gray-100">
+                  <button onClick={handleSave} className="bg-blue-600 hover:bg-blue-500 rounded-lg p-4 text-white w-full text-xl">
+                    Salvar
+                  </button>
                 </div>
               </div>
-              <div className="flex flex-col items-center mt-3">
-                <select
-                  className="flex justify-center items-start w-3/4 text-md text-center p-2"
-                  value={selectedOption}
-                  onChange={(e) => setSelectedOption(e.target.value)}
-                >
-                  <option value="" disabled>
-                    Selecione a Refeição
-                  </option>
-                  <option value="cafeManha">Café da manhã</option>
-                  <option value="almoco">Almoço</option>
-                  <option value="cafeTarde">Café da tarde</option>
-                  <option value="jantar">Jantar</option>
-                  <option value="outros">Outros...</option>
-                </select>
-                {selectedOption && <p>Você selecionou: {selectedOption}</p>}
-              </div>
-            </div>
-            <div className="p-4 bg-gray-100">
-              <button className="bg-blue-600 hover:bg-blue-500 rounded-lg p-4 text-white w-full text-xl">
-                Salvar
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
+            </motion.div>
+          )}
         </button>
       )}
-      
+
       <div className="fixed bottom-0">
         <footer>
           <NavigationButtons />
@@ -453,3 +480,26 @@ const AlimentoSearchPage = () => {
 };
 
 export default AlimentoSearchPage;
+
+
+// implementação do get para adicionar no calendario e no grafico posteriormente
+// useEffect(() => {
+//   const userId = localStorage.getItem("userId");
+
+//   if (!userId) {
+//     console.error("User ID não encontrado no localStorage.");
+//     return;
+//   }
+
+//   api
+//     .get(`/alimentosData`, {
+//       params: { userId },
+//     })
+//     .then((response) => {
+//       console.log("Dados obtidos:", response.data);
+//       // Você pode definir os dados recebidos em um estado local para exibição
+//     })
+//     .catch((error) => {
+//       console.error("Erro ao buscar os dados:", error);
+//     });
+// }, []);
