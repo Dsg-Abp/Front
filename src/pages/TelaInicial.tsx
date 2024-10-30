@@ -19,11 +19,40 @@ export default function TelaInicial() {
   const [nome, setNome] = useState("");
   const [peso, setPeso] = useState<number | null>(null);
   const [altura, setAltura] = useState<number | null>(null);
-  const [imc , setImc] = useState<string | null>(null)
+  const [imc, setImc] = useState<string | null>(null)
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [caloriasHoje, setCaloriasHoje] = useState<number | null>(null);
 
   const { totalWater, enviarDadosAguaMais, enviarDadosAguaMenos } = useWater();
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      console.error("User ID não encontrado no Local Storage");
+      return;
+    }
+
+    const hoje = new Date().toISOString().split("T")[0];
+
+    api.get(`/alimentosData/${userId}`)
+      .then((response) => {
+        const data = response.data.data;
+
+        // Encontrando calorias para a data de hoje
+        const dadosHoje = data.find((item: any) => item._id === hoje);
+        if (dadosHoje) {
+          setCaloriasHoje(dadosHoje.totalCalorias);
+        } else {
+          setCaloriasHoje(0);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar dados", error);
+      });
+  }, []);
+
+
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -107,7 +136,7 @@ export default function TelaInicial() {
                   Altura: {altura !== null ? altura : "Carregando..."} m
                 </h4>
                 <h4 className="text-md text-blue-900">
-                  IMC: {imc !== null ? imc : "Carregando..."} 
+                  IMC: {imc !== null ? imc : "Carregando..."}
                 </h4>
               </div>
               <div className="flex items-center justify-center ml-4">
@@ -123,15 +152,7 @@ export default function TelaInicial() {
           {[
             {
               data: caloriasJson,
-              title: (
-                <div className="flex items-center">
-                  <div className="ml-2 flex">
-                    <Suspense fallback={<div>Carregando gráfico...</div>}>
-                      {/* <ArcDesignGCB /> */}
-                    </Suspense>
-                  </div>
-                </div>
-              ),
+              title: "Calorias",
               buttons: [
                 {
                   id: "calorias-escolha",
@@ -175,6 +196,16 @@ export default function TelaInicial() {
                   <Animação animationData={item.data} />
                 </div>
               </div>
+              {item.title === "Calorias" && (
+                <div className="text-white font-bold">
+                  <h3>Calorias Consumidas Hoje:</h3>
+                  {caloriasHoje !== null ? (
+                    <p className="text-center">{caloriasHoje} kcal</p>
+                  ) : (
+                    <p>Carregando...</p>
+                  )}
+                </div>
+              )}
               {item.title === "Água" && (
                 <div className="flex-col items-center text-white font-bold">
                   <Suspense fallback={<div>Carregando gráfico...</div>}>
@@ -188,6 +219,7 @@ export default function TelaInicial() {
 
               {item.buttons && <ButtonGroup buttons={item.buttons} />}
             </div>
+
           ))}
         </div>
       </header>

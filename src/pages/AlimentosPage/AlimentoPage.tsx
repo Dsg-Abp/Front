@@ -480,26 +480,3 @@ const AlimentoSearchPage = () => {
 };
 
 export default AlimentoSearchPage;
-
-
-// implementação do get para adicionar no calendario e no grafico posteriormente
-// useEffect(() => {
-//   const userId = localStorage.getItem("userId");
-
-//   if (!userId) {
-//     console.error("User ID não encontrado no localStorage.");
-//     return;
-//   }
-
-//   api
-//     .get(`/alimentosData`, {
-//       params: { userId },
-//     })
-//     .then((response) => {
-//       console.log("Dados obtidos:", response.data);
-//       // Você pode definir os dados recebidos em um estado local para exibição
-//     })
-//     .catch((error) => {
-//       console.error("Erro ao buscar os dados:", error);
-//     });
-// }, []);

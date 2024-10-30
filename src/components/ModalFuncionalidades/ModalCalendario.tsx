@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../services/api";
+import { isSameDay } from "react-datepicker/dist/date_utils";
 
 interface ModalDetalhesDiaProps {
   diaSelecionado: { inicial: string; dia: string } | null;
@@ -11,8 +12,34 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
   fecharModal,
 }) => {
   const [dados, setDados] = useState<any[]>([]);
-
+  const [caloriasHoje, setCaloriasHoje] = useState<number | null>(null);
   const [totalWater, setTotalWater] = useState<number>(0);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      console.error("User ID não encontrado no Local Storage");
+      return;
+    }
+
+    const hoje = new Date().toISOString().split("T")[0];
+
+    api.get(`/alimentosData/${userId}`)
+      .then((response) => {
+        const data = response.data.data;
+
+        // Encontrando calorias para a data de hoje
+        const dadosHoje = data.find((item: any) => item._id === hoje);
+        if (dadosHoje) {
+          setCaloriasHoje(dadosHoje.totalCalorias);
+        } else {
+          setCaloriasHoje(0);
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar dados", error);
+      });
+  }, []);
 
   useEffect(() => {
     if (diaSelecionado) {
@@ -74,6 +101,14 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
             Total de Água Consumida:
           </h3>
           <p className="text-blue-600 text-2xl font-bold">{totalWater} ml</p>
+            <div className="text-black font-bold mt-2">
+              <h3>Calorias Consumidas Hoje:</h3>
+              {caloriasHoje !== null ? (
+                <p className="text-center text-red-500 text-xl mt-2">{caloriasHoje} kcal</p>
+              ) : (
+                <p>Carregando...</p>
+              )}
+            </div>
         </div>
 
         <button
