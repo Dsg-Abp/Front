@@ -19,7 +19,7 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
       const userId = localStorage.getItem("userId");
 
       api
-        .get("/teste")
+        .get("/findagua")
         .then((response) => {
           const filteredData = response.data.findResult.filter((item: any) => {
             // Extraindo o dia e o mês do diaSelecionado e do item.date
