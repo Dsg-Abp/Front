@@ -22,7 +22,7 @@ export const WaterProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     if (userId) {
       api
-        .get<ApiResponse>("/teste")
+        .get<ApiResponse>("/findagua")
         .then((response) => {
           const filteredData = response.data.findResult.filter((item: WaterDataItem) => {
             const itemDate = item.email.date.toString();
