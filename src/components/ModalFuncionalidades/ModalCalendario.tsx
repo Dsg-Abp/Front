@@ -53,7 +53,7 @@ const ModalDetalhesDia: React.FC<ModalDetalhesDiaProps> = ({
           //console.log("Total de água consumida:", total);
         })
         .catch((error) => {
-          //console.error("Erro ao buscar dados:", error);
+          console.error("Erro ao buscar dados:", error);
         });
     }
   }, [diaSelecionado]);
