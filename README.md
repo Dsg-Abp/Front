@@ -130,6 +130,27 @@ export default {
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 
+# **Aplicação de Controle de Calorias e Nutrientes**
+
+---
+
+## Product Backlog
+
+| ID  | História do Usuário | Prioridade | Critérios de Aceitação |
+|-----|----------------------|------------|-------------------------|
+| 1   | Como usuário, quero registrar a quantidade de calorias consumidas diariamente para monitorar minha ingestão calórica. | Alta | - Inserção de calorias por refeição.<br>- Somatório e exibição do total diário.<br>- Dados editáveis/excluíveis. |
+| 2   | Como usuário, quero registrar a quantidade de proteínas, carboidratos e gorduras para monitorar minha ingestão de nutrientes. | Alta | - Inserção de nutrientes por refeição.<br>- Somatório e exibição do total diário.<br>- Dados editáveis/excluíveis. |
+| 3   | Como usuário, quero visualizar um resumo diário das calorias e nutrientes consumidos para acompanhar minha alimentação. | Alta | - Resumo diário exibe total de calorias e nutrientes.<br>- Atualização automática após inserção. |
+| 4   | Como usuário, quero registrar refeições com itens específicos e suas quantidades para controlar os alimentos consumidos. | Média | - Adição de itens alimentares específicos com calorias e nutrientes.<br>- Itens editáveis/excluíveis. |
+| 5   | Como usuário, quero acompanhar o consumo de vitaminas e minerais essenciais para monitorar minha saúde. | Média | - Registro e resumo diário de vitaminas e minerais consumidos. |
+| 6   | Como usuário, quero definir uma meta diária de calorias e nutrientes para gerenciar minha dieta. | Alta | - Definição e comparação de metas com o consumo atual.<br>- Exibição de progresso. |
+| 7   | Como usuário com restrições alimentares, quero personalizar minha dieta com itens permitidos para evitar complicações de saúde. | Alta | - Configuração de restrições alimentares (ex.: glúten, lactose).<br>- Alerta ao adicionar alimentos fora das restrições. |
+| 8   | Como usuário com diabetes, quero controlar a ingestão de carboidratos para gerenciar os níveis de glicose no sangue. | Alta | - Definição de limite de carboidratos.<br>- Alerta ao atingir ou ultrapassar o limite. |
+| 9   | Como usuário, quero gerar relatórios semanais/mensais do consumo de calorias e nutrientes para análise de longo prazo. | Média | - Relatórios de consumo diário, semanal e mensal.<br>- Exportação em PDF/CSV. |
+| 10  | Como usuário, quero receber orientações personalizadas com base nos dados de ingestão para melhorar minha alimentação. | Baixa | - Recomendações básicas com base nos dados registrados (ex.: reduzir calorias, aumentar proteínas). |
+| 11  | Como usuário, quero registrar dados de acompanhamento médico, como peso e IMC, para avaliar o impacto da dieta na saúde. | Média | - Registro periódico de peso e IMC.<br>- Exibição de gráficos de evolução. |
+| 12  | Como usuário, quero definir lembretes de refeições e de registro de ingestão para manter minha rotina alimentar. | Baixa | - Configuração de lembretes de refeições.<br>- Notificações enviadas por e-mail ou navegador. |
+
 
 
 # 🏃‍♂️ Sprint Backlog - Sprint 2
@@ -180,4 +201,45 @@ Essas melhorias visam proporcionar uma aplicação mais completa, funcional e se
 
 ![Burndown Chart Sprint 2](public/imagens/graficosprint2.png)
 
+# 🏃‍♂️ Sprint Backlog - Sprint 3
 
+## Data da Sprint
+- **Início:** 14/Out
+- **Término:** 08/Nov
+
+## Objetivos da Sprint
+- **Implementação de funcionalidades de captura e armazenamento de fotos.**
+- **Tratamento de respostas de interface seguindo as diretrizes de Nielsen para melhorar a experiência do usuário.**
+- **Ajustes de layout para uma interface minimalista e eficiente.**
+- **Desenvolvimento e exibição de gráficos de IMC e consumo de água para melhor visualização dos dados do usuário.**
+- **Desenvolvimento de funcionalidades para gerenciamento de consumo de água.**
+
+## Tarefas
+
+| ID   | Tarefa                                                                                              | Responsável       | Status          | Estimativa (Pontos) | Conclusão (Data)  |
+|------|-----------------------------------------------------------------------------------------------------|-------------------|------------------|---------------------|--------------------|
+| SB-01 | Implementar biblioteca de câmera para captura e armazenamento de fotos no banco de dados.           | [Nome]            | ✅ Concluído     | 5                   | 17/Out             |
+| SB-02 | Aplicar tratamento de respostas de interface conforme a Lei de Nielsen.                             | [Nome]            | ✅ Concluído     | 4                   | 19/Out             |
+| SB-03 | Ajustar layout da tela inicial com design minimalista segundo Nielsen.                              | [Nome]            | ✅ Concluído     | 3                   | 20/Out             |
+| SB-04 | Exibir dados de IMC na interface.                                                                   | [Nome]            | ✅ Concluído     | 2                   | 21/Out             |
+| SB-05 | Construir gráfico de IMC para acompanhamento visual dos dados.                                      | [Nome]            | ✅ Concluído     | 4                   | 23/Out             |
+| SB-06 | Verificar e ajustar a base de dados de `profile` para integração de novas funcionalidades.          | [Nome]            | ✅ Concluído     | 3                   | 25/Out             |
+| SB-07 | Realizar ajustes nas funcionalidades do modal da página de alimentos.                               | [Nome]            | ✅ Concluído     | 2                   | 26/Out             |
+| SB-08 | Construir gráficos para exibição das calorias necessárias para consumo.                             | [Nome]            | ✅ Concluído     | 4                   | 28/Out             |
+| SB-09 | Criar gráfico na tela inicial para exibição do consumo ideal de água.                               | [Nome]            | ✅ Concluído     | 3                   | 30/Out             |
+| SB-10 | Desenvolver contexto para funcionalidades relacionadas à água (ex.: cálculo de consumo).            | [Nome]            | ✅ Concluído     | 4                   | 02/Nov             |
+| SB-11 | Implementar funcionalidades dos botões "água mais" e "água menos" para ajuste do consumo.           | [Nome]            | ✅ Concluído     | 3                   | 03/Nov             |
+| SB-12 | Atualizar a coleção `Agua` no banco de dados para salvar dados de consumo diário por usuário.       | [Nome]            | ✅ Concluído     | 4                   | 05/Nov             |
+| SB-13 | Criar rota GET para buscar a quantidade de água consumida no dia selecionado no modal calendário.   | [Nome]            | ✅ Concluído     | 4                   | 07/Nov             |
+
+## Total de Pontos de Esforço: 45
+
+---
+
+## 📉 Burndown Chart
+
+![Burndown Chart Sprint 2](public/imagens/graficosprint3.png)
+
+---
+
+**Nota:** Todas as tarefas foram concluídas de acordo com as datas definidas para cada entrega.
