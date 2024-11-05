@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { useWater } from "../contexts/WaterContext";
 import NavigationButtons from "../components/BotãoMenu";
+import ArcDesignGCB from "../components/Graphics/calorias";
 
 const ArcDesign = lazy(() => import("../components/Graphics/imc"));
 const ArcDesignAgua = lazy(() => import("../components/Graphics/agua"));
@@ -141,8 +142,10 @@ export default function TelaInicial() {
             </div>
           </div>
           <div className="items-center text-white font-bold text-center pt-5">
-            <Suspense fallback={<div>Carregando gráfico...</div>}>
-              <ArcDesignAgua />
+            <Suspense
+              fallback={<div className="text-white">Carregando gráfico...</div>}
+            >
+              <ArcDesignGCB />
             </Suspense>
             <h3>Calorias Consumidas Hoje:</h3>
             {caloriasHoje !== null ? (
@@ -151,16 +154,18 @@ export default function TelaInicial() {
               <p>Carregando...</p>
             )}
           </div>
-          <ButtonGroup
-            buttons={[
-              {
-                id: "calorias-escolha",
-                iconSrc: "/imagens/escolha.svg",
-                altText: "Button Icon 3",
-                onClick: () => handleBack(),
-              },
-            ]}
-          />
+          <div className="pt-4">
+            <ButtonGroup
+              buttons={[
+                {
+                  id: "calorias-escolha",
+                  iconSrc: "/imagens/escolha.svg",
+                  altText: "Button Icon 3",
+                  onClick: () => handleBack(),
+                },
+              ]}
+            />
+          </div>
         </div>
         <div className="rounded-lg bg-gradient-to-r from-[#212270] to-[#1550bd] flex flex-col items-center justify-start p-4">
           <div className="flex items-center justify-center w-[150px] h-[150px]">
