@@ -12,6 +12,8 @@ import api from "../../services/api";
 const AlimentoSearchPage = () => {
   const { alimentos, searchAlimentos } = useAlimentoContext();
   const [descricao, setDescricao] = useState("");
+  const [data, setData] = useState(null);
+  const [error, setError] = useState<null | string>(null);
   const [selectedAlimentos, setSelectedAlimentos] = useState<
     AlimentoDataType[]
   >([]);
@@ -40,8 +42,9 @@ const AlimentoSearchPage = () => {
       console.error("User ID não encontrado no localStorage.");
       return;
     }
+    setError(null);
 
-    const data = {
+    const payload = {
       userId,
       alimentos: selectedAlimentos,
       nutrientes: somaNutrientes,
@@ -50,12 +53,15 @@ const AlimentoSearchPage = () => {
     };
 
     api
-      .post("/alimentosData", data)
+      .post("/alimentosData", payload)
       .then((response) => {
+        setData(response.data)
         console.log("Dados inseridos com sucesso:", response.data);
       })
       .catch((error) => {
         console.error("Erro ao inserir os dados:", error);
+        setError("Escolha uma refeição!");
+        return
       });
   };
 
@@ -212,7 +218,7 @@ const AlimentoSearchPage = () => {
       top: "center",
       left: "left",
       orient: "vertical",
-      padding: 10,
+      padding: 0,
     },
     series: [
       {
@@ -223,7 +229,7 @@ const AlimentoSearchPage = () => {
         itemStyle: {
           borderRadius: 10,
           borderColor: "#dcfce7",
-          borderWidth: 2,
+          borderWidth: 1,
         },
         label: {
           show: false,
@@ -232,7 +238,7 @@ const AlimentoSearchPage = () => {
         emphasis: {
           label: {
             show: true,
-            fontSize: 20,
+            fontSize: 15,
             fontWeight: "bold",
             position: "inside",
           },
@@ -265,8 +271,8 @@ const AlimentoSearchPage = () => {
       <div className="fixed top-0">
         <Calendario />
       </div>
-      <div className="flex flex-col justify-start items-center p-2 border-2 w-1/4 h-[465px] border-white shadow-md shadow-gray-500 rounded-md bg-gray-100">
-        <h1 className="text-black text-2xl mb-10">Monte sua lista:</h1>
+      <div className="flex flex-col justify-start items-center p-2 border-2 w-2/6 h-[465px] border-white shadow-md shadow-gray-500 rounded-md bg-gray-100">
+        <h1 className="text-gray-500 text-2xl mb-10">Monte sua lista:</h1>
         <div className="flex ml-10 mb-5">
           <div className="flex justify-center">
             <input
@@ -276,21 +282,21 @@ const AlimentoSearchPage = () => {
               onChange={(e) => setDescricao(e.target.value)}
               placeholder="Digite aqui..."
             />
-          </div>
-          <div className="flex">
-            <button
-              className="text-black ml-2 shadow-md shadow-gray-400 rounded-lg"
-              ref={buttonRef}
-              onClick={handleSearch}
-            >
-              <FontAwesomeIcon icon={faSearch} className=" p-2" />
-            </button>
+            <div className="flex justify-center">
+              <button
+                className="text-black ml-2 shadow-md shadow-gray-400 rounded-lg"
+                ref={buttonRef}
+                onClick={handleSearch}
+              >
+                <FontAwesomeIcon icon={faSearch} className=" p-2" />
+              </button>
+            </div>
           </div>
         </div>
         {alimentos.length > 0 && (
           <div className="flex mt-2 text-black">
             <div className="flex flex-col">
-              <ul className="flex flex-col text-black p-2 rounded-md h-[260px] w-[300px] bg-gray-100 max-h-96 overflow-y-auto justify-between shadow-md shadow-gray-400">
+              <ul className="flex flex-col text-black p-2 rounded-md h-[260px] w-[300px] bg-white max-h-96 overflow-y-auto justify-between shadow-md shadow-gray-400">
                 {paginatedAlimentos.map((alimento: AlimentoDataType) => (
                   <li
                     key={alimento._id}
@@ -339,7 +345,7 @@ const AlimentoSearchPage = () => {
         >
           {isModalOpen && (
             <motion.div
-              className="fixed top-0 right-1 h-screen w-[600px] text-black bg-gray-100 shadow-lg z-10 overflow-hidden rounded-lg"
+              className="fixed top-0 right-1 h-screen w-[500px] text-black bg-gray-100 shadow-lg z-10 overflow-hidden rounded-lg"
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -434,16 +440,16 @@ const AlimentoSearchPage = () => {
                       </div>
                     </div>
 
-                    <div className="ml-12 p-4 rounded-lg">
+                    <div className="ml-5 rounded-lg">
                       <ReactECharts
                         option={chartOptions}
-                        style={{ width: 300, height: 300 }}
+                        style={{ width: 250, height: 250 }}
                       />
                     </div>
                   </div>
                   <div className="flex flex-col items-center mt-3">
                     <select
-                      className="flex justify-center items-start w-3/4 text-md text-center p-2"
+                      className={`flex justify-center items-start w-3/4 text-md text-center p-2 ${error ? "border-2 border-red-500" : "border"}`}
                       value={selectedOption}
                       onChange={(e) => setSelectedOption(e.target.value)}
                     >
@@ -458,6 +464,14 @@ const AlimentoSearchPage = () => {
                     </select>
                   </div>
                 </div>
+                {data ? (
+                  <div className="flex justify-center text-center items-center text-green-500">Dados inseridos com sucesso!</div>
+                ) : error ? (
+                  <div className="flex justify-center text-center items-center text-red-500">{error}</div>
+                ) : (
+                  null 
+                )}
+
                 <div className="p-4 bg-gray-100">
                   <button onClick={handleSave} className="bg-blue-600 hover:bg-blue-500 rounded-lg p-4 text-white w-full text-xl">
                     Salvar
