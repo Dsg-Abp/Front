@@ -18,13 +18,10 @@ const Calendario: React.FC = () => {
   const [modalAberto, setModalAberto] = useState<boolean>(false);
   const [semanaOffset, setSemanaOffset] = useState<number>(0);
   const [caloriasHoje, setCaloriasHoje] = useState<number | null>(null); // Estado para calorias
-  const [totalWater, setTotalWater] = useState<number>(0); // Estado para total de água
+  const [someWaterToday, setSomeWaterToday] = useState<number | null>(null); // Estado para somewater do dia
 
   const hoje = new Date();
-  const inicioDaSemana = addDays(
-    startOfWeek(hoje, { weekStartsOn: 1 }),
-    semanaOffset * 7
-  );
+  const inicioDaSemana = addDays(startOfWeek(hoje, { weekStartsOn: 1 }), semanaOffset * 7);
 
   const diasSemana: DiaDaSemana[] = Array.from({ length: 7 }).map((_, index) => {
     const dia = addDays(inicioDaSemana, index);
@@ -39,6 +36,7 @@ const Calendario: React.FC = () => {
     setDiaSelecionado(dia); // Define o dia selecionado
     setModalAberto(true);
     buscarDados(dia.data); // Busca os dados assim que o modal é aberto
+    console.log("Dia selecionado:", dia); // Log para verificar o dia selecionado
   };
 
   const fecharModal = () => {
@@ -49,6 +47,8 @@ const Calendario: React.FC = () => {
   // Função para buscar dados de calorias e água
   const buscarDados = async (data: Date) => {
     const formattedDate = format(data, "yyyy-MM-dd"); // Formata a data para YYYY-MM-DD
+    console.log("Data formatada para busca:", formattedDate); // Log para verificar a data formatada
+
     const userId = localStorage.getItem("userId");
     if (!userId) {
       console.error("User ID não encontrado no Local Storage");
@@ -61,13 +61,26 @@ const Calendario: React.FC = () => {
       const caloriasData = caloriasResponse.data.data;
       const caloriasHoje = caloriasData.find((item: any) => item._id === formattedDate);
       setCaloriasHoje(caloriasHoje ? caloriasHoje.totalCalorias : null);
+      console.log("Calorias do dia:", caloriasHoje); // Log para verificar os dados de calorias
 
-      // Buscar dados de água (sem filtro)
-      const waterResponse = await api.get("/findagua");
-      const totalWater = waterResponse.data.findResult.reduce((acc: number, item: any) => {
-        return acc + (item.email.somewater || 0);
-      }, 0);
-      setTotalWater(totalWater);
+      // Buscar dados de água
+      const aguaResponse = await api.get(`/findagua`); // Supondo que você tenha uma rota para água
+      const aguaData = aguaResponse.data.findResult; // Acessa o array findResult
+
+      // Converte a data formatada de YYYY-MM-DD para DDMMYYYY
+      const dateParts = formattedDate.split("-");
+      const formattedWaterDate = `${dateParts[2]}${dateParts[1]}${dateParts[0]}`; // Formato DDMMYYYY
+
+      // Busca a água do dia
+      const aguaHoje = aguaData.find((item: any) => {
+        const aguaDate = item.email.date; // A data no formato DDMMYYYY
+        return aguaDate === Number(formattedWaterDate) && item.email.user === userId; // Comparar as datas e userId
+      });
+
+      console.log("Dados de água encontrados:", aguaHoje); // Log para verificar os dados de água encontrados
+      setSomeWaterToday(aguaHoje ? aguaHoje.email.somewater : null); // Armazena o valor de somewater no estado
+      console.log("Quantidade de água para o dia:", aguaHoje ? aguaHoje.email.somewater : "Nenhum dado"); // Log adicional para verificar o valor de somewater
+
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
     }
@@ -113,7 +126,7 @@ const Calendario: React.FC = () => {
         <ModalDetalhesDia
           diaSelecionado={diaSelecionado}
           caloriasHoje={caloriasHoje} // Passa as calorias para o modal
-          totalWater={totalWater} // Passa o total de água para o modal
+          someWaterToday={someWaterToday} // Passa o somewater do dia para o modal
           fecharModal={fecharModal} // Passa a função para fechar o modal
         />
       )}

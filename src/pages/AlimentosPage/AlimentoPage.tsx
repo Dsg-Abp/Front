@@ -456,7 +456,6 @@ const AlimentoSearchPage = () => {
                       <option value="jantar">Jantar</option>
                       <option value="outros">Outros...</option>
                     </select>
-                    {selectedOption && <p>Você selecionou: {selectedOption}</p>}
                   </div>
                 </div>
                 <div className="p-4 bg-gray-100">

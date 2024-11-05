@@ -32,15 +32,20 @@ export default function TelaInicial() {
       console.error("User ID não encontrado no Local Storage");
       return;
     }
-
-    const hoje = new Date().toISOString().split("T")[0];
-
+  
+    const hoje = new Date();
+    const horaAtual = hoje.getHours();
+  
+    // Se a hora atual for maior ou igual a 0 (meia-noite) e menor que um horário limite, considerar a data de hoje
+    // Caso contrário, considerar a data de ontem
+    const dataParaConsulta = (horaAtual >= 0 && horaAtual < 24) ? hoje.toISOString().split("T")[0] : new Date(hoje.setDate(hoje.getDate() - 1)).toISOString().split("T")[0];
+  
     api.get(`/alimentosData/${userId}`)
       .then((response) => {
         const data = response.data.data;
-
-        // Encontrando calorias para a data de hoje
-        const dadosHoje = data.find((item: any) => item._id === hoje);
+  
+        // Encontrando calorias para a data calculada
+        const dadosHoje = data.find((item: any) => item._id === dataParaConsulta);
         if (dadosHoje) {
           setCaloriasHoje(dadosHoje.totalCalorias);
         } else {
@@ -51,6 +56,7 @@ export default function TelaInicial() {
         console.error("Erro ao buscar dados", error);
       });
   }, []);
+  
 
 
 
