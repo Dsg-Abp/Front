@@ -49,8 +49,8 @@ const ArcDesignAgua: React.FC = () => {
 
   // Configurações do gráfico ajustadas para o valor em porcentagem
   const settings = {
-    width: 120,
-    height: 120,
+    width: 140,
+    height: 140,
     value: percentualConsumido, // Percentual de água consumida
     min: 0,
     max: 100, // Trabalhar com porcentagem

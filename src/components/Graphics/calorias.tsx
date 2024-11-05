@@ -49,8 +49,8 @@ const CaloriasGauge: React.FC = () => {
       <Gauge
         value={caloriasHoje}
         valueMax={maxCalorias}
-        width={120}
-        height={120}
+        width={140}
+        height={140}
         cornerRadius="50%"
         sx={(theme) => ({
           [`& .${gaugeClasses.valueText}`]: {
