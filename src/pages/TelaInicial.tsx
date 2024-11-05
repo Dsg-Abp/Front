@@ -86,7 +86,7 @@ export default function TelaInicial() {
   };
 
   return (
-    <div className="flex flex-col h-[60vh]">
+    <div className="flex flex-col h-[100vh]">
       <div className="px-[500px]">
         <Calendario />
       </div>
