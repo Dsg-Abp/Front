@@ -43,8 +43,8 @@ const NavigationButtons = () => {
       </button>
 
       {isProfileModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white">
-          <div className="bg-[#212270] p-8 rounded-lg">
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center text-white">
+          <div className="bg-[#3789e6] p-8 rounded-lg">
             <CardProfile />
             <button
               onClick={() => {
@@ -52,7 +52,7 @@ const NavigationButtons = () => {
                 navigate("/TelaInicial", { replace: true });
                 window.location.reload();
               }}
-              className="bg-gradient-to-r from-[#979996] to-[#000000] p-2 w-auto rounded-lg mt-4 text-white font-bold hover:from-[#808586] hover:to-[#1a1a1a] transition-colors duration-200"
+              className="bg-gradient-to-r from-[#fa7c7c] to-[#d30505] p-2 w-auto rounded-lg mt-4 text-white font-bold hover:from-[#df7e72] hover:to-[#d62727] transition-colors duration-200"
             >
               Fechar
             </button>

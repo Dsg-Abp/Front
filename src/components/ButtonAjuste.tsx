@@ -19,7 +19,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ buttons }) => {
           key={button.id}
           id={button.id}
           onClick={button.onClick}
-          className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#979996] to-[#000000] rounded-full flex items-center justify-center text-white hover:bg-gradient-to-r hover:from-[#000000] hover:to-[#979996] transition-colors"
+          className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-[#9fd883] to-[#1dd60cbb] rounded-full flex items-center justify-center text-white hover:bg-gradient-to-r hover:from-[#91ecfc] hover:to-[#2765b6] transition-colors"
         >
           <img
             src={button.iconSrc}

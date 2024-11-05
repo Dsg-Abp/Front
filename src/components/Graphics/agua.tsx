@@ -10,6 +10,7 @@ const ArcDesignAgua: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Função para buscar dados do perfil
     const fetchData = async () => {
       try {
         const userId = localStorage.getItem("userId");
@@ -20,6 +21,7 @@ const ArcDesignAgua: React.FC = () => {
         const response = await api.get(`profile/${userId}`);
         const pesoValue: number = response.data.profile.peso; // Supondo que o peso está neste endpoint
         setPeso(pesoValue);
+        localStorage.setItem("peso", pesoValue.toString()); // Persistindo peso no localStorage
       } catch (error) {
         console.error("Erro ao buscar os dados:", error);
         setError("Erro ao buscar peso. Tente novamente.");
@@ -28,7 +30,14 @@ const ArcDesignAgua: React.FC = () => {
       }
     };
 
-    fetchData();
+    // Tenta recuperar o peso do localStorage
+    const storedPeso = localStorage.getItem("peso");
+    if (storedPeso) {
+      setPeso(Number(storedPeso)); // Usar o peso armazenado
+      setLoading(false); // Define loading como falso já que temos dados
+    } else {
+      fetchData(); // Busca os dados da API se não estiverem no localStorage
+    }
   }, []);
 
   if (loading) return <div className="text-blue-900">Loading...</div>;
@@ -37,7 +46,6 @@ const ArcDesignAgua: React.FC = () => {
 
   const aguaNecessaria = peso * 35; // Quantidade de água necessária por dia em ml
   const percentualConsumido = Math.floor((totalWater / aguaNecessaria) * 100); // Arredondando para o valor inteiro
-
 
   // Configurações do gráfico ajustadas para o valor em porcentagem
   const settings = {
@@ -49,15 +57,11 @@ const ArcDesignAgua: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center relative">
       <Gauge
         {...settings}
         cornerRadius="50%"
         sx={(theme) => ({
-          [`& .${gaugeClasses.valueText}`]: {
-            fontSize: 20,
-            fill: "#FFFFFF",
-          },
           [`& .${gaugeClasses.valueArc}`]: {
             fill: "#0d5dd4",
             transition: "stroke-dashoffset 1s ease-in-out", // Suavizar animação
@@ -66,15 +70,20 @@ const ArcDesignAgua: React.FC = () => {
             fill: theme.palette.text.disabled,
             transition: "stroke-dashoffset 1s ease-in-out", // Animação também no arco de referência
           },
+          // Ocultar texto padrão do Gauge
+          [`& .${gaugeClasses.valueText}`]: {
+            display: "none", // Isso oculta o texto do valor
+          },
         })}
       />
-      
-      {/* <div>
-        <p>Total consumido: {totalWater} ml</p> */}
-        <p>Água necessária: {aguaNecessaria} ml</p>
-        {/* <p>Percentual consumido: {percentualConsumido.toFixed(2)}%</p> */}
-      {/* </div> */}
-      
+      {/* Texto centralizado sobre o Gauge */}
+      <div
+        className="absolute inset-0 flex items-center justify-center text-white text-lg font-semibold"
+        style={{ marginTop: "-10%", marginLeft: "5px" }}
+      >
+        {percentualConsumido}%
+      </div>
+      <p>Água necessária: {aguaNecessaria} ml</p>
     </div>
   );
 };
