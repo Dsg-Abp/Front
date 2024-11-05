@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        'custom-pattern': "url(./public/imagens/bg_image.jpg)",
+      },
       colors: {
         "custom-bg": "rgba(16, 30, 30,1)",
         "custom-white": "#D1D1D1",

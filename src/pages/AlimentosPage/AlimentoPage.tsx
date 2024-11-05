@@ -261,7 +261,7 @@ const AlimentoSearchPage = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center bg-gray-200">
+    <div className="h-screen flex flex-col justify-center items-center bg-custom-pattern bg-cover bg-center ">
       <div className="fixed top-0">
         <Calendario />
       </div>
