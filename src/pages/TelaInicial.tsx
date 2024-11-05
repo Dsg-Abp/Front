@@ -126,11 +126,10 @@ export default function TelaInicial() {
                   IMC: {imc !== null ? imc : "Carregando..."}
                 </h4>
               </div>
-              <div className="">
-                <Suspense fallback={<div>Carregando gráfico...</div>}>
-                  <ArcDesign />
-                </Suspense>
-              </div>
+
+              <Suspense fallback={<div>Carregando gráfico...</div>}>
+                <ArcDesign />
+              </Suspense>
             </div>
           </div>
         </div>
@@ -141,7 +140,10 @@ export default function TelaInicial() {
               <Animação animationData={caloriasJson} />
             </div>
           </div>
-          <div className="text-white font-bold text-center">
+          <div className="items-center text-white font-bold text-center pt-5">
+            <Suspense fallback={<div>Carregando gráfico...</div>}>
+              <ArcDesignAgua />
+            </Suspense>
             <h3>Calorias Consumidas Hoje:</h3>
             {caloriasHoje !== null ? (
               <p>{caloriasHoje} kcal</p>
