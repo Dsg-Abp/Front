@@ -139,10 +139,10 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="relative select-none flex flex-col h-screen bg-cover bg-center bg-white">
+    <div className="relative select-none flex flex-col h-screen bg-cover bg-center bg-custom-pattern">
       <div className="flex-col absolute inset-0 flex justify-center items-center">
         <div className="w-[200px]">
-          <img src="/public/imagens/OIG2.jpeg" alt="" />
+          <img src="/public/imagens/logo.png" alt="" />
         </div>
         <div className="rounded-lg bg-white bg-opacity-20 w-96 h-96 flex flex-col items-center justify-center p-10 mb-2">
           <input
@@ -169,7 +169,7 @@ const Login: React.FC = () => {
             <div className="text-[#4CAF50] font-bold mt-2">{error}</div>
           )}
           <button
-            className="w-full bg-gradient-to-r from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white font-bold py-2 px-2 rounded-lg mb-2"
+            className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold py-2 px-2 rounded-lg mb-2"
             onClick={handleLogin}
           >
             Login
@@ -188,13 +188,13 @@ const Login: React.FC = () => {
 
           <div className="flex justify-between w-full mt-4">
             <button
-              className="rounded-lg px-2 bg-gradient-to-r font-bold from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
+              className="rounded-lg px-2 bg-gradient-to-r font-bold from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white"
               onClick={openRegisterModal}
             >
               Criar conta
             </button>
             <button
-              className="rounded-lg p-2 bg-gradient-to-r font-bold from-teal-300 to-cyan-400 hover:from-teal-500 hover:to-cyan-700 text-white"
+              className="rounded-lg p-2 bg-gradient-to-r font-bold from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white"
               onClick={openForgotPasswordModal}
             >
               Esqueci minha senha
