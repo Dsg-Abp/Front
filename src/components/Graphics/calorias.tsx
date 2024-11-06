@@ -67,10 +67,14 @@ const CaloriasGauge: React.FC = () => {
 
       <div
         className="absolute inset-0 flex items-center justify-center text-white text-lg font-semibold"
-        style={{ marginTop: "3%" }}
+        style={{ marginTop: "-20%" }}
       >
         {caloriasHoje} kcal
       </div>
+      <p>
+        Você consumiu {caloriasHoje} kcal <br />
+        de 2500 kcal
+      </p>
     </div>
   );
 };

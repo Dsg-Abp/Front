@@ -22,43 +22,8 @@ export default function TelaInicial() {
   const [imc, setImc] = useState<string | null>(null);
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [caloriasHoje, setCaloriasHoje] = useState<number | null>(null);
 
   const { totalWater, enviarDadosAguaMais, enviarDadosAguaMenos } = useWater();
-
-  useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    if (!userId) {
-      console.error("User ID não encontrado no Local Storage");
-      return;
-    }
-
-    const hoje = new Date();
-    const horaAtual = hoje.getHours();
-    const dataParaConsulta =
-      horaAtual >= 0 && horaAtual < 24
-        ? hoje.toISOString().split("T")[0]
-        : new Date(hoje.setDate(hoje.getDate() - 1))
-            .toISOString()
-            .split("T")[0];
-
-    api
-      .get(`/alimentosData/${userId}`)
-      .then((response) => {
-        const data = response.data.data;
-        const dadosHoje = data.find(
-          (item: any) => item._id === dataParaConsulta
-        );
-        if (dadosHoje) {
-          setCaloriasHoje(dadosHoje.totalCalorias);
-        } else {
-          setCaloriasHoje(0);
-        }
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar dados", error);
-      });
-  }, []);
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -147,12 +112,6 @@ export default function TelaInicial() {
             >
               <ArcDesignGCB />
             </Suspense>
-            <h3>Calorias Consumidas Hoje:</h3>
-            {caloriasHoje !== null ? (
-              <p>{caloriasHoje} kcal</p>
-            ) : (
-              <p>Carregando...</p>
-            )}
           </div>
           <div className="pt-4">
             <ButtonGroup
